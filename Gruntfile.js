@@ -405,24 +405,19 @@ module.exports = function (grunt) {
                             name: 'common',
                             include: [
                                 'jquery',
-                                'jq.cookie',
+                                'jqCookie',
                                 'angular',
                                 'ngRoute',
                                 'ngSanitize',
                                 'ngResource',
                                 'ngAnimate',
-                                'alertify',
-//                                'datepicker',
-                                'strap',
-                                'strapTpl'
+                                'alertify'//,
+//                                'strap',
+//                                'strapTpl'
                             ]
                         },
                         {
-                            name: 'demo/demo',
-                            exclude: ['common']
-                        },
-                        {
-                            name: 'bee/bee',
+                            name: 'ppt/ppt',
                             exclude: ['common']
                         }
                     ],

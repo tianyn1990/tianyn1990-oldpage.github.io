@@ -1,0 +1,1 @@
+define(["angular","devConfig","pathConfig","jquery"],function(o){o.module("ppt-1-module",[]).controller("ppt-1-ctrl",["$scope","$location","$$console","$timeout","$interval","$$ls","$q",function(o){o._f,o.s={};o.$on("$destroy",function(){})}])});
