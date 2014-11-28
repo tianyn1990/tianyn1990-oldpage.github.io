@@ -1,0 +1,5 @@
+
+.idea/*
+./app/styles/*
+.tmp/*
+node_modules/*
