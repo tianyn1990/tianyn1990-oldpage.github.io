@@ -1,0 +1,117 @@
+@import "contants";
+@import "func";
+@import "box";
+
+// -- reset --
+html{ .h100p; font-family: @ff-base; -ms-text-size-adjust: 100%; -webkit-text-size-adjust: 100%; -webkit-tap-highlight-color: rgba(0, 0, 0, 0); }
+body{ .h100p; background-color: #fff; font-size: @fs-base; .lhn; }
+body, div, h1, h2, h3, h4, h5, h6, p, ul, ol, li, pre, form,
+fieldset, input, textarea, p, blockquote, th, td{ margin: 0; .cbase; }
+ul, ol, li{ padding-left: 0; list-style-type: none; }
+h1, h2, h3, h4, h5, h6{ .n }
+b, strong{ .b; .cbase; }
+i, em{ .i; .cbase; }
+table{ border-collapse: collapse; border-spacing: 0; }
+td, th{ padding: 0 }
+//::selection{color: #fff;background-color: @c-base;}
+// -- 图片 --
+img, object, video, embed{ // 多媒体
+    vertical-align: middle;
+    border: 0;
+    max-width: 100%;
+}
+// -- 盒模型 --
+*{ box-sizing: border-box; }
+*:before, *:after{ box-sizing: border-box; }
+.bscb{ box-sizing: content-box; }
+.bscb:before, .bscb:after{ box-sizing: content-box; }
+
+//透明度
+.o2{ opacity: .2; }
+.o8{ opacity: .8; }
+.o9{ opacity: .9; }
+
+// -- 布局 --
+.fl{ float: left }
+.fr{ float: right }
+
+.cb{ clear: both; }
+.cl{ clear: left; }
+.cr{ clear: right; }
+
+.pf{ position: fixed }
+.pr{ position: relative }
+.pa{ position: absolute }
+
+.di{ display: inline; }
+.dib{ display: inline-block; }
+.db{ display: block; }
+.dn{ display: none; }
+
+.oh{ overflow: hidden }
+.ohx{ overflow-x: hidden }
+.ohy{ overflow-y: hidden }
+.os{ overflow: scroll }
+.osx{ overflow-x: scroll }
+.osy{ overflow-y: scroll }
+
+//清除浮动
+.cf{ .cf }
+
+//对齐
+//vertical 垂直对齐
+.v{ position: relative; top: 50%; transform: translateY(-50%); }
+img.v{ .vm; }
+.vm{ vertical-align: middle; }
+.vb{ vertical-align: baseline; }
+.vt{ vertical-align: top; }
+//horizontal 水平对齐，要求父元素定宽
+.h{ display: block; margin-right: auto; margin-left: auto; }
+//行内
+.tc{ text-align: center; }
+.tl{ text-align: left; }
+.tr{ text-align: right; }
+
+//圆角
+.brs{ .br(2px); }
+.br{ .br(4px); }
+.brl{ .br(6px); }
+// 切割为 “圆形”
+.brc{ .br(50%); }
+
+//隐藏与展示
+.dn{ display: none; }
+.db{ display: block; }
+.vh{ visibility: hidden; }
+.vv{ visibility: visible; }
+
+//字 >> 颜色
+.cbase{ color: @c-base; }
+.c00{ color: #000; }
+.c33{ color: #333; }
+.c66{ color: #666; }
+.c99{ color: #999; }
+.cff{ color: #fff; }
+.corg{ color: @c-org; }
+.cred{ color: @c-red; }
+//字 >> 粗/斜
+.n{ font-weight: normal; font-style: normal; }
+.b{ font-weight: bold; }
+.i{ font-style: italic; }
+//字 >> 字号
+.fs9{ font-size: 9/15*@fs-base; -ms-text-size-adjust: none; -webkit-text-size-adjust: none; }
+.fs10{ font-size: 10/15*@fs-base; -ms-text-size-adjust: none; -webkit-text-size-adjust: none; }
+.fs12{ font-size: 12/15*@fs-base; }
+.fs13{ font-size: 13/15*@fs-base; }
+.fs14{ font-size: 14/15*@fs-base; }
+.fs15{ font-size: @fs-base; }
+.fs16{ font-size: 16/15*@fs-base; }
+.fs18{ font-size: 18/15*@fs-base; }
+.fs20{ font-size: 20/15*@fs-base; }
+.fs22{ font-size: 22/15*@fs-base; }
+.fs24{ font-size: 24/15*@fs-base; }
+.fs26{ font-size: 26/15*@fs-base; }
+.fs28{ font-size: 28/15*@fs-base; }
+.fs30{ font-size: 30/15*@fs-base; }
+
+.oln{ outline: none; }

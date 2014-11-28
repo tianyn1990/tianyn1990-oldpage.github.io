@@ -1,0 +1,75 @@
+//outline
+.outline-focus{
+    outline: thin dotted; // Default
+    outline: 5px auto -webkit-focus-ring-color; // WebKit
+    outline-offset: -2px;
+}
+
+//圆角
+.br(@r:4px) {
+    border-top-left-radius: @r;
+    border-top-right-radius: @r;
+    border-bottom-left-radius: @r;
+    border-bottom-right-radius: @r;
+}
+.br(@a,@b,@c,@d) {
+    border-top-left-radius: @a;
+    border-top-right-radius: @b;
+    border-bottom-right-radius: @c;
+    border-bottom-left-radius: @d;
+}
+
+//单行超长截断，换成 '...'
+.over-cut{
+    overflow: hidden;
+    word-break: normal;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+//强制换行
+.break-words{
+    word-break: break-all;
+    word-wrap: break-word;
+}
+
+//清除浮动
+.cf{
+    &:before,
+    &:after{
+        content: " ";
+        display: table;
+    }
+    &:after{
+        clear: both;
+        overflow: hidden;
+    }
+}
+
+//用来画一个叉叉
+.icon-x(@w:30px,@color:#666,@top:0,@right:0,@bdw:1px) {
+    position: absolute;
+    top: @top;
+    right: @right;
+    width: @w;
+    height: @w;
+    &:before{
+        position: absolute;
+        content: " ";
+        width: @w/2+1;
+        height: 0;
+        border-top: @bdw solid @color;
+        transform: rotate(45deg);
+        top: @w/2;
+        left: (@w/2+1)/2;
+    }
+    &:after{
+        position: absolute;
+        content: " ";
+        width: @w/2+1;
+        height: 0;
+        border-top: @bdw solid @color;
+        transform: rotate(-45deg);
+        top: @w/2;
+        left: (@w/2+1)/2;
+    }
+}

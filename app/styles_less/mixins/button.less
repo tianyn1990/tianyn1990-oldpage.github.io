@@ -1,0 +1,51 @@
+@import "contants";
+@import "func";
+
+button{
+    display: inline-block;
+    border: 0;
+    .br(4px);
+    padding: 0 12px;
+    text-align: center;
+    background-image: none;
+    outline: none;
+    cursor: pointer;
+    &::selection{ background-color: transparent; }
+
+    //大小
+    height: 35px;
+    line-height: 35px;
+    font-size: 16px;
+    .high{
+        height: 40px;
+        line-height: 40px;
+        font-size: 18px;
+    }
+    .low{
+        height: 30px;
+        line-height: 30px;
+        font-size: 15px;
+    }
+
+    //颜色
+    background-color: @c-grey;
+    color: #333;
+    .org{
+        background-color: @c-org;
+        color: #fff;
+    }
+}
+
+// -- 超链接 --
+//a{
+//    color: @link-color;
+//    text-decoration: none;
+//    cursor: pointer;
+//}
+//a:hover, a:focus{
+//    color: @link-hover-color;
+//    .oln;
+//    text-decoration: underline;
+//}
+//a:focus{ .outline-focus; }
+//a:active{ .oln; text-decoration: none; }

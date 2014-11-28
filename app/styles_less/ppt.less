@@ -1,0 +1,13 @@
+//@import "mixins/reset";
+//@import "mixins/button";
+//@import "mixins/form";
+//@import "mixins/structure";
+
+//alertify插件
+@import "alertify/mixin";
+
+//防止闪烁，为防止浏览器解析速度比angular加载ngCloak指令快，所以提前增加这段样式
+[ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak, .ng-hide{ display: none !important; }
+.ng-animate-block-transitions{ transition: 0s all !important; -webkit-transition: 0s all !important; }
+.ng-hide-add-active, .ng-hide-remove{ display: block !important; }
+ng\:form{ display: block; }
