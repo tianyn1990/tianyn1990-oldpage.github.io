@@ -15,7 +15,7 @@ bower install angular-animate
 Add a `<script>` to your `index.html`:
 
 ```html
-<script src="/bower_components/angular-animate/angular-animate.js"></script>
+<script src="/bower_components/angular-animate/angular-animate.less"></script>
 ```
 
 And add `ngAnimate` as a dependency for your app:

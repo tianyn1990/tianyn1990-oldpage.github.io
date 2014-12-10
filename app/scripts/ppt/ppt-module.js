@@ -145,7 +145,6 @@ define(["angular", "alertify", "devConfig", "jquery"], function (ng, alertify, c
                     //当路由发生变化时，控制是否展示loading页
                     $scope.$on('$routeChangeSuccess', function (next, current) {
                         window.scrollTo(0, 0);
-                        ff.log("new page");
                     });
 
                 }]);

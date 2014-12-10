@@ -411,7 +411,8 @@ module.exports = function (grunt) {
                                 'ngSanitize',
                                 'ngResource',
                                 'ngAnimate',
-                                'alertify'//,
+                                'alertify',
+                                'jqParallax'//,
 //                                'strap',
 //                                'strapTpl'
                             ]

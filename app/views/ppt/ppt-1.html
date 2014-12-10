@@ -1,10 +1,100 @@
-<div class="mt44">
-    <p class="w100p hlh30 bgyl cred fs12 pl10 pr bdb bdorg">
-        若购买时未登录，请切换到“免登录购买用户”查询。
-        <i class="icon icon-x-30"></i>
-    </p>
-    <div class="oh tc">
-        <span class="fs14 hlh40 fl w50p bdb bdr bdorg bdrdot bscb ml-1 corg">登录购买用户</span>
-        <span class="fs14 hlh40 fl w50p bdb bdorg bscb">免登录购买用户</span>
-    </div>
+<link rel="stylesheet" href="../../styles/parallax/mixin.css"/>
+
+<div id="parallax-beach" class="parallax-beach mouse"
+     ng-class="{'stronger-wind':s.wind===1,
+        'strong-wind':s.wind===2}">
+    <ul style="width: 100%;height: 100%;position: relative;overflow: hidden"
+        ng-class="{shake:s.state===3,'shake-constant':s.state===3}">
+        <li class="layer" data-depth="0.10">
+            <div class="background"></div>
+        </li>
+        <li class="layer" data-depth="0.10">
+            <div class="light b orange phase-1"></div>
+        </li>
+        <li class="layer" data-depth="0.10">
+            <div class="light c purple phase-3"></div>
+        </li>
+        <li class="layer" data-depth="0.10">
+            <div class="light d orange phase-2"></div>
+        </li>
+        <li class="layer" data-depth="0.20">
+            <ul class="rope depth-10">
+                <li>
+                    <img src="../../images/parallax/rope.png">
+                </li>
+                <li class="hanger position-2">
+                    <div class="board cloud-2 swing-1"></div>
+                </li>
+                <li class="hanger position-4">
+                    <div class="board cloud-1 swing-3"></div>
+                </li>
+                <li class="hanger position-8">
+                    <div class="board birds swing-5"></div>
+                </li>
+            </ul>
+        </li>
+        <li class="layer" data-depth="0.20"></li>
+        <li class="layer" data-depth="0.30">
+            <ul class="rope depth-30">
+                <li>
+                    <img src="../../images/parallax/rope.png">
+                </li>
+                <li class="hanger position-1">
+                    <div class="board cloud-1 swing-3"></div>
+                </li>
+                <li class="hanger position-5">
+                    <div class="board cloud-4 swing-1"></div>
+                </li>
+            </ul>
+        </li>
+        <li class="layer" data-depth="0.30">
+            <div class="wave paint depth-30"></div>
+        </li>
+        <li class="layer" data-depth="0.40">
+            <div class="wave plain depth-40"></div>
+        </li>
+        <li class="layer" data-depth="0.50">
+            <div class="wave paint depth-50"></div>
+        </li>
+        <li class="layer" data-depth="0.60">
+            <div class="wave plain depth-60"></div>
+        </li>
+        <li class="layer" data-depth="0.60">
+            <div class="lighthouse depth-60"></div>
+        </li>
+        <li class="layer" data-depth="0.60">
+            <ul class="rope depth-60">
+                <li>
+                    <img src="../../images/parallax/rope.png">
+                </li>
+                <li class="hanger position-3">
+                    <div class="board birds swing-5"></div>
+                </li>
+                <li class="hanger position-6">
+                    <div class="board cloud-2 swing-2"></div>
+                </li>
+                <li class="hanger position-8">
+                    <div class="board cloud-3 swing-4"></div>
+                </li>
+            </ul>
+        </li>
+        <li class="layer" data-depth="0.80">
+            <div class="wave plain depth-80"></div>
+        </li>
+        <li class="layer" data-depth="1.00">
+            <div class="wave paint depth-100"></div>
+        </li>
+    </ul>
+    <button class="toggle" ng-click="toggle()" ng-class="{i:s.toggle}">
+        <div class="cross">
+            <div class="x"></div>
+            <div class="y"></div>
+        </div>
+    </button>
+    <ul class="panel ng-show from-top" ng-show="s.panel">
+        <li ng-class="{active:s.wind===$index || s.state===$index}"
+            ng-repeat="wind in winds"
+            ng-click="changeWind($index,s.wind===$index||s.state===$index)">{{wind}}
+        </li>
+    </ul>
 </div>

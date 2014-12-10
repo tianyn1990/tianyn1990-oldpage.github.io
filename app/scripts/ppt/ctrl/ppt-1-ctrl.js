@@ -8,46 +8,38 @@ define(
 
                     var ff = $scope._f;
                     var s = $scope.s = {
-                        itv: undefined
+                        toggle: true,
+                        panel: false,
+                        wind: 0,
+                        state: -1
+                    };
+                    var winds = $scope.winds = ["微疯", "中疯", "狂疯", "地震", "淹没"];
+
+                    //加载视差效果
+                    $("#parallax-beach").parallax();
+                    ff.success("卡死卡死卡死卡死卡死卡死卡死卡死...");
+
+                    $scope.toggle = function () {
+                        s.toggle = !s.toggle;
+                        s.panel = !s.panel;
+                    };
+                    $scope.changeWind = function (index, isAct) {
+                        if (index === 4) {
+                            s.state = isAct ? -1 : index;
+                            ff.error("【碎碎念】淹死TA淹死TA淹死TA淹了TA");
+                        } else if (index === 3) {
+                            s.state = isAct ? -1 : index;
+                        } else {
+                            s.wind = isAct ? -1 : index;
+                            ff.log(winds[index] + "啦啦啦~");
+                        }
+                        $timeout(function () {
+
+                        }, 2000);
                     };
 
-                    ff
-                        .then(function (data, defer) {
-                            ff.log("原数据：" + data);
-                            ff.alert("data乘以2", function () {
-                                defer.resolve(data * 2);
-                            });
-                        }, 1000)
-                        .then(function (data, defer) {
-                            ff.log("乘以2结果：" + data);
-                            ff.prompt("请输入：", function (e, str) {
-                                if (e) {
-                                    ff.success("你输入了：" + str);
-                                    data = parseInt(str, 10);
-                                } else {
-                                    ff.error("你取消了输入。");
-                                }
-                                var c = 5;
-                                defer.resolve(data);
-                                s.itv = $interval(function () {
-                                    if (--c === 0) {
-                                        $interval.cancel(s.itv);
-                                    } else {
-                                        ff.log(c.toString());
-                                    }
-                                }, 1000);
-                            }, data.toString());
-                        }, 1000)
-                        .then(function (data) {
-                            ff.confirm("是否继续乘以2？", function (e) {
-                                data = e ? data * 2 : data;
-                                ff.log("最终结果：" + data);
-                            });
-                        }, 5000)
-                        .go(111);
-
                     $scope.$on('$destroy', function () {
-                        $interval.cancel(s.itv);
+                        $interval.cancel();
                     });
                 }]);
 

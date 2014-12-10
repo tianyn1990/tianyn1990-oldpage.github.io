@@ -9,6 +9,7 @@ require(
         "jquery",
         "jqCookie",
         "alertify",
+        "jqParallax",
 
         "ngCheck",
         "ngConsole",

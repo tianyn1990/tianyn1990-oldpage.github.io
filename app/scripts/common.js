@@ -8,7 +8,7 @@ requirejs.config({
 
     //定义文件路径，定位到文件（不写.js）
     paths: {
-        //第三方模块
+        //第三方模块，由bower.json管理
         "jquery": "../bower_components/jquery/jquery",
         "jqCookie": "../bower_components/jquery-cookie/jquery.cookie",
         "angular": "../bower_components/angular/angular",
@@ -16,6 +16,8 @@ requirejs.config({
         "ngSanitize": "../bower_components/angular-sanitize/angular-sanitize",
         "ngResource": "../bower_components/angular-resource/angular-resource",
         "ngAnimate": "../bower_components/angular-animate/angular-animate",
+
+        "jqParallax": "../dev_components/parallax/jquery.parallax",
 
         //修改的第三方组件
         "alertify": "../dev_components/alertify",
@@ -39,6 +41,7 @@ requirejs.config({
     shim: {
         "jquery": {exports: "jquery"},
         "jqCookie": {deps: ["jquery"]},
+        "jqParallax": {deps: ["jquery"]},
 
         "angular": {exports: "angular"},
         "ngRoute": {deps: ["angular"]},
