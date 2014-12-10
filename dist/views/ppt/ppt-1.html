@@ -1,4 +1,4 @@
-<link rel="stylesheet" href="../../styles/parallax/8641fd5f.mixin.css">
+<link rel="stylesheet" href="../../styles/parallax/b7b8b73f.mixin.css">
 
 <div id="parallax-beach" class="parallax-beach mouse" ng-class="{'stronger-wind':s.wind===1,
         'strong-wind':s.wind===2}">
@@ -83,6 +83,8 @@
             <div class="wave paint depth-100"></div>
         </li>
     </ul>
+</div>
+<div class="parallax-fixed parallax-panel">
     <button class="toggle" ng-click="toggle()" ng-class="{i:s.toggle}">
         <div class="cross">
             <div class="x"></div>
@@ -94,3 +96,4 @@
         </li>
     </ul>
 </div>
+<div id="ocean" class="ocean" ng-show="s.state===4"></div>

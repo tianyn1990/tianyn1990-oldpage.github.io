@@ -5,7 +5,9 @@ body{ overflow: hidden !important; }
     width: 100%; height: 100%;
     padding: 0; margin: 0;
 }
-.parallax-beach{
+.parallax-beach, .parallax-fixed{
+    position: relative;
+    background-color: #000;
     button{
         -webkit-font-smoothing: antialiased;
         -webkit-border-radius: 24px;
@@ -57,9 +59,6 @@ body{ overflow: hidden !important; }
         background-color: #d92400;
         color: white;
     }
-
-    position: relative;
-    background-color: #000;
     .layer{
         position: absolute;
         div{
@@ -263,7 +262,7 @@ body{ overflow: hidden !important; }
         position: absolute; left: 50%; bottom: 11.6%;
         box-shadow: 0 2px 8px rgba(0, 0, 0, .6);
         margin-left: -24px;
-        z-index: 99999;
+        z-index: 9;
         &.i .cross{
             transform: rotate(0);
             .x{
@@ -309,7 +308,7 @@ body{ overflow: hidden !important; }
         margin-left: -115px;
         border-radius: 15px;
         padding: 0 15px;
-        z-index: 99999;
+        z-index: 9;
         li{
             float: left;
             width: 20%; text-align: center; line-height: 30px;
@@ -320,6 +319,14 @@ body{ overflow: hidden !important; }
             &.active{ background-color: lighten(#d92400, 5%); color: #fff; }
         }
     }
+}
+.parallax-fixed, .parallax-panel{
+    position: fixed; top: 0; left: 0;
+    display: block;
+    width: 100%; height: 100%;
+    padding: 0; margin: 0;
+    background: transparent;
+    z-index: 9;
 }
 .parallax-beach.stronger-wind{
     .board{
@@ -409,7 +416,7 @@ body{ overflow: hidden !important; }
         }
     }
 }
-.parallax-beach{
+.parallax-beach, .parallax-fixed{
     @keyframes flipInXBounce{
         0%{ opacity: 0; transform: perspective(400px) rotateX(90deg) }
         40%{ transform: perspective(400px) rotateX(-10deg) }
@@ -467,8 +474,8 @@ body{ overflow: hidden !important; }
         100%{ transform: translate3d(-30%, 0, 0) rotateZ(-20deg) }
     }
     @keyframes lighthouse-3{
-        0%{ transform: translate3d(45%, 0, 0) rotateZ(35deg) }
-        100%{ transform: translate3d(-45%, 0, 0) rotateZ(-35deg) }
+        0%{ transform: translate3d(-45%, 0, 0) rotateZ(-35deg) }
+        100%{ transform: translate3d(45%, 0, 0) rotateZ(35deg) }
     }
 }
 .parallax-beach{
@@ -1229,6 +1236,39 @@ body{ overflow: hidden !important; }
             -moz-transform: scale(1.3);
             transform: scale(1.3);
         }
+    }
+}
+//用于淹没的海洋..
+#ocean{
+    position: absolute;
+    width: 100%;
+    min-height: 100%;
+    background: rgb(0, 100, 200);
+    background: -webkit-gradient(linear, left bottom, left top, color-stop(0, rgb(0, 50, 150)), color-stop(0.50, rgb(0, 150, 255)));
+    left: 0; top: 0;
+    opacity: .5;
+    z-index: 2;
+    .wave{
+        background: #a8e3ff;
+        display: inline-block;
+        height: 60%;
+        width: 10px;
+        position: absolute;
+        animation-name: dostuff;
+        animation-duration: 3s;
+        animation-iteration-count: infinite;
+        transition-timing-function: ease-in-out;
+    }
+}
+@keyframes dostuff{
+    0%{
+        height: 60%;
+    }
+    50%{
+        height: 40%;
+    }
+    100%{
+        height: 60%;
     }
 }
 /*海岸 - END*/

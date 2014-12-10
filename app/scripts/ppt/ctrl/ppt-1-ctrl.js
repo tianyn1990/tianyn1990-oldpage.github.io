@@ -13,7 +13,7 @@ define(
                         wind: 0,
                         state: -1
                     };
-                    var winds = $scope.winds = ["微疯", "中疯", "狂疯", "地震", "淹没"];
+                    var winds = $scope.winds = ["小疯", "大疯", "狂疯", "地震", "淹没"];
 
                     //加载视差效果
                     $("#parallax-beach").parallax();
@@ -25,17 +25,34 @@ define(
                     };
                     $scope.changeWind = function (index, isAct) {
                         if (index === 4) {
-                            s.state = isAct ? -1 : index;
+                            if (isAct) {
+                                s.state = -1;
+                                return;
+                            }
+                            s.state = index;
                             ff.error("【碎碎念】淹死TA淹死TA淹死TA淹了TA");
+                            var waveWidth = 10;
+                            var waveCount = Math.floor(window.innerWidth / waveWidth);
+                            var ocean = $("#ocean");
+                            for (var i = 0; i < waveCount; i++) {
+                                var div = $("<div class='wave'></div>");
+                                div.css({
+                                    left: i * waveWidth + "px",
+                                    "animation-delay": (i / 100) + "s",
+                                    "-webkit-animation-delay": (i / 100) + "s"
+                                });
+                                ocean.append(div);
+                            }
                         } else if (index === 3) {
                             s.state = isAct ? -1 : index;
                         } else {
-                            s.wind = isAct ? -1 : index;
-                            ff.log(winds[index] + "啦啦啦~");
+                            if (isAct) {
+                                s.wind = -1;
+                                return;
+                            }
+                            s.wind = index;
+                            ff.log(winds[index] + winds[index] + "啦啦啦~");
                         }
-                        $timeout(function () {
-
-                        }, 2000);
                     };
 
                     $scope.$on('$destroy', function () {
