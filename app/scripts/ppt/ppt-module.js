@@ -95,8 +95,8 @@ define(["angular", "alertify", "devConfig", "jquery"], function (ng, alertify, c
         }])
         //最外围的controller,使用在了html上
         .controller("mo-ctrl",
-            ['$scope', '$http', '$location', '$timeout', '$q',
-                function ($scope, $http, $location, $timeout, $q) {
+            ['$scope', '$http', '$location', '$timeout', '$q', '$$ls', '$interval',
+                function ($scope, $http, $location, $timeout, $q, $$ls, $interval) {
 
                     //父controller(mo-ctrl)的对象
                     $scope._s = {
@@ -107,7 +107,7 @@ define(["angular", "alertify", "devConfig", "jquery"], function (ng, alertify, c
                         //设置view页切换动画
                         bodyOh: false,
                         viewSwitchAnimate: -1,
-                        viewSwitchTransform: false,
+                        viewSwitchTransform: false
 
                     };
                     //父controller(mo-ctrl)的方法
@@ -249,17 +249,44 @@ define(["angular", "alertify", "devConfig", "jquery"], function (ng, alertify, c
                                 }
                             });
                         },
-                        isAllViewSwitchAnimateFinished: false,
+                        ajaxConc: {
+                            waitForAjaxReturn: false,
+                            ajaxNumInRoute: -1
+                        },
+                        htmlConc: {
+                            isAllViewSwitchAnimateFinished: false,
+                            waitForAjaxHtmlReturn: false,
+                            ajaxHtmlNumInRoute: -1
+                        },
+                        ajaxRetDefer:function(){
+                            var that = this;
+                            var itv = $interval(function () {
+                                if (that.htmlConc.waitForAjaxReturn) {
+                                    $interval.cancel(itv);
+                                    defer.resolve();
+                                }
+                            }, 100);
+                        },
+                        ajaxHtmlRetDefer:function(defer){
+                            var that = this;
+                            var itv = $interval(function () {
+                                if (that.htmlConc.waitForAjaxHtmlReturn) {
+                                    $interval.cancel(itv);
+                                    defer.resolve();
+                                }
+                            }, 100);
+                        },
                         showAllViewSwitchAnimate: function () {
                             var that = this;
-                            this
+                            that.htmlConc.ajaxHtmlNumInRoute = 1;
+                            that
                                 .then(function (data, defer) {
                                     $location.path("/1");
-                                    defer.resolve();
+                                    that.ajaxHtmlRetDefer(defer);
                                 }, 1200)
                                 .then(function (data, defer) {
                                     $location.path("/2");
-                                    defer.resolve();
+                                    that.ajaxHtmlRetDefer(defer);
                                 }, 1200)
                                 .then(function (data, defer) {
                                     $location.path("/3");
@@ -294,8 +321,9 @@ define(["angular", "alertify", "devConfig", "jquery"], function (ng, alertify, c
                                     defer.resolve();
                                 }, 1200)
                                 .then(function (data, defer) {
-                                    that.isAllViewSwitchAnimateFinished = true;
+                                    that.htmlConc.isAllViewSwitchAnimateFinished = true;
                                     $location.path("/welcome");
+                                    that.htmlConc.ajaxHtmlNumInRoute = -1;
                                     defer.resolve();
                                 }, 1200)
                                 .go();
@@ -306,9 +334,33 @@ define(["angular", "alertify", "devConfig", "jquery"], function (ng, alertify, c
                     //当路由发生变化时，控制...
                     $scope.$on('$routeChangeStart', function (next, current) {
                         $scope._s.bodyOh = true;
+                        $scope._s.waitForAjaxReturn = false;
+
+                        var reqHtml = "_html_ajax_request_in_route_count";
+                        var rspHtml = "_html_ajax_response_in_route_count";
+                        $$ls.removeItem([reqHtml, rspHtml]);
+                        var itv2 = $interval(function () {
+                            var reqHtmlNum = parseInt($$ls.item(reqHtml));
+                            var rspHtmlNum = parseInt($$ls.item(rspHtml));
+                            if (reqHtmlNum === rspHtmlNum && rspHtmlNum === ff.htmlConc.ajaxHtmlNumInRoute) {
+                                ff.htmlConc.waitForAjaxHtmlReturn = true;
+                                $interval.cancel(itv2);
+                            }
+                        }, 100);
                     });
                     $scope.$on('$routeChangeSuccess', function (next, current) {
                         window.scrollTo(0, 0);
+                        var req = "_ajax_request_in_route_count";
+                        var rsp = "_ajax_response_in_route_count";
+                        $$ls.removeItem([req, rsp]);
+                        var itv = $interval(function () {
+                            var reqNum = parseInt($$ls.item(req));
+                            var rspNum = parseInt($$ls.item(rsp));
+                            if (reqNum === rspNum && rspNum === ff.ajaxNumInRoute) {
+                                ff.waitForAjaxReturn = true;
+                                $interval.cancel(itv);
+                            }
+                        }, 100);
                         $timeout(function () {
                             $scope._s.bodyOh = false;
                         }, 1100);

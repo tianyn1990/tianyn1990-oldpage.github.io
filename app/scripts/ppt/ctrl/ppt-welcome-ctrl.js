@@ -24,7 +24,7 @@ define(
                     };
                     ff.pageSlideUp().nextPageAnimate().pageSlideUp();
 
-                    if (ff.isAllViewSwitchAnimateFinished) {
+                    if (ff.htmlConc.isAllViewSwitchAnimateFinished) {
                         ff
                             .then(function (data, defer) {
                                 s._1.msg = "返回";
