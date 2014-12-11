@@ -1,6 +1,6 @@
 <link rel="stylesheet" href="../../styles/parallax/b7b8b73f.mixin.css">
 
-<div id="parallax-beach" class="parallax-beach mouse" ng-class="{'stronger-wind':s.wind===1,
+<div id="parallax-beach" class="parallax-beach mouse unselectable" ng-class="{'stronger-wind':s.wind===1,
         'strong-wind':s.wind===2}">
     <ul style="width: 100%;height: 100%;position: relative;overflow: hidden" ng-class="{shake:s.state===3,'shake-constant':s.state===3}">
         <li class="layer" data-depth="0.10">
@@ -84,7 +84,7 @@
         </li>
     </ul>
 </div>
-<div class="parallax-fixed parallax-panel">
+<div class="parallax-fixed parallax-panel unselectable mouse">
     <button class="toggle" ng-click="toggle()" ng-class="{i:s.toggle}">
         <div class="cross">
             <div class="x"></div>

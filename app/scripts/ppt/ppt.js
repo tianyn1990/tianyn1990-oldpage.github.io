@@ -22,7 +22,18 @@ require(
         "devConfig",
 
         "ppt/ppt-module",
-        "ppt/ctrl/ppt-1-ctrl"
+        "ppt/ctrl/ppt-welcome-ctrl",
+        "ppt/ctrl/ppt-beach-ctrl",
+        "ppt/ctrl/ppt-1-ctrl",
+        "ppt/ctrl/ppt-2-ctrl",
+        "ppt/ctrl/ppt-3-ctrl",
+        "ppt/ctrl/ppt-4-ctrl",
+        "ppt/ctrl/ppt-5-ctrl",
+        "ppt/ctrl/ppt-6-ctrl",
+        "ppt/ctrl/ppt-7-ctrl",
+        "ppt/ctrl/ppt-8-ctrl",
+        "ppt/ctrl/ppt-9-ctrl",
+        "ppt/ctrl/ppt-10-ctrl"
     ],
     function (ng) {
         ng.bootstrap(document, ["ppt-module"]);

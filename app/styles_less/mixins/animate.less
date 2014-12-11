@@ -37,12 +37,13 @@
 .shake-soft-active{ .shake-soft() }
 //简单的抖动-温柔向 - END
 
-//显隐
-.ng-show{
+//ngAnimate - BEGIN
+/*ngShowAnimate begin*/
+.ng-show.fade{
     &.ng-hide-add,
     &.ng-hide-remove{
-        transition:all linear 0.5s;
-        display: block!important;
+        transition: all linear 0.3s;
+        display: block !important;
         opacity: 1;
     }
     &.ng-hide{
@@ -52,11 +53,179 @@
 .ng-show.from-top{
     &.ng-hide-add,
     &.ng-hide-remove{
-        transition:all ease 0.3s;
-        display: block!important;
+        transition: all ease 0.3s;
+        display: block !important;
         opacity: 1; transform: translateY(0px);
     }
     &.ng-hide{
         opacity: 0; transform: translateY(-100%);
     }
 }
+.ng-show.from-bottom{
+    &.ng-hide-add,
+    &.ng-hide-remove{
+        transition: all ease 0.3s;
+        display: block !important;
+        opacity: 1; transform: translateY(0px);
+    }
+    &.ng-hide{
+        opacity: 0; transform: translateY(100%);
+    }
+}
+/*ngShowAnimate end*/
+
+/*ngViewAnimate begin*/
+.ng-view-switch.slide-left{
+    position: absolute; left: 0; top: 0;
+    width: 100%; height: 100%;
+    &.ng-enter, &.ng-leave{ transition: all 1s ease }
+    &.ng-enter{ left: 100% }
+    &.ng-enter-active{ left: 0 }
+    &.ng-leave{ left: 0 }
+    &.ng-leave-active{ left: -100% }
+}
+.ng-view-switch.slide-right{
+    position: absolute; left: 0; top: 0;
+    width: 100%; height: 100%;
+    &.ng-enter, &.ng-leave{ transition: all 1s ease }
+    &.ng-enter{ left: -100% }
+    &.ng-enter-active{ left: 0 }
+    &.ng-leave{ left: 0 }
+    &.ng-leave-active{ left: 100% }
+}
+.ng-view-switch.slide-up{
+    position: absolute; left: 0; top: 0;
+    width: 100%; height: 100%;
+    &.ng-enter, &.ng-leave{ transition: all 1s ease }
+    &.ng-enter{ top: -100% }
+    &.ng-enter-active{ top: 0 }
+    &.ng-leave{ top: 0 }
+    &.ng-leave-active{ top: 100% }
+}
+.ng-view-switch.slide-down{
+    position: absolute; left: 0; top: 0;
+    width: 100%; height: 100%;
+    &.ng-enter, &.ng-leave{ transition: all 1s ease }
+    &.ng-enter{ top: 100% }
+    &.ng-enter-active{ top: 0 }
+    &.ng-leave{ top: 0 }
+    &.ng-leave-active{ top: -100% }
+}
+.ng-view-switch.pop{
+    position: absolute; left: 0; right: 0; top: 0; bottom: 0;
+    &.ng-enter, &.ng-leave{ transition: all 1s ease }
+    &.ng-enter{ transform: scale(0) }
+    &.ng-enter-active{ transform: scale(1) }
+    &.ng-leave{ transform: scale(1) }
+    &.ng-leave-active{ transform: scale(1) }
+}
+.ng-view-switch.fade{
+    position: absolute; left: 0; right: 0; top: 0;
+    height: 100%;
+    opacity: 1;
+    &.ng-enter, &.ng-leave{ transition: all 1s ease }
+    &.ng-enter{ opacity: 0 }
+    &.ng-enter-active{ opacity: 1 }
+    &.ng-leave{ opacity: 1 }
+    &.ng-leave-active{ opacity: 0 }
+}
+.ng-view-flip-wapper{
+    position: absolute; left: 0; right: 0; top: 0;
+    height: 100%;width: 100%;
+    transition: transform 1s;
+    perspective: 600px;
+}
+.ng-view-switch.flip-x{
+    backface-visibility: hidden;
+    transform-style: preserve-3d;
+    transition: all 1s ease-in-out;
+    &.ng-enter{ transform: rotateX(-180deg) }
+    &.ng-enter-active{ transform: rotateX(0deg) }
+    &.ng-leave{ transform: rotateX(0deg) }
+    &.ng-leave-active{ transform: rotateX(180deg) }
+}
+.ng-view-switch.flip-y{
+    backface-visibility: hidden;
+    transform-style: preserve-3d;
+    transition: all 1s ease-in-out;
+    &.ng-enter{ transform: rotateY(-180deg) }
+    &.ng-enter-active{ transform: rotateY(0deg) }
+    &.ng-leave{ transform: rotateY(0deg) }
+    &.ng-leave-active{ transform: rotateY(180deg) }
+}
+.ng-view-switch.rotate{
+    animation-duration: 1s;
+    &.ng-enter{ animation-name: rotate-enter }
+    &.ng-leave{ animation-name: rotate-leave }
+    @keyframes rotate-leave{
+        0%{
+            transform-origin: center center;
+            transform: rotate(0);
+            opacity: 1;
+        }
+        100%{
+            transform-origin: center center;
+            transform: rotate(-180deg);
+            opacity: 0;
+        }
+    }
+    @keyframes rotate-enter{
+        0%{
+            transform-origin: center center;
+            transform: rotate(-180deg);
+            opacity: 0;
+        }
+        100%{
+            transform-origin: center center;
+            transform: rotate(-360deg);
+            opacity: 1;
+        }
+    }
+}
+.ng-view-slideLeftPop-wapper{
+    .ng-view-switch.slide-left-pop{
+        &.ng-enter{
+            opacity: .5;
+            left: -100%;
+            transform: scale(1);
+        }
+        &.ng-enter-active{
+            opacity: 1;
+            left: 0;
+        }
+        &.ng-leave{
+            opacity: .5;
+            transform: scale(1);
+            left: 0;
+            right: 0;
+        }
+        &.ng-leave-active{
+            opacity: 0;
+            transform: scale(.5);
+        }
+    }
+}
+.ng-view-switch.slide-left-pop{
+    position: absolute; left: 0; top: 0;
+    height: 100%; width: 100%;
+    &.ng-enter, &.ng-leave{ transition: all 1s ease }
+    &.ng-enter{
+        opacity: 0;
+        transform: scale(.5);
+    }
+    &.ng-enter-active{
+        opacity: 1;
+        transform: scale(1);
+    }
+    &.ng-leave{
+        left: 0;
+        opacity: .5;
+    }
+    &.ng-leave-active{
+        left: -100%;
+        opacity: 0;
+    }
+}
+/*ngViewAnimate end*/
+
+//ngAnimate - END

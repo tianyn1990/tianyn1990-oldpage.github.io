@@ -18,16 +18,71 @@ define(["angular", "alertify", "devConfig", "jquery"], function (ng, alertify, c
                 "baseInterceptor",
                 "defInterceptor",
                 //引用本应用所有控制器
-                "ppt-1-module"
+                "ppt-welcome-module",
+                "ppt-beach-module",
+                "ppt-1-module",
+                "ppt-2-module",
+                "ppt-3-module",
+                "ppt-4-module",
+                "ppt-5-module",
+                "ppt-6-module",
+                "ppt-7-module",
+                "ppt-8-module",
+                "ppt-9-module",
+                "ppt-10-module"
             ])
         .config(["$routeProvider", function ($routeProvider) {
             $routeProvider
+                .when('/welcome', {
+                    templateUrl: 'ppt-welcome.html',
+                    controller: 'ppt-welcome-ctrl'
+                })
+                .when('/beach', {
+                    templateUrl: 'ppt-beach.html',
+                    controller: 'ppt-beach-ctrl'
+                })
                 .when('/1', {
                     templateUrl: 'ppt-1.html',
                     controller: 'ppt-1-ctrl'
                 })
+                .when('/2', {
+                    templateUrl: 'ppt-2.html',
+                    controller: 'ppt-2-ctrl'
+                })
+                .when('/3', {
+                    templateUrl: 'ppt-3.html',
+                    controller: 'ppt-3-ctrl'
+                })
+                .when('/4', {
+                    templateUrl: 'ppt-4.html',
+                    controller: 'ppt-4-ctrl'
+                })
+                .when('/5', {
+                    templateUrl: 'ppt-5.html',
+                    controller: 'ppt-5-ctrl'
+                })
+                .when('/6', {
+                    templateUrl: 'ppt-6.html',
+                    controller: 'ppt-6-ctrl'
+                })
+                .when('/7', {
+                    templateUrl: 'ppt-7.html',
+                    controller: 'ppt-7-ctrl'
+                })
+                .when('/8', {
+                    templateUrl: 'ppt-8.html',
+                    controller: 'ppt-8-ctrl'
+                })
+                .when('/9', {
+                    templateUrl: 'ppt-9.html',
+                    controller: 'ppt-9-ctrl'
+                })
+                .when('/10', {
+                    templateUrl: 'ppt-10.html',
+                    controller: 'ppt-10-ctrl'
+                })
                 .otherwise({
-                    redirectTo: '/1'
+                    redirectTo: '/welcome'
                 });
         }])
         //添加通用的拦截器
@@ -45,10 +100,65 @@ define(["angular", "alertify", "devConfig", "jquery"], function (ng, alertify, c
 
                     //父controller(mo-ctrl)的对象
                     $scope._s = {
-                        title: "订单管理"
+
+                        //设置<title>标签
+                        title: "css基础",
+
+                        //设置view页切换动画
+                        bodyOh: false,
+                        viewSwitchAnimate: -1,
+                        viewSwitchTransform: false,
+
                     };
                     //父controller(mo-ctrl)的方法
                     var ff = $scope._f = {
+
+                        //设置view页切换动画
+                        viewSwitchAnimate: function (num) {
+                            if ($scope._s.viewSwitchTransform) {
+                                $timeout(function () {
+                                    $scope._s.viewSwitchAnimate = num;
+                                }, 1100);
+                                $scope._s.viewSwitchTransform = false;
+                                return this;
+                            }
+                            $scope._s.viewSwitchAnimate = num;
+                            return this;
+                        },
+                        nextPageAnimate: function () {
+                            $scope._s.viewSwitchTransform = true;
+                            return this;
+                        },
+                        pageSlideLeft: function () {
+                            return ff.viewSwitchAnimate(0);
+                        },
+                        pageSlideRight: function () {
+                            return ff.viewSwitchAnimate(1);
+                        },
+                        pageSlideUp: function () {
+                            return ff.viewSwitchAnimate(2);
+                        },
+                        pageSlideDown: function () {
+                            return ff.viewSwitchAnimate(3);
+                        },
+                        pagePop: function () {
+                            return ff.viewSwitchAnimate(4);
+                        },
+                        pageFade: function () {
+                            return ff.viewSwitchAnimate(5);
+                        },
+                        pageFlipX: function () {
+                            return ff.viewSwitchAnimate(6);
+                        },
+                        pageFlipY: function () {
+                            return ff.viewSwitchAnimate(7);
+                        },
+                        pageRotate: function () {
+                            return ff.viewSwitchAnimate(8);
+                        },
+                        pageSlideLeftPop: function () {
+                            return ff.viewSwitchAnimate(9);
+                        },
 
                         //设置头部title的值
                         title: function (title) {
@@ -138,13 +248,70 @@ define(["angular", "alertify", "devConfig", "jquery"], function (ng, alertify, c
                                     that.deferPre = $q.defer();
                                 }
                             });
+                        },
+                        isAllViewSwitchAnimateFinished: false,
+                        showAllViewSwitchAnimate: function () {
+                            var that = this;
+                            this
+                                .then(function (data, defer) {
+                                    $location.path("/1");
+                                    defer.resolve();
+                                }, 1200)
+                                .then(function (data, defer) {
+                                    $location.path("/2");
+                                    defer.resolve();
+                                }, 1200)
+                                .then(function (data, defer) {
+                                    $location.path("/3");
+                                    defer.resolve();
+                                }, 1200)
+                                .then(function (data, defer) {
+                                    $location.path("/4");
+                                    defer.resolve();
+                                }, 1200)
+                                .then(function (data, defer) {
+                                    $location.path("/5");
+                                    defer.resolve();
+                                }, 1200)
+                                .then(function (data, defer) {
+                                    $location.path("/6");
+                                    defer.resolve();
+                                }, 1200)
+                                .then(function (data, defer) {
+                                    $location.path("/7");
+                                    defer.resolve();
+                                }, 1200)
+                                .then(function (data, defer) {
+                                    $location.path("/8");
+                                    defer.resolve();
+                                }, 1200)
+                                .then(function (data, defer) {
+                                    $location.path("/9");
+                                    defer.resolve();
+                                }, 1200)
+                                .then(function (data, defer) {
+                                    $location.path("/10");
+                                    defer.resolve();
+                                }, 1200)
+                                .then(function (data, defer) {
+                                    that.isAllViewSwitchAnimateFinished = true;
+                                    $location.path("/welcome");
+                                    defer.resolve();
+                                }, 1200)
+                                .go();
                         }
                         //defer链式调用 -- END
                     };
 
-                    //当路由发生变化时，控制是否展示loading页
+                    //当路由发生变化时，控制...
+                    $scope.$on('$routeChangeStart', function (next, current) {
+                        $scope._s.bodyOh = true;
+                    });
                     $scope.$on('$routeChangeSuccess', function (next, current) {
                         window.scrollTo(0, 0);
+                        $timeout(function () {
+                            $scope._s.bodyOh = false;
+                        }, 1100);
                     });
 
                 }]);

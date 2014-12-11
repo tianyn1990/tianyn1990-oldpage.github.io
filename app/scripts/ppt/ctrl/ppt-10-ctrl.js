@@ -2,14 +2,14 @@ define(
     ["angular", "devConfig", "pathConfig", "jquery"],
     function (ng, config, path, $) {
         "use strict";
-        ng.module("ppt-1-module", []).controller("ppt-1-ctrl",
+        ng.module("ppt-10-module", []).controller("ppt-10-ctrl",
             ['$scope', '$location', '$$console', '$timeout', '$interval', '$$ls', '$q',
                 function ($scope, $location, $$console, $timeout, $interval, $$ls, $q) {
 
                     var ff = $scope._f;
                     var s = $scope.s = {
                     };
-                    ff.pageSlideUp().nextPageAnimate().pageSlideDown();
+                    ff.pageSlideLeftPop().nextPageAnimate().pageSlideUp();
                     $scope.$on('$destroy', function () {
                         $interval.cancel();
                     });

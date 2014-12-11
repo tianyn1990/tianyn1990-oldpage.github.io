@@ -1,0 +1,1 @@
+define(["angular","devConfig","pathConfig","jquery"],function(e){e.module("ppt-8-module",[]).controller("ppt-8-ctrl",["$scope","$location","$$console","$timeout","$interval","$$ls","$q",function(e,n,o,t,a){{var l=e._f;e.s={}}l.pageFlipY().nextPageAnimate().pageRotate(),e.$on("$destroy",function(){a.cancel()})}])});

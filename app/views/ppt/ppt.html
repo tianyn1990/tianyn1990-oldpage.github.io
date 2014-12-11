@@ -6,18 +6,35 @@
     <meta name="format-detection" content="telephone=no"/>
     <meta http-equiv="X-UA-Compatible" content="IE=Edge">
     <title>{{_s.title}}</title>
-    <!--<link rel="stylesheet" href="../../styles/mixins/reset.css"/>-->
-    <!--<link rel="stylesheet" href="../../styles/mixins/func.css"/>-->
-    <!--<link rel="stylesheet" href="../../styles/mixins/structure.css"/>-->
-    <!--<link rel="stylesheet" href="../../styles/mixins/form.css"/>-->
-    <!--<link rel="stylesheet" href="../../styles/mixins/button.css"/>-->
-    <!--<link rel="stylesheet" href="../../styles/mixins/box.css"/>-->
-    <!--<link rel="stylesheet" href="../../styles/mixins/animate.css"/>-->
+    <link rel="stylesheet" href="../../styles/mixins/reset.css"/>
+    <link rel="stylesheet" href="../../styles/mixins/func.css"/>
+    <link rel="stylesheet" href="../../styles/mixins/structure.css"/>
+    <link rel="stylesheet" href="../../styles/mixins/form.css"/>
+    <link rel="stylesheet" href="../../styles/mixins/button.css"/>
+    <link rel="stylesheet" href="../../styles/mixins/box.css"/>
+    <link rel="stylesheet" href="../../styles/mixins/animate.css"/>
+    <link rel="stylesheet" href="../../styles/ppt/mixin.css"/>
     <link rel="stylesheet" href="../../styles/ppt.css"/>
 </head>
-<body>
-<div ng-cloak style="width:100%;height:100%">
-    <ng-view></ng-view>
+<body ng-class="{oh:_s.bodyOh}">
+<div ng-cloak style="width:100%;height:100%"
+     ng-class="{
+        'ng-view-flip-wapper':_s.viewSwitchAnimate===6||_s.viewSwitchAnimate===7,
+        'ng-view-slideLeftPop-wapper':_s.viewSwitchAnimate===9
+     }">
+    <div ng-view class="ng-view-switch"
+         ng-class="{
+            'slide-left'  : _s.viewSwitchAnimate===0,
+            'slide-right' : _s.viewSwitchAnimate===1,
+            'slide-up'    : _s.viewSwitchAnimate===2,
+            'slide-down'  : _s.viewSwitchAnimate===3,
+            'pop'         : _s.viewSwitchAnimate===4,
+            'fade'        : _s.viewSwitchAnimate===5,
+            'flip-x'      : _s.viewSwitchAnimate===6,
+            'flip-y'      : _s.viewSwitchAnimate===7,
+            'rotate'      : _s.viewSwitchAnimate===8,
+            'slide-left-pop':_s.viewSwitchAnimate===9
+        }"></div>
 </div>
 <script src="../../bower_components/requirejs/require.js"></script>
 <script src="../../scripts/common.js"></script>
