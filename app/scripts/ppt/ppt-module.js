@@ -258,7 +258,7 @@ define(["angular", "alertify", "devConfig", "jquery"], function (ng, alertify, c
                             waitForAjaxHtmlReturn: false,
                             ajaxHtmlNumInRoute: -1
                         },
-                        ajaxRetDefer:function(){
+                        ajaxRetDefer: function () {
                             var that = this;
                             var itv = $interval(function () {
                                 if (that.htmlConc.waitForAjaxReturn) {
@@ -267,7 +267,7 @@ define(["angular", "alertify", "devConfig", "jquery"], function (ng, alertify, c
                                 }
                             }, 100);
                         },
-                        ajaxHtmlRetDefer:function(defer){
+                        ajaxHtmlRetDefer: function (defer) {
                             var that = this;
                             var itv = $interval(function () {
                                 if (that.htmlConc.waitForAjaxHtmlReturn) {
@@ -339,12 +339,12 @@ define(["angular", "alertify", "devConfig", "jquery"], function (ng, alertify, c
                         var reqHtml = "_html_ajax_request_in_route_count";
                         var rspHtml = "_html_ajax_response_in_route_count";
                         $$ls.removeItem([reqHtml, rspHtml]);
-                        var itv2 = $interval(function () {
+                        var itv = $interval(function () {
                             var reqHtmlNum = parseInt($$ls.item(reqHtml));
                             var rspHtmlNum = parseInt($$ls.item(rspHtml));
                             if (reqHtmlNum === rspHtmlNum && rspHtmlNum === ff.htmlConc.ajaxHtmlNumInRoute) {
                                 ff.htmlConc.waitForAjaxHtmlReturn = true;
-                                $interval.cancel(itv2);
+                                $interval.cancel(itv);
                             }
                         }, 100);
                     });
@@ -361,9 +361,15 @@ define(["angular", "alertify", "devConfig", "jquery"], function (ng, alertify, c
                                 $interval.cancel(itv);
                             }
                         }, 100);
-                        $timeout(function () {
-                            $scope._s.bodyOh = false;
-                        }, 1100);
+                        //todo itv2;
+                        var itv2 = $interval(function () {
+                            if (ff.htmlConc.waitForAjaxHtmlReturn) {
+                                $timeout(function () {
+                                    $scope._s.bodyOh = false;
+                                }, 1100);
+                                $interval.cancel(itv2);
+                            }
+                        }, 100);
                     });
 
                 }]);
