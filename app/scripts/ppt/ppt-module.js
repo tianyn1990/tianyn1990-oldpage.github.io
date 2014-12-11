@@ -290,35 +290,35 @@ define(["angular", "alertify", "devConfig", "jquery"], function (ng, alertify, c
                                 }, 1200)
                                 .then(function (data, defer) {
                                     $location.path("/3");
-                                    defer.resolve();
+                                    that.ajaxHtmlRetDefer(defer);
                                 }, 1200)
                                 .then(function (data, defer) {
                                     $location.path("/4");
-                                    defer.resolve();
+                                    that.ajaxHtmlRetDefer(defer);
                                 }, 1200)
                                 .then(function (data, defer) {
                                     $location.path("/5");
-                                    defer.resolve();
+                                    that.ajaxHtmlRetDefer(defer);
                                 }, 1200)
                                 .then(function (data, defer) {
                                     $location.path("/6");
-                                    defer.resolve();
+                                    that.ajaxHtmlRetDefer(defer);
                                 }, 1200)
                                 .then(function (data, defer) {
                                     $location.path("/7");
-                                    defer.resolve();
+                                    that.ajaxHtmlRetDefer(defer);
                                 }, 1200)
                                 .then(function (data, defer) {
                                     $location.path("/8");
-                                    defer.resolve();
+                                    that.ajaxHtmlRetDefer(defer);
                                 }, 1200)
                                 .then(function (data, defer) {
                                     $location.path("/9");
-                                    defer.resolve();
+                                    that.ajaxHtmlRetDefer(defer);
                                 }, 1200)
                                 .then(function (data, defer) {
                                     $location.path("/10");
-                                    defer.resolve();
+                                    that.ajaxHtmlRetDefer(defer);
                                 }, 1200)
                                 .then(function (data, defer) {
                                     that.htmlConc.isAllViewSwitchAnimateFinished = true;
