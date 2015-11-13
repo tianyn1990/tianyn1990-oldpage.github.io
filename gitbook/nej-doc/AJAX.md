@@ -94,7 +94,7 @@ CORS规范详细描述见W3C的《[Cross-Origin Resource Sharing](http://www.w3.
 
 ##### 流程概况
 
-![CORS请求](http://img0.ph.126.net/R6pynYIBRt0rv2CJvzjhhA==/6608753177213290299.png)
+![CORS请求](/blog/images/6608753177213290299.png)
 
 1.  浏览器捕获到a.b.com应用往x.y.com的服务器发起的请求
 2.  浏览器检查请求情况确定是否需要先做一次预请求来验证x.y.com的服务器是否允许发当前请求过去，如果需要发预请求则浏览器发起一个OPTIONS的请求到x.y.com的服务器验证继续第3步，否则直接发送请求到x.y.com服务器继续第5步
@@ -109,7 +109,7 @@ CORS规范详细描述见W3C的《[Cross-Origin Resource Sharing](http://www.w3.
 
 ###### check preflight request
 
-![check preflight request](http://img2.ph.126.net/r-8_Drfm2tKxTGZEDK8_3Q==/2987012452953704123.png)
+![check preflight request](/blog/images/2987012452953704123.png)
 
 在没有预请求缓存的情况下，是否发送预请求主要取决于以下两个条件
 
@@ -118,7 +118,7 @@ CORS规范详细描述见W3C的《[Cross-Origin Resource Sharing](http://www.w3.
 
 ###### make preflight request
 
-![make preflight request](http://img0.ph.126.net/9_h6lb6N37bvStq5Ze2MFw==/6619176547444246158.png)
+![make preflight request](/blog/images/6619176547444246158.png)
 
 这里主要完成以下信息的设置
 
@@ -128,11 +128,11 @@ CORS规范详细描述见W3C的《[Cross-Origin Resource Sharing](http://www.w3.
 
 ###### cache preflight request
 
-![cache preflight request](http://img2.ph.126.net/qxQ_SDJ1oBbWdjgea0r4bw==/4806466702411514477.png)
+![cache preflight request](/blog/images/4806466702411514477.png)
 
 ###### check preflight response
 
-![check preflight response](http://img1.ph.126.net/5tqXaNkLoUQ_ny5yhWpX5w==/1612570141676339530.png)
+![check preflight response](/blog/images/1612570141676339530.png)
 
 这里需要注意：如果设置了[user credentials](#user credentials)，则返回的Access-Control-Allow-Origin必须与请求的Origin完全一致，包括大小写
 
@@ -140,7 +140,7 @@ CORS规范详细描述见W3C的《[Cross-Origin Resource Sharing](http://www.w3.
 
 ###### response preflight request
 
-![response preflight request](http://img0.ph.126.net/STUHWTmsoH_h9V49H9BL-Q==/3301420001939732538.png)
+![response preflight request](/blog/images/3301420001939732538.png)
 
 这里主要完成以下信息的设置
 
@@ -152,7 +152,7 @@ CORS规范详细描述见W3C的《[Cross-Origin Resource Sharing](http://www.w3.
 
 ###### response actual request
 
-![response actual request](http://img2.ph.126.net/3ho2hdTzTKERNY6BTXda5g==/6619581167723268848.png)
+![response actual request](/blog/images/6619581167723268848.png)
 
 这里除了返回[response preflight request](#response preflight request)阶段返回的头信息外，还可以返回Access-Control-Expose-Headers用来控制客户端脚本中可获取的返回头信息
 
@@ -170,7 +170,7 @@ CORS规范详细描述见W3C的《[Cross-Origin Resource Sharing](http://www.w3.
 
 ### 原理
 
-![Frame代理跨域流程](http://img2.ph.126.net/cPIDakXJZLhpnldZrZpZ7g==/6608721291376084913.png)
+![Frame代理跨域流程](/blog/images/6608721291376084913.png)
 
 1.  当a.b.com的应用要往x.y.com的服务器取数据时，首先会用iframe载入预先放置在x.y.com服务器上的代理文件
 2.  服务器端返回做了配置的代理文件
@@ -193,7 +193,7 @@ CORS规范详细描述见W3C的《[Cross-Origin Resource Sharing](http://www.w3.
 
 ### 原理
 
-![Flash代理跨域流程](http://img1.ph.126.net/HVFJFekgjG23O_z-Fq2yLA==/6608433219329605678.png)
+![Flash代理跨域流程](/blog/images/6608433219329605678.png)
 
 1.  a.b.com的应用从自己的服务器上载入用来做请求的flash代理文件
 2.  a.b.com服务器返回代理flash文件
@@ -221,11 +221,11 @@ CORS规范详细描述见W3C的《[Cross-Origin Resource Sharing](http://www.w3.
 
 对于高版本浏览器使用W3C规范中对XMLHttpRequest的定义来实现，相关接口定义
 
-![uploader in XMLHttpRequest](http://img2.ph.126.net/prhGaXl0rn9g7CY3BK1p9A==/6599280884541303788.png)
+![uploader in XMLHttpRequest](/blog/images/6599280884541303788.png)
 
 XMLHttpRequest关于上传相关的数据发送流程
 
-![send in XMLHttpRequest](http://img0.ph.126.net/KMsO751gC-M32-m3e6Qxlw==/6608621235817958265.png)
+![send in XMLHttpRequest](/blog/images/6608621235817958265.png)
 
 上传这里主要会采用Blob或FormData数据形式发送到服务器
 
@@ -233,7 +233,7 @@ XMLHttpRequest关于上传相关的数据发送流程
 
 对于无法支持XMLHttpRequest直接进行文件上传的浏览器，采用Form表单+Frame代理的方式来实现
 
-![form+frame upload](http://img1.ph.126.net/TLJiqwe6DY31CZIddXXYTQ==/6619487709234907039.png)
+![form+frame upload](/blog/images/6619487709234907039.png)
 
 1.  a.b.com应用中包含要上传的文件的Form表单POST至目标服务器x.y.com，如果需要轮询进度的话此时开始起定时器轮询上传进度
 2.  x.y.com将返回结果按照nej\_proxy\_upload.html模板文件给定的格式返回结果至Frame代理中
