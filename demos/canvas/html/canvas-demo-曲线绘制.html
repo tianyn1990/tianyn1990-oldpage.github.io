@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta name="viewport" content="initial-scale=1.0,user-scalable=no,maximum-scale=1,width=device-width"/>
+    <meta name="format-detection" content="telephone=no"/>
+    <title>曲线绘制</title>
+    <link rel="stylesheet" href="../css/count-down.css">
+    <style>
+        html, body {
+            height: 100%;
+            padding: 0;
+            margin: 0
+        }
+        #count-down {
+            margin: 0;
+            border: 0;
+        }
+    </style>
+</head>
+<body>
+
+<canvas width="1000" height="600" id="count-down"></canvas>
+
+</body>
+<script src="../../common/js/jquery.min.js"></script>
+<script src="../../common/js/requestAnimationFrame.js"></script>
+<script>
+
+    window.onload = function () {
+        var canvas = document.getElementById("count-down"),
+                context = canvas.getContext("2d"),
+                ctt = context;
+
+        canvas.width = document.body.clientWidth;
+        canvas.height = document.body.clientHeight;
+
+        if (context) {
+
+            fillMoon(ctt, 900, 200, 50, 2, 30);
+
+            fllGround(ctt);
+
+            function fillMoon(ctt, x, y, r, d, rot, /*optional*/fillStyle) {
+                ctt.save();
+
+                //变换
+                ctt.translate(x, y);
+                ctt.rotate(rot / 180 * Math.PI);
+                ctt.scale(r, r);
+
+                pathMoon(ctt, d);
+
+                ctt.fillStyle = fillStyle || "#fb5";
+                ctt.fill();
+                ctt.restore();
+            }
+
+            function pathMoon(ctt, d) {
+                ctt.beginPath();
+
+                ctt.arc(0, 0, 1, .5 * Math.PI, 1.5 * Math.PI, true);
+                ctt.moveTo(0, -1);
+                ctt.arcTo(d, 0, 0, 1, Math.sqrt(1 + d * d) / d);
+                //ctt.quadraticCurveTo(1.2, 0, 0, 1); //二次曲线
+
+                ctt.closePath();
+            }
+
+            function fllGround(ctt) {
+                var w = canvas.width,
+                        h = canvas.height,
+                        bh = 300,
+                        wh = 200,
+                        lg = ctt.createLinearGradient(0, 0, 0, h);
+                lg.addColorStop(0, "#048");
+                lg.addColorStop(1, "#07b");
+
+                ctt.save();
+
+                ctt.beginPath();
+                ctt.moveTo(0, h - bh);
+
+                //三次贝塞尔曲线
+                ctt.bezierCurveTo(w / 3, h - bh - wh, w * 2 / 3, h - bh + wh, w, h - bh);
+
+                ctt.lineTo(w, h);
+                ctt.lineTo(0, h);
+                ctt.closePath();
+
+                ctt.fillStyle = lg;
+                ctt.fill();
+
+                ctt.restore();
+            }
+
+        } else {
+            alert("浏览器不支持canvas");
+        }
+    };
+</script>
+</html>

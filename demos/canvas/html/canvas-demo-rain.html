@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta name="viewport" content="initial-scale=1.0,user-scalable=no,maximum-scale=1,width=device-width"/>
+    <meta name="format-detection" content="telephone=no"/>
+    <title>下雨</title>
+    <link rel="stylesheet" href="../css/count-down.css">
+    <style>
+        html, body {
+            height: 100%;
+            padding: 0;
+            margin: 0
+        }
+        #canvas {
+            margin: 0;
+            border: 0;
+        }
+    </style>
+</head>
+<body>
+
+<canvas width="800" height="400" id="canvas"></canvas>
+
+</body>
+<script src="../../common/js/jquery.min.js"></script>
+<script src="../../common/js/requestAnimationFrame.js"></script>
+<script>
+
+    window.onload = function () {
+
+        var canvas = document.getElementById("canvas"),
+                context = canvas.getContext("2d"),
+                ctt = context, h, w;
+
+        w = canvas.width = document.body.clientWidth || document.documentElement.clientWidth;
+        h = canvas.height = document.body.clientHeight || document.documentElement.clientHeight;
+
+        if (context) {
+            //帧率
+            var fps = 0, beginDate = new Date().getTime(), textFps = "60 Fps";
+
+            //打雷
+            var isLightening = false, isThundering = false, thunderPos;
+
+            //雨点们
+            var drops = [], dropNum = 400, backgroundColor, dropColor;
+
+            //事件
+            var lastEvent;
+
+            //数据初始化
+            function initDate() {
+                var i = 0, drop, x2, y2, rad;
+
+                //背景渐变色
+                backgroundColor = ctt.createRadialGradient(w / 2, h / 2, 0, w / 2, h / 2, h);
+                backgroundColor.addColorStop(0, "#e8e8e8");
+                backgroundColor.addColorStop(1, "#ccc");
+
+                //雨点
+                for (; i < dropNum; i++) {
+                    drop = {
+                        x1: Math.random() * (w + 1000) - 500,
+                        y1: Math.random() * h,
+                        rot: (Math.random() > .5 ? 1 : -1) * Math.random() * 3,
+                        l: Math.random() * 15 + 20,
+                        v: Math.random() * 5 + 22
+                    };
+                    drop.initX1 = drop.x1;
+                    drop.initL = drop.l;
+                    drop.initV = drop.v;
+                    drop.initRot = drop.rot;
+                    if (drop.rot == 0) {
+                        x2 = drop.x1;
+                        y2 = drop.y1 + drop.l;
+                    } else if (drop.rot < 0) {
+                        rad = (90 + drop.rot) / 180 * Math.PI;
+                        x2 = drop.x1 + Math.cos(rad) * drop.l;
+                        y2 = drop.y1 + Math.sin(rad) * drop.l;
+                    } else if (drop.rot > 0) {
+                        rad = (90 - drop.rot) / 180 * Math.PI;
+                        x2 = drop.x1 - Math.cos(rad) * drop.l;
+                        y2 = drop.y1 + Math.sin(rad) * drop.l;
+                    }
+                    drop.x2 = x2;
+                    drop.y2 = y2;
+                    drops.push(drop);
+                }
+
+                //初始化雷电结构
+                changeThunderPos();
+            }
+
+            //开始闪电
+            function starLightening() {
+                var nextLtTime = (Math.random() * 2 + 2) * 1000;
+                setTimeout(function () {
+                    lightening();
+                    starLightening();
+                }, nextLtTime);
+            }
+
+            //开始动画
+            function rafFrames() {
+                fps++;
+                requestAnimationFrame(function () {
+                    draw();
+                    update();
+                    rafFrames();
+                });
+            }
+
+            function draw() {
+                ctt.clearRect(0, 0, w, h);
+
+                //绘画背景
+                drawBg();
+
+                //检测帧率
+                drawFps(textFps);
+
+                //绘画雨点
+                drawDrops();
+
+                //绘画雷电
+                if (isThundering) {
+                    drawThunder();
+                }
+            }
+
+            function update() {
+                //雨点变化
+                updateDrops();
+
+                //雷电变化
+                updateThunder();
+            }
+
+            //绘画雷电
+            function drawThunder() {
+                var i, j = 0, th, td;
+                ctt.strokeStyle = "rgba(255,255,230,.9)";
+                ctt.lineWidth = 2;
+                for (; j < thunderPos.length; j++) {
+                    th = thunderPos[j];
+                    ctt.save();
+                    ctt.beginPath();
+                    td = th[0];
+                    ctt.moveTo(td.x, td.y);
+                    for (i = 1; i < th.length; i++) {
+                        td = th[i];
+                        ctt.lineTo(td.x, td.y);
+                    }
+                    ctt.stroke();
+                    ctt.restore();
+                }
+            }
+
+            //雷电变化
+            function updateThunder() {
+            }
+
+            //雨点动作
+            function updateDrops() {
+                var i = 0, drop, dx, dy, mx, my, x2, y2, rad;
+                for (; i < dropNum; i++) {
+                    drop = drops[i];
+                    dx = drop.x2 - drop.x1;
+                    dy = drop.y2 - drop.y1;
+                    my = drop.v || 1;
+                    mx = (dx / dy * (dy + my) - dx);
+                    drop.x1 += mx;
+                    drop.y1 += my;
+                    drop.x2 += mx;
+                    drop.y2 += my;
+                    if (drop.y1 > h || (drop.x1 < -500 && drop.x2 < -500) || (drop.x1 > w + 500 && drop.x2 > w + 500)) {
+                        drop.x1 = drop.initX1;
+                        drop.y1 = -100;
+                        if (drop.rot == 0) {
+                            x2 = drop.x1;
+                            y2 = drop.y1 + drop.l;
+                        } else if (drop.rot < 0) {
+                            rad = (90 + drop.rot) / 180 * Math.PI;
+                            x2 = drop.x1 + Math.cos(rad) * drop.l;
+                            y2 = drop.y1 + Math.sin(rad) * drop.l;
+                        } else if (drop.rot > 0) {
+                            rad = (90 - drop.rot) / 180 * Math.PI;
+                            x2 = drop.x1 - Math.cos(rad) * drop.l;
+                            y2 = drop.y1 + Math.sin(rad) * drop.l;
+                        }
+                        drop.x2 = x2;
+                        drop.y2 = y2;
+                    }
+                }
+            }
+
+            //绘画雨点
+            function drawDrops() {
+                var i = 0, drop;
+                for (; i < dropNum; i++) {
+                    drop = drops[i];
+                    ctt.save();
+                    ctt.beginPath();
+                    //雨滴渐变色
+                    dropColor = ctt.createLinearGradient(drop.x2, drop.y2, drop.x1, drop.y1);
+//                    dropColor.addColorStop(.3, "#a8a8a8");
+//                    dropColor.addColorStop(1, "#bbb");
+                    dropColor.addColorStop(.3, "#989898");
+                    dropColor.addColorStop(1, "#aaa");
+                    ctt.strokeStyle = dropColor;
+                    ctt.lineWidth = 1;
+                    ctt.moveTo(drop.x1, drop.y1);
+                    ctt.lineTo(drop.x2, drop.y2);
+                    ctt.stroke();
+                    ctt.restore();
+                }
+            }
+
+            //绘画背景
+            function drawBg() {
+                ctt.save();
+                ctt.fillStyle = backgroundColor;
+                ctt.fillRect(0, 0, w, h);
+                ctt.restore();
+            }
+
+            //检测帧率
+            function drawFps() {
+                if (new Date().getTime() - beginDate >= 1000) {
+                    textFps = fps + " Fps";
+                    beginDate = new Date().getTime();
+                    fps = 0;
+                }
+                ctt.save();
+                ctt.beginPath();
+                ctt.textAlign = "left";
+                ctt.textBaseline = "top";
+                ctt.fillStyle = "rgba(255,255,255,1)";
+                ctt.font = "bold 20px sans-serif";
+                ctt.fillText(textFps, 10, 10);
+                ctt.closePath();
+                ctt.restore();
+            }
+
+            function mousemove(event) {
+                var pos, i = 0, drop;
+
+                event = event || lastEvent;
+                lastEvent = event;
+
+                pos = lastEvent ? getEventXY(event) : {ex: w / 2, ey: h / 2};
+
+                //改变雨点
+                for (; i < dropNum; i++) {
+                    drop = drops[i];
+                    drop.rot = -(pos.ex - w / 2) / w * 2 * 30 + drop.initRot;
+                    drop.l = pos.ey / h * 15 + drop.initL;
+                    drop.v = pos.ey / h * 10 + drop.initV;
+                }
+                //改变背景渐变色
+                if (!isLightening) {
+                    backgroundColor = ctt.createRadialGradient(pos.ex, pos.ey, 0, pos.ex, pos.ey, h * 3 / 4);
+                    backgroundColor.addColorStop(0, "#e8e8e8");
+                    backgroundColor.addColorStop(1, "#ccc");
+//                    backgroundColor.addColorStop(0, "#733");
+//                    backgroundColor.addColorStop(1, "#c66");
+                }
+            }
+
+            canvas.onmousemove = mousemove;
+
+            //一轮儿闪电
+            function lightening() {
+                var lTimes = [], i, lt, time = 0, itvTime;
+
+                for (i = 0; i < 6; i++) {
+                    lt = Math.random() * 128 + 32;
+                    if (Math.random() > .45 && i > 2) {
+                        continue;
+                    }
+                    lTimes.push(lt);
+                }
+
+                for (i = 0; i < lTimes.length; i++) {
+                    lt = lTimes[i];
+                    oneLightening(time, lt);
+                    itvTime = Math.random() * 32 + 48;
+                    time += (lt + itvTime);
+                }
+
+                thunder(time - itvTime);
+            }
+
+            //一道雷电
+            function thunder(time) {
+                isThundering = true;
+                changeThunderPos();
+                setTimeout(function () {
+                    isThundering = false;
+                }, time);
+            }
+
+            //改变雷电结构
+            function changeThunderPos() {
+                var th, thFirst, i, thi;
+                thunderPos = [];
+
+                //构建第一道雷电
+                th = [];
+                th.l = 0;
+                th.x = Math.random() * (w - 200) + 100;
+                th.y = 0;
+                th.push({x: th.x, y: th.y});
+                for (i = Math.random() > .5 ? 1 : 2; th.l < 2 * h; i++) {
+                    th.l += th.y;
+                    th.x += (i % 2 == 1 ? 1 : -1) * (Math.random() * 100 + 20);
+                    th.y += Math.random() * 200 + 50;
+                    th.push({x: th.x, y: th.y});
+                }
+                thunderPos.push(th);
+
+                //构建剩余的雷电结构
+                for (thi = 1; thi < 6; thi++) {
+                    th = [];
+                    th.apart = false;
+                    th.pos = thi % 2 == 1 ? 1 : -1;
+                    for (i = 0, thFirst = thunderPos[0]; i < thFirst.length; i++) {
+                        if (i > 1 && Math.random() > .7 || th.apart) {
+                            th.apart = true;
+                            th.x += th.pos * (Math.random() * 50 + 20);
+                            th.y += Math.random() * 70 + 25;
+                            th.push({x: th.x, y: th.y});
+                        } else {
+                            th.x = thFirst[i].x;
+                            th.y = thFirst[i].y;
+                            th.push({x: th.x, y: th.y});
+                        }
+                    }
+                    if (thi > 2 && Math.random() > .5) {
+                        continue;
+                    }
+                    thunderPos.push(th);
+                }
+            }
+
+            //一道闪电（白光）
+            function oneLightening(time, lt) {
+                setTimeout(function () {
+                    //白光开始
+                    isLightening = true;
+                    backgroundColor = "rgba(255,255,255,1)";
+                    setTimeout(function () {
+                        //白光结束
+                        isLightening = false;
+                        mousemove();
+                    }, lt);
+                }, time);
+            }
+
+            //获取鼠标相对canvas的位置坐标
+            function getEventXY(event) {
+                event = event || window.event;
+                return {
+                    ex: event.clientX - canvas.getBoundingClientRect().left,
+                    ey: event.clientY - canvas.getBoundingClientRect().top
+                }
+            }
+
+            //开始所有动画
+            initDate();
+            starLightening();
+            rafFrames();
+
+        } else {
+            alert("浏览器不支持canvas");
+        }
+    };
+</script>
+</html>

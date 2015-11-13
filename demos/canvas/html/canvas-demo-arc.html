@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta name="viewport" content="initial-scale=1.0,user-scalable=no,maximum-scale=1,width=device-width"/>
+    <meta name="format-detection" content="telephone=no"/>
+    <title>弧、圆、圆角矩形：arc()</title>
+    <link rel="stylesheet" href="../css/count-down.css">
+    <style>
+        html, body {
+            height: 100%;
+            padding: 0;
+            margin: 0
+        }
+        #count-down {
+            margin: 0;
+            border: 0;
+        }
+    </style>
+</head>
+<body>
+
+<canvas width="1000" height="600" id="count-down"></canvas>
+
+</body>
+<script src="../../common/js/jquery.min.js"></script>
+<script src="../../common/js/requestAnimationFrame.js"></script>
+<script>
+
+    window.onload = function () {
+        var canvas = document.getElementById("count-down"),
+                context = canvas.getContext("2d"),
+                ctt = context;
+
+        canvas.width = document.body.clientWidth;
+        canvas.height = document.body.clientHeight;
+
+        if (context) {
+
+            var dy = 100,
+                    width = canvas.height - 2 * dy,
+                    dx = (canvas.width - width) / 2,
+                    r = 15,
+                    outerPadding = 15,
+                    padding = 5,
+                    sWidth = (width - 3 * padding - 2 * outerPadding) / 4;
+            fillRoundRect(ctt, dx, dy, width, width, r, "#ccc");
+            for (var col = 0; col < 4; col++) {
+                for (var row = 0; row < 4; row++) {
+                    fillRoundRect(ctt,
+                            dx + outerPadding + padding * col + sWidth * col,
+                            dy + outerPadding + padding * row + sWidth * row,
+                            sWidth, sWidth, 5, "#666");
+                }
+            }
+
+            function fillRoundRect(ctt, x, y, w, h, /*number*/r, /*optional*/fillStyle) {
+                ctt.save();
+
+                w -= 2 * r;
+                h -= 2 * r;
+                if (w < 0 || h < 0) {
+                    return;
+                }
+
+                ctt.translate(x, y);
+
+                pathRoundRect(ctt, w, h, r);
+
+                ctt.fillStyle = fillStyle || "black";
+                ctt.fill();
+
+                ctt.restore();
+            }
+
+            function strokeRoundRect(ctt, x, y, width, height, r, /*optional*/lineWidth, /*optional*/strokeStyle) {
+                ctt.save();
+
+                width -= 2 * r;
+                height -= 2 * r;
+                if (width < 0 || height < 0) {
+                    return;
+                }
+
+                ctt.translate(x, y);
+
+                pathRoundRect(ctt, width, height, r);
+
+                ctt.lineWidth = lineWidth || 1;
+                ctt.strokeStyle = strokeStyle || "black";
+                ctt.stroke();
+
+                ctt.restore();
+            }
+
+            function pathRoundRect(ctt, width, height, r) {
+                ctt.beginPath();
+
+                ctt.arc(r, r, r, Math.PI, 1.5 * Math.PI);
+                ctt.lineTo(width, 0);
+                ctt.arc(r + width, r, r, 1.5 * Math.PI, 2 * Math.PI);
+                ctt.lineTo(2 * r + width, r + height);
+                ctt.arc(r + width, r + height, r, 0, .5 * Math.PI);
+                ctt.lineTo(r, 2 * r + height);
+                ctt.arc(r, r + height, r, .5 * Math.PI, Math.PI);
+
+                ctt.closePath();
+            }
+
+        } else {
+            alert("浏览器不支持canvas");
+        }
+    };
+</script>
+</html>

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta name="viewport" content="initial-scale=1.0,user-scalable=no,maximum-scale=1,width=device-width"/>
+    <meta name="format-detection" content="telephone=no"/>
+    <title>倒计时</title>
+    <link rel="stylesheet" href="../css/count-down.css">
+</head>
+<body>
+
+<canvas width="800" height="400" id="count-down"></canvas>
+
+</body>
+<script src="../../common/js/jquery.min.js"></script>
+<script src="../../common/js/requestAnimationFrame.js"></script>
+<script src="../js/digit.js"></script>
+<script src="../js/count-down.js"></script>
+<script>
+
+    window.onload = function () {
+        var canvas = document.getElementById("count-down"),
+                context = canvas.getContext("2d");
+        if (context) {
+            var ta = timeAnnouncement(100, 200, 600, context);
+            ta.countDown(new Date(2015, 6, 25, 17, 30, 0));
+        } else {
+            alert("浏览器不支持canvas");
+        }
+    };
+</script>
+</html>

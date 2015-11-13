@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta name="viewport" content="initial-scale=1.0,user-scalable=no,maximum-scale=1,width=device-width"/>
+    <meta name="format-detection" content="telephone=no"/>
+    <title>纸飞机+蓝天白云</title>
+    <link rel="stylesheet" href="../css/count-down.css">
+    <style>
+        html, body {
+            height: 100%;
+            padding: 0;
+            margin: 0
+        }
+        #canvas {
+            margin: 0;
+            border: 0;
+        }
+    </style>
+</head>
+<body>
+
+<canvas width="800" height="400" id="canvas"></canvas>
+
+</body>
+<script src="../../common/js/jquery.min.js"></script>
+<script src="../../common/js/requestAnimationFrame.js"></script>
+<script>
+
+    window.onload = function () {
+
+        var canvas = document.getElementById("canvas"),
+                context = canvas.getContext("2d"),
+                ctt = context, h, w;
+
+        w = canvas.width = document.body.clientWidth || document.documentElement.clientWidth;
+        h = canvas.height = document.body.clientHeight || document.documentElement.clientHeight;
+
+        if (context) {
+            //帧率
+            var fps = 0, beginDate = new Date().getTime(), textFps = "60 Fps";
+
+            //粒子效果
+            var ptcs = [];
+            ptcs.x = 100;
+            ptcs.y = 100;
+            ptcs.h = 500;
+            ptcs.w = 500;
+            ptcs.opacity = .8;
+
+            (function init() {
+//                drawBg();
+//                drawPaperPlane(300, 300, 50);
+            })();
+
+            function drawBg() {
+//                ctt.fillStyle = "lightblue";
+                ctt.fillStyle = "#609ec5";
+                ctt.fillRect(0, 0, w, h);
+            }
+
+            var paperPlane = {
+                x: 150,
+                y: 50,
+                w: 35,
+                rot: 0,
+                changeRot: 5,
+                v: 4,
+                frict: .00,
+                animating: false,
+                animateIndex: 0,
+                keypress: false
+            };
+
+            function drawPaperPlane(x, y, w, rot) {
+                ctt.save();
+                ctt.translate(x, y);
+                ctt.rotate(Math.PI * rot / 180);
+
+                var nag = w / 3;
+
+                ctt.globalAlpha = 1;
+
+                ctt.beginPath();
+                ctt.fillStyle = "#e7e7e7";
+                ctt.moveTo(0, 0);
+                ctt.lineTo(-2 * w, -w * 3 / 4 - nag);
+                ctt.lineTo(-2 * w, 0 - nag);
+                ctt.closePath();
+                ctt.fill();
+
+                ctt.beginPath();
+                ctt.fillStyle = "#cdcdcd";
+                ctt.moveTo(0, 0);
+                ctt.lineTo(-2 * w, 0 - nag);
+                ctt.lineTo(-2 * w - w / 2, w / 7 * 2 + w / 10 * 2 - nag);
+                ctt.lineTo(-2 * w, w / 7 * 2 - nag);
+                ctt.closePath();
+                ctt.fill();
+
+                ctt.beginPath();
+                ctt.fillStyle = "#b4b4b4";
+                ctt.moveTo(-2 * w, w / 7 * 2 - nag);
+                ctt.lineTo(-2 * w - w / 2, w / 7 * 2 + w / 10 * 2 - nag);
+                ctt.lineTo(-2 * w, w / 7 * 2 + w / 10 * 3 / 2 - nag);
+                ctt.closePath();
+                ctt.fill();
+
+                ctt.beginPath();
+                ctt.fillStyle = "#e7e7e7";
+                ctt.moveTo(0, 0);
+                ctt.lineTo(-2 * w, w / 7 * 2 - nag);
+                ctt.lineTo(-2 * w, w * 3 / 4 + w / 7 * 2 - nag);
+                ctt.closePath();
+                ctt.fill();
+
+                ctt.globalAlpha = 1;
+
+                ctt.restore();
+            }
+
+            function updatePaperPlane() {
+                paperPlane.v -= paperPlane.v > 0 ? paperPlane.frict : 0;
+                paperPlane.x += paperPlane.v * Math.cos(paperPlane.rot / 180 * Math.PI);
+                paperPlane.y += paperPlane.v * Math.sin(paperPlane.rot / 180 * Math.PI);
+                if (paperPlane.x < -paperPlane.w * 2) {
+                    paperPlane.x = w;
+                } else if (paperPlane.x > w + paperPlane.w * 2) {
+                    paperPlane.x = 0;
+                } else if (paperPlane.y < -paperPlane.w * 2) {
+                    paperPlane.y = h;
+                } else if (paperPlane.y > h + paperPlane.w * 2) {
+                    paperPlane.y = 0;
+                }
+            }
+
+            document.onkeydown = function (e) {
+                paperPlane.keypress = true;
+                var keyCode = getKeyCode(e),
+                        rot = paperPlane.rot,
+                        qua,// 第1-4象限
+                        isIncrease;// 角度以增（/减）的方式接近目标方向
+                while (rot < 0 || rot > 360) {
+                    rot += rot > 0 ? -360 : 360;
+                }
+                if (rot >= 270 && rot <= 360 || rot == 0) {
+                    qua = 1;
+                } else if (rot > 0 && rot < 90) {
+                    qua = 2;
+                } else if (rot >= 90 && rot <= 180) {
+                    qua = 3;
+                } else if (rot > 180 && rot < 270) {
+                    qua = 4;
+                }
+                if (keyCode == 37) { // left
+                    isIncrease = qua == 2 || qua == 3;
+                    rotCloseTo(rot, 180, isIncrease);
+                } else if (keyCode == 38) { // top
+                    isIncrease = qua == 3 || qua == 4;
+                    rotCloseTo(rot, 270, isIncrease);
+                } else if (keyCode == 39) { // right
+                    isIncrease = qua == 1 || qua == 4;
+                    rotCloseTo(rot, 0, isIncrease);
+                } else if (keyCode == 40) { // bottom
+                    isIncrease = qua == 1 || qua == 2;
+                    rotCloseTo(rot, 90, isIncrease);
+                }
+            };
+
+            document.onkeypress = function () {
+                paperPlane.keypress = true;
+            };
+
+            document.onkeyup = function () {
+                paperPlane.keypress = false;
+            };
+
+            function rotCloseTo(srcRot, dstRot, isIncrease) {
+                var raf;
+                var i = ++paperPlane.animateIndex;
+
+                var cgRot = paperPlane.changeRot, cgRotTmp = cgRot;
+
+                var posDist, nagDist, dist;
+
+                (function rafFun() {
+                    raf = requestAnimationFrame(function () {
+                        if (cgRot > 0 && !paperPlane.keypress) {
+                            cgRot -= .2;
+                            cgRot = cgRot < 0 ? 0 : cgRot;
+                            cgRotTmp = cgRot;
+                        }
+                        if (paperPlane.keypress) {
+                            posDist = Math.abs((dstRot == 0 ? 360 : dstRot) - srcRot);
+                            nagDist = srcRot + (360 - (dstRot == 0 ? 360 : dstRot));
+                            dist = posDist > nagDist ? nagDist : posDist;
+                            if (dist > 45 && dist < 90) {
+                                cgRot = cgRotTmp * dist / 90;
+                            } else if (dist <= 45) {
+                                cgRot = cgRotTmp * 45 / 90;
+                            } else {
+                                cgRot = cgRotTmp;
+                            }
+                        }
+                        if (srcRot >= dstRot - (1 + cgRot) && srcRot <= dstRot + (1 + cgRot)
+                                || i != paperPlane.animateIndex) {
+                            paperPlane.rot = dstRot;
+                            cancelAnimationFrame(raf);
+                            return;
+                        }
+                        if (!isIncrease && srcRot > -1 && srcRot < 1) {
+                            srcRot = 360;
+                        } else if (isIncrease && srcRot > 359 && srcRot < 361) {
+                            srcRot = 0;
+                        }
+                        srcRot += isIncrease ? cgRot : -cgRot;
+                        paperPlane.rot = srcRot;
+                        rafFun();
+                    });
+                })();
+            }
+
+            (function raf() {
+                fps++;
+                requestAnimationFrame(function () {
+                    draw();
+                    update();
+                    raf();
+                });
+            })();
+
+            function draw() {
+                ctt.clearRect(0, 0, w, h);
+
+                //背景
+                drawBg();
+
+                //绘画云
+                if (clouds.imgPrepared && !clouds.preparing) {
+                    clouds.preparing = true;
+                    prepareClouds();
+                }
+                if (clouds.imgPrepared && clouds.showImgPrepared) {
+                    drawClouds();
+                }
+
+                //纸飞机
+                drawPaperPlane(paperPlane.x, paperPlane.y, paperPlane.w, paperPlane.rot);
+
+                //粒子效果
+                drawParticleEffect();
+
+                //检测帧率
+                drawFps(textFps);
+
+            }
+
+            function update() {
+                updatePaperPlane();
+                updateParticleEffect();
+            }
+
+
+            var clouds = [];
+            clouds.url = "../images/clouds";
+            clouds.picNum = 8;
+            clouds.imgPrepared = false;
+            clouds.preparing = false;
+            clouds.showNum = 30;
+            clouds.showImgs = [];
+            clouds.showImgPrepared = false;
+
+            var cloudImg, cloudImgPrepNum = 0;
+            for (var cloudIndex = 1; cloudIndex <= clouds.picNum; cloudIndex++) { // 1-8
+                cloudImg = new Image();
+                clouds.push(cloudImg);
+                cloudImg.onload = function () {
+                    cloudImgPrepNum++;
+                    if (cloudImgPrepNum == clouds.picNum) {
+                        clouds.imgPrepared = true;
+                    }
+                };
+                cloudImg.src = clouds.url + "/cloud" + cloudIndex + ".png";
+            }
+
+            function prepareClouds() {
+                var i = 0, ptImg, cloudImg, cloudIndex;
+                for (; i < clouds.showNum; i++) {
+                    cloudIndex = Math.round(Math.random() * 7); // 下标为：0-7
+                    cloudImg = clouds[cloudIndex];
+                    ptImg = ctt.createPattern(cloudImg, "no-repeat");
+                    clouds.showImgs.push({
+                        pt: ptImg,
+                        w: cloudImg.width,
+                        h: cloudImg.height,
+                        x: Math.random() * w - cloudImg.width / 2,
+                        y: Math.random() * 100 - 50 - cloudImg.height / 2,
+                        rot: Math.random() * 360,
+                        rotRate: 1,
+                        scale: Math.random() * .3 + .6
+                    });
+                }
+                clouds.showImgPrepared = true;
+            }
+
+            function drawClouds() {
+                var i = 0, showImg;
+                for (; i < clouds.showNum; i++) {
+                    showImg = clouds.showImgs[i];
+                    ctt.save();
+                    ctt.beginPath();
+                    ctt.translate(showImg.x + showImg.w / 2, showImg.y + showImg.h / 2);
+                    ctt.rotate(showImg.rot / 180 * Math.PI);
+                    ctt.scale(showImg.scale, showImg.scale);
+                    ctt.translate(-showImg.w / 2, -showImg.h / 2);
+                    ctt.fillStyle = showImg.pt;
+                    ctt.fillRect(0, 0, showImg.w, showImg.h);
+                    ctt.restore();
+
+                    //update
+                    showImg.rot += showImg.rotRate;
+                }
+            }
+
+
+            function drawParticleEffect() {
+                var i = 0, ptc;
+                ptcs.x = paperPlane.x - (2 * paperPlane.w) * Math.cos(paperPlane.rot / 180 * Math.PI);
+                ptcs.y = paperPlane.y - (2 * paperPlane.w) * Math.sin(paperPlane.rot / 180 * Math.PI);
+                ptcs.globalAlpha = ptcs.opacity;
+                for (; i < ptcs.length; i++) {
+                    ptc = ptcs[i];
+                    ctt.save();
+                    ctt.beginPath();
+                    ctt.arc(ptc.x, ptc.y, ptc.r, 0, 2 * Math.PI);
+                    ctt.fillStyle = ptc.color;
+                    ctt.fill();
+                    ctt.restore();
+                }
+                ptcs.globalAlpha = 1;
+            }
+
+            function updateParticleEffect() {
+                var i, j, ptc;
+                for (i = 0, j = 0; i < ptcs.length; i++) {
+                    ptc = ptcs[i];
+                    ptc.x += ptc.vx;
+                    ptc.y += ptc.vy;
+                    ptc.vy += ptc.g;
+                    ptc.time += 1;
+                    if (ptc.time > 100) {
+                        ptc.x = ptcs.x;
+                        ptc.y = ptcs.y;
+                        ptc.vy = (Math.random() > .5 ? 1 : -1) * Math.random() / 3;
+                        ptc.time = 0;
+                    }
+                }
+
+                if (ptcs.length < 600) {
+                    for (i = 0; i < 5; i++) {
+                        ptc = {
+                            //绘画
+                            x: ptcs.x,
+                            y: ptcs.y,
+                            r: .6,
+                            color: "#f60",
+                            //动作
+                            vx: (Math.random() > .5 ? 1 : -1) * Math.random() / 3,
+                            vy: (Math.random() > .5 ? 1 : -1) * Math.random() / 3,
+                            g: .01,
+                            time: 0
+                        };
+                        ptcs.push(ptc);
+                    }
+                }
+            }
+
+            //检测帧率
+            function drawFps() {
+                if (new Date().getTime() - beginDate >= 1000) {
+                    textFps = fps + " Fps";
+                    beginDate = new Date().getTime();
+                    fps = 0;
+                }
+                ctt.save();
+                ctt.beginPath();
+                ctt.textAlign = "left";
+                ctt.textBaseline = "top";
+                ctt.fillStyle = "rgba(0,0,0,.8)";
+                ctt.font = "bold 20px sans-serif";
+                ctt.fillText(textFps, 10, 10);
+                ctt.closePath();
+                ctt.restore();
+            }
+
+            function getEventXY(event) {
+                event = event || window.event;
+                return {
+                    ex: event.clientX - canvas.getBoundingClientRect().left,
+                    ey: event.clientY - canvas.getBoundingClientRect().top
+                }
+            }
+
+            function getKeyCode(e) {
+                e = e || window.event;
+                return e.keyCode || e.which;
+            }
+
+        } else {
+            alert("浏览器不支持canvas");
+        }
+    };
+</script>
+</html>

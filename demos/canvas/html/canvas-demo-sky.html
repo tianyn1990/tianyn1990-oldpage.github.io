@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta name="viewport" content="initial-scale=1.0,user-scalable=no,maximum-scale=1,width=device-width"/>
+    <meta name="format-detection" content="telephone=no"/>
+    <title>fillStyle-星空</title>
+    <link rel="stylesheet" href="../css/count-down.css">
+    <style>
+        html, body {
+            height: 100%;
+            padding: 0;
+            margin: 0
+        }
+        #count-down {
+            margin: 0;
+            border: 0;
+        }
+    </style>
+</head>
+<body>
+
+<canvas width="1000" height="600" id="count-down"></canvas>
+
+</body>
+<script src="../../common/js/jquery.min.js"></script>
+<script src="../../common/js/requestAnimationFrame.js"></script>
+<script>
+
+    window.onload = function () {
+        var canvas = document.getElementById("count-down"),
+                context = canvas.getContext("2d"),
+                ctt = context;
+
+        canvas.width = document.body.clientWidth;
+        canvas.height = document.body.clientHeight;
+
+        if (context) {
+
+            var lg = ctt.createLinearGradient(0, 0, 0, canvas.height);
+            lg.addColorStop(0, 'rgba(0,0,0,1)');
+            lg.addColorStop(1, 'rgba(0,60,120,1)');
+            ctt.fillStyle = lg;
+            ctt.fillRect(0, 0, canvas.width, canvas.height);
+
+            var computerImg = new Image();
+            computerImg.src = "../images/computer.png";
+            computerImg.onload = function (){
+                ctt.fillStyle = ctt.createPattern(computerImg, "no-repeat");
+                ctt.save();
+                ctt.translate(200, 500);
+                ctt.fillRect(0, 0, canvas.width, canvas.height);
+                ctt.restore();
+            };
+
+            animate();
+
+            function animate() {
+
+                for (var i = 0; i < 100; i++) {
+                    drawShap({
+                        x: Math.random() * canvas.width,
+                        y: Math.random() * canvas.height * .6,
+                        r: Math.random() * 5,
+                        rot: Math.random() * 360,
+                        n: 5//2 + Math.round(Math.random() * 5)
+                    }, starPath);
+                }
+            }
+
+            function drawShap(spec, shapePathFun) {
+                var x = spec.x || 0,
+                        y = spec.y || 0,
+                        rot = spec.rot || 0,
+                        r = spec.r || 1;
+                ctt.save();
+                //ctt.translate(x, y);
+                ///////////////////////////////
+                // transform(a,b,c,d,e,f);
+                // ——     ——
+                // | a,c,e |
+                // | b,d,f |
+                // | 0,0,1 |
+                // ——     ——
+                // a,d: 水平、垂直缩放
+                // c,b: 水平、垂直倾斜
+                // e,f: 水平、垂直位移
+                ///////////////////////////////
+                var rg = ctt.createRadialGradient(0, 0, 0, 0, 0, r);
+                rg.addColorStop(0, "rgba(255,255,255,1)");
+                rg.addColorStop(1, "rgba(255,255,255,0)");
+                ctt.fillStyle = rg;
+                ctt.strokeStyle = "rgba(255,255,255,0)";
+                ctt.transform(1, 0, 0, 9999, 9999, 9999);
+                ctt.transform(9999, 9999, -9999, 1, 0, 0);
+                ctt.setTransform(1, 0, 0, 1, 0, 0);
+                ctt.transform(1, 0, 0, 1, x, 0);
+                ctt.transform(1, 0, 0, 1, 0, y);
+                ctt.rotate(rot / 180 * Math.PI);
+                shapePathFun(spec);
+                ctt.fill();
+                ctt.stroke();
+                ctt.restore();
+            }
+
+            function starPath(spec) {
+                var R = spec.r || 150,
+                        r = R / 2,
+                        i = 0,
+                        n = spec.n || 5,
+                        rdegBig = 18 / n * 5,
+                        rdegSmall = 54 / n * 5,
+                        baseDeg = 72 / n * 5;
+                ctt.beginPath();
+                for (; i < n; i++) {
+                    ctt.lineTo(Math.cos((rdegBig + i * baseDeg) / 180 * Math.PI) * R,
+                            -Math.sin((rdegBig + i * baseDeg) / 180 * Math.PI) * R);
+                    ctt.lineTo(Math.cos((rdegSmall + i * baseDeg) / 180 * Math.PI) * r,
+                            -Math.sin((rdegSmall + i * baseDeg) / 180 * Math.PI) * r);
+                }
+                ctt.closePath();
+            }
+
+        } else {
+            alert("浏览器不支持canvas");
+        }
+    };
+</script>
+</html>

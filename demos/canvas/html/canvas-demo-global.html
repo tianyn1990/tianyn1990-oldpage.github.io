@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta name="viewport" content="initial-scale=1.0,user-scalable=no,maximum-scale=1,width=device-width"/>
+    <meta name="format-detection" content="telephone=no"/>
+    <title>globalCompositeOperation属性</title>
+    <link rel="stylesheet" href="../css/count-down.css">
+    <style>
+        html, body {
+            height: 100%;
+            padding: 0;
+            margin: 0
+        }
+        #count-down {
+            position: fixed;
+            left: 0;
+            bottom: 0;
+            margin: 0;
+            border: 0;
+            z-index: 2;
+        }
+        .comp-opt-types {
+            position: fixed;
+            left: 0;
+            bottom: 0;
+            height: 100px;
+            width: 100%;
+            overflow: hidden;
+            padding: 10px 20px;
+            -webkit-box-sizing: border-box;
+            box-sizing: border-box;
+            background: rgba(255, 255, 255, .7);
+            z-index: 3;
+        }
+        .comp-opt-types a {
+            float: left;
+            margin-left: 25px;
+            line-height: 30px;
+            color: #333;
+            font-weight: bold;
+        }
+        #bg-img{
+            position: fixed;
+            left: 0;
+            bottom: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+        }
+    </style>
+</head>
+<body>
+
+<canvas width="1000" height="600" id="count-down"></canvas>
+
+<div class="comp-opt-types">
+    <a href="#">source-over</a>
+    <a href="#">source-atop</a>
+    <a href="#">source-in</a>
+    <a href="#">source-out</a>
+    <a href="#">destination-over</a>
+    <a href="#">destination-atop</a>
+    <a href="#">destination-in</a>
+    <a href="#">destination-out</a>
+    <a href="#">lighter</a>
+    <a href="#">copy</a>
+    <a href="#">xor</a>
+</div>
+
+<img id="bg-img" src="../images/stars-bg.jpg"/>
+
+</body>
+<script src="../../common/js/jquery.min.js"></script>
+<script src="../../common/js/requestAnimationFrame.js"></script>
+<script>
+
+    window.onload = function () {
+        var canvas = document.getElementById("count-down"),
+                context = canvas.getContext("2d"),
+                ctt = context, w, h;
+
+        w = canvas.width = document.body.clientWidth || document.documentElement.clientHeight;
+        h = canvas.height = (document.body.clientHeight || document.documentElement.clientWidth);
+
+        if (context) {
+
+            var text = "globalCompositeOperation = ",
+                    els = document.querySelectorAll(".comp-opt-types a"),
+                    i = 0,
+                    l = els.length;
+
+            for (; i < l; i++) {
+                els[i].onclick = function () {
+                    var that = this;
+                    ctt.clearRect(0, 0, w, h);
+                    drawShapes(ctt, that.text);
+                    drawTitle(ctt, text + that.text);
+                };
+            }
+
+            drawShapes(ctt, "source-over");
+            drawTitle(ctt, text + "source-over");
+
+            function drawShapes(ctt, gco) {
+                ctt.save();
+
+                ctt.beginPath();
+                ctt.globalCompositeOperation = "source-over";
+                ctt.fillStyle = "rgba(90,127,255,1)";
+                ctt.fillRect(400, 80, 450, 450);
+                ctt.globalCompositeOperation = gco;
+                ctt.fillStyle = "rgba(255,90,127,1)";
+                ctt.font = "bold 1000px sans-serif";
+                ctt.textBaseline = "middle";
+                ctt.textAlign = "left";
+                ctt.fillText("f", 562, 550);
+                ctt.closePath();
+
+                ctt.restore();
+            }
+
+            function drawTitle(ctt, text) {
+                ctt.globalCompositeOperation = "source-over";
+                text = text || "";
+                var textWidth = ctt.measureText(text).width,
+                        lg = ctt.createLinearGradient((w - textWidth) / 2, 0, (w + textWidth) / 2, 0);
+                lg.addColorStop(0, "#f60");
+                lg.addColorStop(1 / 4, "#6fc");
+                lg.addColorStop(2 / 4, "#c6f");
+                lg.addColorStop(3 / 4, "#cf6");
+                lg.addColorStop(1, "#6cf");
+                ctt.font = "bold 30px sans-serif";
+                ctt.textAlign = "center";
+                ctt.textBaseline = "middle";
+                ctt.fillStyle = lg;
+                ctt.fillText(text, w / 2, 50)
+            }
+
+        } else {
+            alert("浏览器不支持canvas");
+        }
+    };
+</script>
+</html>

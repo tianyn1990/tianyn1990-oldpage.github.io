@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta name="viewport" content="initial-scale=1.0,user-scalable=no,maximum-scale=1,width=device-width"/>
+    <meta name="format-detection" content="telephone=no"/>
+    <title>变化的水点</title>
+    <link rel="stylesheet" href="../css/count-down.css">
+    <style>
+        html, body {
+            height: 100%;
+            padding: 0;
+            margin: 0
+        }
+        #canvas {
+            margin: 0;
+            border: 0;
+        }
+    </style>
+</head>
+<body>
+
+<canvas width="800" height="400" id="canvas"></canvas>
+
+</body>
+<script src="../../common/js/jquery.min.js"></script>
+<script src="../../common/js/requestAnimationFrame.js"></script>
+<script>
+
+    window.onload = function () {
+
+        var canvas = document.getElementById("canvas"),
+                context = canvas.getContext("2d"),
+                ctt = context, h, w;
+
+        w = canvas.width = document.body.clientWidth || document.documentElement.clientWidth;
+        h = canvas.height = document.body.clientHeight || document.documentElement.clientHeight;
+
+        if (context) {
+            //帧率
+            var fps = 0, beginDate = new Date().getTime(), textFps = "60 Fps";
+
+            (function init() {
+            })();
+
+            (function raf() {
+                fps++;
+                requestAnimationFrame(function () {
+                    draw();
+                    update();
+                    raf();
+                });
+            })();
+
+            function draw() {
+                ctt.clearRect(0, 0, w, h);
+
+                //背景
+                drawBg();
+
+                //绘画水点
+                drawRainDrop();
+
+                //检测帧率
+                drawFps();
+
+            }
+
+            function update() {
+                //更新水点
+                updateRainDrop();
+            }
+
+            var rd = {
+                x: w / 2,
+                y: 50,
+                l: 150,
+                w: 30,
+                scaleX: 1,
+                scaleY: 1,
+                scale: [2, .2],
+                scaleShort: [2, .2],
+                scaleLong: [1, 1],
+                rate: 10
+            };
+
+            function drawRainDrop() {
+                ctt.save();
+                ctt.beginPath();
+                ctt.fillStyle = "rgba(65,111,133,1)";
+                ctt.translate(rd.x, rd.y);
+                ctt.scale(rd.scaleX, rd.scaleY);
+                ctt.moveTo(0, 0);
+                ctt.bezierCurveTo(-rd.w, rd.l, rd.w, rd.l, 0, 0);
+                ctt.fill();
+                ctt.restore();
+            }
+
+            function updateRainDrop() {
+                var disX = rd.scale[0] - rd.scaleX,
+                        disY = rd.scale[1] - rd.scaleY,
+                        adX = Math.abs(disX),
+                        adY = Math.abs(disY);
+                var incYRate = 0;
+                if (adX < .1 && adY < .1) {
+                    if (rd.scale[0] == rd.scaleShort[0]) {
+                        rd.scale = rd.scaleLong;
+                    } else {
+                        rd.scale = rd.scaleShort;
+                    }
+                }
+
+                if (rd.scaleX < rd.scale[0]) {
+                    rd.scaleX += disX / rd.rate;
+                }
+                if (rd.scaleY > rd.scale[1]) {
+                    rd.scaleY += (incYRate = disY / rd.rate);
+                }
+
+                if (rd.scaleX > rd.scale[0]) {
+                    rd.scaleX += disX / rd.rate;
+                }
+                if (rd.scaleY < rd.scale[1]) {
+                    rd.scaleY += (incYRate = disY / rd.rate);
+                }
+                rd.y += Math.abs(incYRate) * rd.l / 5;
+            }
+
+            function drawBg() {
+                ctt.fillStyle = "#8a9";
+                ctt.fillRect(0, 0, w, h);
+            }
+
+            //检测帧率
+            function drawFps() {
+                if (new Date().getTime() - beginDate >= 1000) {
+                    textFps = fps + " Fps";
+                    beginDate = new Date().getTime();
+                    fps = 0;
+                }
+                ctt.save();
+                ctt.beginPath();
+                ctt.textAlign = "left";
+                ctt.textBaseline = "top";
+                ctt.fillStyle = "rgba(0,0,0,.8)";
+                ctt.font = "bold 20px sans-serif";
+                ctt.fillText(textFps, 10, 10);
+                ctt.closePath();
+                ctt.restore();
+            }
+
+            function getEventXY(event) {
+                event = event || window.event;
+                return {
+                    ex: event.clientX - canvas.getBoundingClientRect().left,
+                    ey: event.clientY - canvas.getBoundingClientRect().top
+                }
+            }
+
+            function getKeyCode(e) {
+                e = e || window.event;
+                return e.keyCode || e.which;
+            }
+
+        } else {
+            alert("浏览器不支持canvas");
+        }
+    };
+</script>
+</html>

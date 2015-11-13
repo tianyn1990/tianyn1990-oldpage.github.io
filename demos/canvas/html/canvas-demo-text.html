@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta name="viewport" content="initial-scale=1.0,user-scalable=no,maximum-scale=1,width=device-width"/>
+    <meta name="format-detection" content="telephone=no"/>
+    <title>文字</title>
+    <link rel="stylesheet" href="../css/count-down.css">
+    <style>
+        html, body {
+            height: 100%;
+            padding: 0;
+            margin: 0
+        }
+        #count-down {
+            margin: 0;
+            border: 0;
+        }
+    </style>
+</head>
+<body>
+
+<canvas width="1000" height="600" id="count-down"></canvas>
+
+</body>
+<script src="../../common/js/jquery.min.js"></script>
+<script src="../../common/js/requestAnimationFrame.js"></script>
+<script>
+
+    window.onload = function () {
+        var canvas = document.getElementById("count-down"),
+                context = canvas.getContext("2d"),
+                ctt = context;
+
+        canvas.width = document.body.clientWidth;
+        canvas.height = document.body.clientHeight;
+
+        if (context) {
+
+            var w = canvas.width,
+                    h = canvas.height,
+                    text = "Canvas绘图详解——文字的渲染",
+                    textWidth,
+                    lg;
+
+            ctt.font = "italic bold 60px sans-serif";
+
+            textWidth = ctt.measureText(text).width;
+            lg = ctt.createLinearGradient((w - textWidth) / 2, 0, (w + textWidth) / 2, 0);
+            lg.addColorStop(0, "#f60");
+            lg.addColorStop(1 / 4, "#0f6");
+            lg.addColorStop(2 / 4, "#60f");
+            lg.addColorStop(3 / 4, "#6f0");
+            lg.addColorStop(1, "#06f");
+
+            ctt.fillStyle = lg;
+            ctt.strokeStyle = lg;
+            ctt.lineWidth = 1;
+
+            ctt.textAlign = "center"; //文字水平对齐
+            ctt.textBaseline = "middle"; //文字垂直对齐
+
+            //阴影
+            ctt.shadowColor = "gray";
+            ctt.shadowOffsetX = 10;
+            ctt.shadowOffsetY = 10;
+            ctt.shadowBlur = 10;
+
+            ctt.globalAlpha = .5;//全局透明
+
+            ctt.fillText(text, w / 2, h / 2, w);
+            ctt.strokeText(text, w / 2, h / 2, w);
+
+            ctt.globalAlpha = 1;//重置全局透明
+
+        } else {
+            alert("浏览器不支持canvas");
+        }
+    };
+</script>
+</html>

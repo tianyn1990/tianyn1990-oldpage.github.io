@@ -1,0 +1,53 @@
+@mixin father {
+  position: relative;
+  top: 0;
+  right: 0;
+  overflow: hidden;
+}
+@mixin arrow($dir, $width, $padding: 0, $lineWidth: 1px, $color: #333, $top: auto, $left: auto, $right: auto, $bottom: auto, $delayTime: .3s) {
+  position: absolute;
+  top: $top;
+  left: $left;
+  right: $right;
+  bottom: $bottom;
+  width: $width + $padding*2;
+  height: $width + $padding*2;
+  cursor: pointer;
+  &:before {
+    content: " ";
+    position: absolute;
+    top: ($width - $lineWidth)/4 + $padding;
+    left: ($width - $lineWidth)/4 + $padding;
+    width: $width;
+    height: $width;
+    border-width: $lineWidth 0 0 $lineWidth;
+    border-color: $color;
+    border-style: solid;
+    border-right-color: transparent;
+    border-bottom-color: transparent;
+    @if ($dir == 'up') {
+      @include rotate(45deg);
+    } @else if ($dir == 'left') {
+      @include rotate(-45deg);
+    } @else if ($dir == 'right') {
+      @include rotate(135deg);
+    } @else if ($dir == 'down') {
+      @include rotate(225deg);
+    }
+    @include transition(all $delayTime ease-in-out);
+    @include transform-origin(30%, 30%);
+    @include box-sizing(border-box);
+  }
+  &.up:before {
+    @include rotate(45deg);
+  }
+  &.left:before {
+    @include rotate(-45deg);
+  }
+  &.right:before {
+    @include rotate(135deg);
+  }
+  &.down:before {
+    @include rotate(225deg);
+  }
+}

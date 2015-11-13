@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta name="viewport" content="initial-scale=1.0,user-scalable=no,maximum-scale=1,width=device-width"/>
+    <meta name="format-detection" content="telephone=no"/>
+    <title>物理小球效果</title>
+    <link rel="stylesheet" href="../css/count-down.css">
+</head>
+<body>
+
+<canvas width="800" height="400" id="count-down"></canvas>
+
+</body>
+<script src="../../common/js/jquery.min.js"></script>
+<script src="../../common/js/requestAnimationFrame.js"></script>
+<script>
+
+    window.onload = function () {
+        var canvas = document.getElementById("count-down"),
+                context = canvas.getContext("2d");
+        if (context) {
+            var ball = {
+                x: 10,
+                y: 10,
+                r: 10,
+                g: 2,
+                vx: 1,
+                vy: 0,
+                color: "#059",
+                drag: .2
+            };
+            var i = 0;
+
+            function raf() {
+                requestAnimationFrame(function (t) {
+                    if (i++ % 1 == 0) {
+                        render();
+                        update();
+                    }
+                    raf();
+                });
+            }
+
+            raf();
+
+            function render() {
+                var ctt = context,
+                        cvs = ctt.canvas;
+                context.clearRect(0, 0, cvs.width, cvs.height);
+                ctt.fillStyle = ball.color;
+                ctt.beginPath();
+                ctt.arc(ball.x, ball.y, ball.r, 0, 2 * Math.PI);
+                ctt.closePath();
+                ctt.fill();
+            }
+
+            function update() {
+                var ctt = context,
+                        cvs = ctt.canvas,
+                        w = cvs.width,
+                        h = cvs.height,
+                        r = ball.r;
+
+                //加速下落
+                ball.x += ball.vx;
+                ball.y += ball.vy;
+                ball.vy += ball.g;
+
+                //碰撞检测
+                if (ball.y > h - r) {
+                    ball.y = h - r;
+                    ball.vy = dragV(-ball.vy);
+                }
+                if (ball.y < r) {
+                    ball.y = r;
+                    ball.vy = dragV(-ball.vy);
+                }
+            }
+
+            function dragV(v) {
+                v = v * (1 - ball.drag);
+                ball.drag += .04;
+                return v;
+            }
+        } else {
+            alert("浏览器不支持canvas");
+        }
+    };
+</script>
+</html>

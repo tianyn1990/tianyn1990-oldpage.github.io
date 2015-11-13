@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta name="viewport" content="initial-scale=1.0,user-scalable=no,maximum-scale=1,width=device-width"/>
+    <meta name="format-detection" content="telephone=no"/>
+    <title>七巧板与弧</title>
+    <link rel="stylesheet" href="../css/count-down.css">
+</head>
+<body>
+
+<canvas width="800" height="600" id="count-down"></canvas>
+
+</body>
+<script src="../../common/js/jquery.min.js"></script>
+<script src="../../common/js/requestAnimationFrame.js"></script>
+<script src="../js/tangram.js"></script>
+<script>
+
+    window.onload = function () {
+        var canvas = document.getElementById("count-down"),
+                ctt = canvas.getContext("2d");
+        //七巧板
+        drawTangram({
+            id: "count-down",
+            width: 100,
+            x: 20,
+            y: 20
+        });
+
+        //绘制弧
+        ctt.strokeStyle = "red";
+        ctt.lineWidth = 5;
+        ctt.fillStyle = "black";
+        ctt.lineCap = "round";
+        for (var i = 1, l = 10; i <= l; i++) {
+            ctt.beginPath();
+            ctt.arc(80 * (i - 1)+40, 150, 30, 0, 2 * (i / 10) * Math.PI);
+            ctt.closePath();
+            ctt.stroke();
+        }
+        for (i = 1, l = 10; i <= l; i++) {
+            ctt.beginPath();
+            ctt.arc(80 * (i - 1)+40, 250, 30, 0, 2 * (i / 10) * Math.PI);
+            ctt.stroke();
+        }
+        for (i = 1, l = 10; i <= l; i++) {
+            ctt.beginPath();
+            ctt.arc(80 * (i - 1)+40, 350, 30, 0, 2 * (i / 10) * Math.PI, true);
+            ctt.stroke();
+            ctt.fill();
+        }
+
+    };
+</script>
+</html>

@@ -1,0 +1,20 @@
+@import "compass/reset";
+@import "compass/css3";
+@import "mixin";
+@import "variables";
+html, body {
+  height: 100%;
+  padding: 0;
+  margin: 0
+}
+.slide-wrap {
+  width: auto;
+  height: auto;
+  @include father;
+}
+.canvas {
+  margin: 0;
+  border: 0;
+  @include transform-origin(top,left);
+  @include scale(.5);
+}

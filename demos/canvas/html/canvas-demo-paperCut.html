@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta name="viewport" content="initial-scale=1.0,user-scalable=no,maximum-scale=1,width=device-width"/>
+    <meta name="format-detection" content="telephone=no"/>
+    <title>clip&剪辑区域</title>
+    <link rel="stylesheet" href="../css/count-down.css">
+    <style>
+        html, body {
+            height: 100%;
+            padding: 0;
+            margin: 0
+        }
+        #count-down {
+            position: fixed;
+            left: 0;
+            bottom: 0;
+            margin: 0;
+            border: 0;
+            z-index: 2;
+        }
+    </style>
+</head>
+<body>
+
+<canvas width="1000" height="600" id="count-down">该浏览器不支持canvas</canvas>
+
+</body>
+<script src="../../common/js/jquery.min.js"></script>
+<script src="../../common/js/requestAnimationFrame.js"></script>
+<script>
+
+    window.onload = function () {
+        var canvas = document.getElementById("count-down"),
+                context = canvas.getContext("2d"),
+                ctt = context, w, h;
+
+        w = canvas.width = document.body.clientWidth || document.documentElement.clientHeight;
+        h = canvas.height = document.body.clientHeight || document.documentElement.clientWidth;
+
+        if (context) {
+            var width = 500,
+                    height = 400,
+                    x = (w - width) / 2,
+                    y = (h - height) / 2;
+
+            draw(0, 0);
+
+            canvas.onmousemove = function (event) {
+                event = event || window.event;
+                var mx = event.clientX - canvas.getBoundingClientRect().left;
+                var my = event.clientY - canvas.getBoundingClientRect().top;
+
+                draw(mx, my);
+            };
+
+            function draw(mx, my) {
+                ctt.clearRect(0, 0, w, h);
+                ctt.save();
+
+                ctt.beginPath();
+
+                ctt.rect(x, y, width, height);
+                rectPath(x + 50, y + 50, width - 100, height / 2 - 75);
+                circlePath(x + 50 + 75, y + height / 2 + 100, 75);
+                trianglePath(x + 350, y + height / 2 + 25, 160);
+
+                ctt.closePath();
+
+                ctt.fillStyle = "#059";
+                ctt.shadowColor = "#666";
+                ctt.shadowOffsetX = 10;
+                ctt.shadowOffsetY = 10;
+                ctt.shadowBlur = 10;
+                ctt.fill();
+
+                ctt.strokeStyle = "#16a";
+                ctt.shadowColor = "#333";
+                ctt.shadowOffsetX = 5;
+                ctt.shadowOffsetY = 5;
+                ctt.shadowBlur = 10;
+
+                ctt.beginPath();
+                rectPath(x + 50, y + 50, width - 100, height / 2 - 75);
+                if (ctt.isPointInPath(mx, my)) {
+                    ctt.fill();
+                    ctt.stroke();
+                }
+
+                ctt.beginPath();
+                circlePath(x + 50 + 75, y + height / 2 + 100, 75);
+                if (ctt.isPointInPath(mx, my)) {
+                    ctt.fill();
+                    ctt.stroke();
+                }
+
+                ctt.beginPath();
+                trianglePath(x + 350, y + height / 2 + 25, 160);
+                if (ctt.isPointInPath(mx, my)) {
+                    ctt.fill();
+                    ctt.stroke();
+                }
+
+                ctt.restore();
+            }
+
+            function circlePath(x, y, r) {
+                ctt.arc(x, y, r, 0, 2 * Math.PI, true);
+            }
+
+            function rectPath(x, y, width, height) {
+                ctt.moveTo(x, y);
+                ctt.lineTo(x, y + height);
+                ctt.lineTo(x + width, y + height);
+                ctt.lineTo(x + width, y);
+                ctt.lineTo(x, y);
+            }
+
+            function trianglePath(x, y, width) {
+                ctt.moveTo(x, y);
+                ctt.lineTo(x - width / 2, y + Math.sqrt(width * width - (width / 2) * (width / 2)));
+                ctt.lineTo(x + width / 2, y + Math.sqrt(width * width - (width / 2) * (width / 2)));
+                ctt.lineTo(x, y);
+            }
+
+        } else {
+            alert("浏览器不支持canvas");
+        }
+    };
+</script>
+</html>

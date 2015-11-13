@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta name="viewport" content="initial-scale=1.0,user-scalable=no,maximum-scale=1,width=device-width"/>
+    <meta name="format-detection" content="telephone=no"/>
+    <title>白板验证demo</title>
+    <link rel="stylesheet" href="">
+    <style>
+        * {
+            margin: 0;
+            border: 0;
+            list-style: none;
+        }
+        html, body {
+            height: 100%;
+        }
+        .stage {
+            position: relative;
+            top: 50%;
+            left: 50%;
+            transform: translate3d(-50%, -50%, 0);
+            width: 80%;
+            height: 400px;
+            background: #54a7e6;
+
+            /*build 3d stage*/
+            perspective: 900px;
+            perspective-origin: center center;
+        }
+        .cube {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate3d(-50%, -50%, 300px);
+            width: 200px;
+            height: 200px;
+            transform-style: preserve-3d;
+        }
+        .cube .aspect {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 200px;
+            height: 200px;
+            font-size: 100px;
+            text-align: center;
+            line-height: 200px;
+            color: rgba(85, 85, 85, .8);
+            background: rgba(255, 100, 100, .3);
+            border: 1px solid #555;
+            transform-origin: center center;
+        }
+        .cube .aspect-i {
+            width: 160px;
+            height: 160px;
+            background: rgba(200, 255, 200, .4);
+            margin: 21px 0 0 21px;
+            border: none;
+        }
+        .cube .aspect1 { /*上*/
+            transform: translate3d(0, -100px, 102px) rotateX(90deg);
+        }
+        .cube .aspect-i-1 { /*上*/
+            transform: translate3d(0, -80px, 102px) rotateX(90deg);
+        }
+        .cube .aspect2 { /*下*/
+            transform: translate3d(0, 100px, 102px) rotateX(-90deg);
+        }
+        .cube .aspect-i-2 { /*下*/
+            transform: translate3d(0, 80px, 102px) rotateX(-90deg);
+        }
+        .cube .aspect3 { /*左*/
+            transform: translate3d(-100px, 0, 102px) rotateY(-90deg);
+        }
+        .cube .aspect-i-3 { /*左*/
+            transform: translate3d(-80px, 0, 102px) rotateY(-90deg);
+        }
+        .cube .aspect4 { /*右*/
+            transform: translate3d(100px, 0, 102px) rotateY(90deg);
+        }
+        .cube .aspect-i-4 { /*右*/
+            transform: translate3d(80px, 0, 102px) rotateY(90deg);
+        }
+        .cube .aspect5 { /*前*/
+            transform: translate3d(0, 0, 202px);
+        }
+        .cube .aspect-i-5 { /*前*/
+            transform: translate3d(0, 0, 182px);
+        }
+        .cube .aspect6 { /*后*/
+            transform: translate3d(0, 0, 2px);
+        }
+        .cube .aspect-i-6 { /*后*/
+            transform: translate3d(0, 0, 22px);
+        }
+    </style>
+</head>
+<body>
+
+<div class="stage">
+    <ul class="cube">
+        <li class="aspect aspect1">1</li>
+        <li class="aspect aspect2">2</li>
+        <li class="aspect aspect3">3</li>
+        <li class="aspect aspect4">4</li>
+        <li class="aspect aspect5">5</li>
+        <li class="aspect aspect6">6</li>
+
+        <li class="aspect aspect-i aspect-i-1"></li>
+        <li class="aspect aspect-i aspect-i-2"></li>
+        <li class="aspect aspect-i aspect-i-3"></li>
+        <li class="aspect aspect-i aspect-i-4"></li>
+        <li class="aspect aspect-i aspect-i-5"></li>
+        <li class="aspect aspect-i aspect-i-6"></li>
+    </ul>
+</div>
+
+</body>
+<script>
+    window.onload = function () {
+        var $ = function (selector) {
+            return document.querySelector(selector);
+        };
+        var $$ = function (selector) {
+            return [].slice.apply(document.querySelectorAll(selector));
+        };
+        $.attr = function ($el, attr, val) {
+            if (val) {
+                $el.setAttribute(attr, val);
+                return $el;
+            }
+            return $el.getAttribute(attr);
+        };
+        //获取鼠标位置坐标
+        function getEventXY(event) {
+            event = event || window.event;
+            return {
+                x: event.clientX,
+                y: event.clientY
+            }
+        }
+
+        var $stage = $(".stage"), $cube = $(".cube"), $aspect = $$(".aspect"), $body = $("body"),
+                wAll = $body.clientWidth, hAll = $body.clientHeight;
+
+        document.onmousemove = function (e) {
+            var pos = getEventXY(e);
+            $stage.style["perspectiveOrigin"] = pos.x / wAll * 100 + "% " + pos.y / hAll * 100 + "%";
+            console.log($stage.style["perspectiveOrigin"]);
+        };
+
+        var rx = 0, ry = 0, rz = 0, translateZ = -1000;
+        (function raf() {
+//            rx += 5;
+            ry += 4;
+            rz += 3;
+//            translateZ += 1;
+            requestAnimationFrame(function () {
+                $cube.style["transform"] = "translate3d(-50%, -50%, " + translateZ + "px) rotateX(" + rx + "deg) rotateY(" + ry + "deg) rotateZ(" + rz + "deg)";
+                raf();
+            });
+        })();
+
+    };
+</script>
+</html>

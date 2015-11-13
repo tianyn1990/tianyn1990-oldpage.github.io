@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta name="viewport" content="initial-scale=1.0,user-scalable=no,maximum-scale=1,width=device-width"/>
+    <meta name="format-detection" content="telephone=no"/>
+    <title>canvas线条</title>
+    <link rel="stylesheet" href="../css/count-down.css">
+</head>
+<body>
+
+<canvas width="800" height="600" id="count-down"></canvas>
+
+</body>
+<script src="../../common/js/jquery.min.js"></script>
+<script src="../../common/js/requestAnimationFrame.js"></script>
+<script>
+
+    window.onload = function () {
+        var canvas = document.getElementById("count-down"),
+                context = canvas.getContext("2d"),
+                ctt = context;
+        canvas.width = 800;
+        canvas.height = 600;
+        if (context) {
+
+//            drawRect(ctt, {
+//                x: 100,
+//                y: 50,
+//                width: 300,
+//                height: 200,
+//                borderWidth: 5,
+//                borderColor: '#f60',
+//                fillColor: '#999'
+//            });
+//            drawRect2(ctt, {
+//                x: 200,
+//                y: 150,
+//                width: 300,
+//                height: 200,
+//                borderWidth: 5,
+//                borderColor: 'rgba(255,255,0,.9)',
+//                fillColor: 'rgba(255,0,0,.5)'
+//            });
+
+            function drawRect(ctt, spec) {
+                var x = spec.x || 0,
+                        y = spec.y || 0,
+                        width = spec.width,
+                        height = spec.height || width,
+                        borderWidth = spec.borderWidth || 1,
+                        borderColor = spec.borderColor || '',
+                        fillColor = spec.fillColor || '';
+                ctt.beginPath();
+                ctt.rect(x, y, width, height);
+                ctt.closePath();
+                ctt.lineWidth = borderWidth;
+                ctt.strokeStyle = borderColor;
+                ctt.fillStyle = fillColor;
+                ctt.lineCap = 'round';
+                ctt.fill();
+                ctt.stroke();
+            }
+
+            function drawRect2(ctt, spec) {
+                var x = spec.x || 0,
+                        y = spec.y || 0,
+                        width = spec.width,
+                        height = spec.height || width;
+                ctt.lineWidth = spec.borderWidth || 1;
+                ctt.strokeStyle = spec.borderColor || '';
+                ctt.fillStyle = spec.fillColor || '';
+                ctt.lineCap = 'square';
+                ctt.fillRect(x, y, width, height);
+                ctt.strokeRect(x, y, width, height);
+            }
+
+//            ctt.lineWidth = 10;
+//            ctt.lineJoin = 'miter'; //miter（default）、bevel、round
+//            ctt.miterLimit = 50;
+
+
+            var stars = [];
+            rafSky(ctt);
+
+            function rafSky() {
+                requestAnimationFrame(function () {
+                    prepareStars(1);
+                    drawSky();
+                    updateSky();
+                    rafSky();
+                });
+            }
+
+            function prepareStars(num) {
+                var i = 0, star;
+                for (; i < num; i++) {
+                    star = {
+                        //状态
+                        r: Math.random() * 10 + 3,
+                        rot: Math.random() * 360,
+                        vrot: (Math.random() > .5 ? -1 : 1) * (Math.random() * 5 + 2),
+                        x: Math.random() * canvas.width,
+                        y: -10,
+                        n: 2 + Math.round(Math.random() * 5),
+                        //运动
+                        vx: (Math.random() > .5 ? -1 : 1) * Math.random(),
+                        vy: 0,
+                        g: Math.random() + 1,
+                        vg: (Math.random() * 10) / 500 + .01
+                    };
+                    stars.push(star);
+                }
+            }
+
+            function updateSky() {
+                var i = 0, star, mWidth = canvas.width, mHeight = canvas.height, x, y, r, lastIndex = 0;
+                for (; i < stars.length; i++) {
+                    star = stars[i];
+                    x = star.x += star.vx;
+                    y = star.y += star.vy;
+                    star.y += star.g;
+                    star.g += star.vg;
+                    star.rot += star.vrot;
+                    r = star.r;
+                    if (x + r >= 0 && x - r <= mWidth && y - r <= mHeight) {
+                        stars[lastIndex++] = stars[i];
+                    }
+                }
+                stars.splice(lastIndex, stars.length - lastIndex);
+            }
+
+            function drawSky() {
+                ctt.clearRect(0, 0, canvas.width, canvas.height);
+                ctt.fillStyle = "#ccc";
+                ctt.fillRect(0, 0, canvas.width, canvas.height);
+                for (var i = 0; i < stars.length; i++) {
+                    var star = stars[i];
+                    ctt.fillStyle = "#000";
+                    ctt.strokeStyle = "#000";
+                    console.log(star);
+                    drawStar({
+                        x: star.x,
+                        y: star.y,
+                        r: star.r / 3,
+                        R: star.r,
+                        rot: star.rot,
+                        n: star.n
+                    });
+                }
+            }
+
+            function drawStar(spec) {
+                var x = spec.x || 0,
+                        y = spec.y || 0,
+                        r = spec.r || 150,
+                        R = spec.R || 300,
+                        rot = spec.rot || 0,
+                        i = 0,
+                        n = spec.n || 5,
+                        rdegBig = 18 / n * 5,
+                        rdegSmall = 54 / n * 5,
+                        baseDeg = 72 / n * 5;
+                ctt.beginPath();
+                for (; i < n; i++) {
+                    if (i == 0)
+                        ctt.moveTo(Math.cos((rdegBig + i * baseDeg - rot) / 180 * Math.PI) * R + x,
+                                -Math.sin((rdegBig + i * baseDeg - rot) / 180 * Math.PI) * R + y);
+                    else
+                        ctt.lineTo(Math.cos((rdegBig + i * baseDeg - rot) / 180 * Math.PI) * R + x,
+                                -Math.sin((rdegBig + i * baseDeg - rot) / 180 * Math.PI) * R + y);
+
+                    ctt.lineTo(Math.cos((rdegSmall + i * baseDeg - rot) / 180 * Math.PI) * r + x,
+                            -Math.sin((rdegSmall + i * baseDeg - rot) / 180 * Math.PI) * r + y);
+                }
+                ctt.closePath();
+                if (spec.lineWidth)
+                    ctt.lineWidth = spec.lineWidth;
+                ctt.fill();
+                ctt.stroke();
+            }
+
+        } else {
+            alert("浏览器不支持canvas");
+        }
+    };
+</script>
+</html>

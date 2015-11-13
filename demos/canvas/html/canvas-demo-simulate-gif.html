@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta name="viewport" content="initial-scale=1.0,user-scalable=no,maximum-scale=1,width=device-width"/>
+    <meta name="format-detection" content="telephone=no"/>
+    <title>canvas模拟gif</title>
+    <link rel="stylesheet" href="../css/count-down.css">
+    <style>
+        html, body {
+            height: 100%;
+            padding: 0;
+            margin: 0
+        }
+        #canvas {
+            margin: 0;
+            border: 0;
+        }
+    </style>
+</head>
+<body>
+
+<canvas width="800" height="400" id="canvas" style="transform: scale(.5)"></canvas>
+
+</body>
+<script src="../../common/js/jquery.min.js"></script>
+<script src="../../common/js/requestAnimationFrame.js"></script>
+<script>
+
+    window.onload = function () {
+
+        var canvas = document.getElementById("canvas"),
+                context = canvas.getContext("2d"),
+                ctt = context, h, w;
+
+        w = canvas.width = document.body.clientWidth || document.documentElement.clientWidth;
+        h = canvas.height = document.body.clientHeight || document.documentElement.clientHeight;
+
+        if (context) {
+
+            var imgs = [], imgLen = 1, i, img, preparedImgNum = 0, imgPrepared = false;
+
+            function prepareImg() {
+                for (i = 0; i < imgLen; i++) {
+                    img = new Image();
+                    img.src = "../images/mei.png";
+                    img.onload = function () {
+                        preparedImgNum++;
+                        if (preparedImgNum == imgLen) {
+                            imgPrepared = true;
+                        }
+                    };
+                    imgs.push(img);
+                }
+            }
+
+            function rafFrames() {
+                requestAnimationFrame(function () {
+                    draw();
+                    update();
+                    rafFrames();
+                });
+            }
+
+            function draw() {
+
+                ctt.clearRect(0, 0, w, h);
+
+                ctt.save();
+                ctt.beginPath();
+                ctt.fillStyle = "rgba(100,150,50,.9)";
+                ctt.fillRect(0, 0, w, h);
+                ctt.restore();
+
+                if (imgPrepared) {
+                    drawMei();
+                }
+            }
+
+            function drawMei() {
+                ctt.save();
+                img = imgs[0];
+                if (mei == 1) {
+                    ctt.drawImage(img,
+                            0, 0, img.width / 3, img.height,
+                            (w - img.width / 3) / 2, (h - img.height) / 2, img.width / 3, img.height);
+
+                } else if (mei == 2) {
+                    ctt.drawImage(img,
+                            img.width / 3, 0, img.width / 3, img.height,
+                            (w - img.width / 3) / 2, (h - img.height) / 2, img.width / 3, img.height);
+                } else if (mei == 3) {
+                    ctt.drawImage(img,
+                            img.width / 3 * 2, 0, img.width / 3, img.height,
+                            (w - img.width / 3) / 2, (h - img.height) / 2, img.width / 3, img.height);
+                }
+                ctt.restore();
+            }
+
+            var mei = 1, rafCount = 0, meiDir = true;
+
+            function update() {
+                rafCount++;
+                if (rafCount % 6 == 0) {
+                    if(meiDir){
+                        if(mei<3){
+                            mei++;
+                        }else{
+                            meiDir = !meiDir;
+                            mei--;
+                        }
+                    }else{
+                        if(mei>1){
+                            mei--;
+                        }else{
+                            meiDir = !meiDir;
+                            mei++;
+                        }
+                    }
+                }
+            }
+
+            //获取鼠标相对canvas的位置坐标
+            function getEventXY(event) {
+                event = event || window.event;
+                return {
+                    ex: event.clientX - canvas.getBoundingClientRect().left,
+                    ey: event.clientY - canvas.getBoundingClientRect().top
+                }
+            }
+
+            //获取按键keyCode
+            function getKeyCode(e) {
+                e = e || window.event;
+                return e.keyCode || e.which;
+            }
+
+            //开始所有动画
+            prepareImg();
+            rafFrames();
+
+        } else {
+            alert("浏览器不支持canvas");
+        }
+    };
+</script>
+</html>

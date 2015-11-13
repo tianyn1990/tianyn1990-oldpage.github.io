@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta name="viewport" content="initial-scale=1.0,user-scalable=no,maximum-scale=1,width=device-width"/>
+    <meta name="format-detection" content="telephone=no"/>
+    <title>clip&剪辑区域</title>
+    <link rel="stylesheet" href="../css/count-down.css">
+    <style>
+        html, body {
+            height: 100%;
+            padding: 0;
+            margin: 0
+        }
+        #count-down {
+            position: fixed;
+            left: 0;
+            bottom: 0;
+            margin: 0;
+            border: 0;
+            z-index: 2;
+        }
+    </style>
+</head>
+<body>
+
+<canvas width="1000" height="600" id="count-down">该浏览器不支持canvas</canvas>
+
+</body>
+<script src="../../common/js/jquery.min.js"></script>
+<script src="../../common/js/requestAnimationFrame.js"></script>
+<script>
+
+    window.onload = function () {
+        var canvas = document.getElementById("count-down"),
+                context = canvas.getContext("2d"),
+                ctt = context, w, h;
+
+        w = canvas.width = document.body.clientWidth || document.documentElement.clientHeight;
+        h = canvas.height = document.body.clientHeight || document.documentElement.clientWidth;
+
+        if (context) {
+
+            var clips = [], clipsNum = 1200;
+
+            var font = {
+                x: 0,
+                y: 0,
+                size: 200
+            };
+
+            (function init() {
+                var clip;
+                for (var i = 0; i < clipsNum; i++) {
+                    clip = {
+                        x: w / 2,
+                        y: h / 2,
+                        r: Math.random() * 3 + 5,
+                        vx: (Math.random() > .5 ? -1 : 1) * (3 * Math.random()+7),
+                        vy: (Math.random() > .5 ? -1 : 1) * (3 * Math.random()+7)
+                    };
+                    //计算“二维圆形的质量”
+                    clip.mass = clip.r * clip.r;
+                    clips.push(clip);
+                }
+            })();
+
+            (function raf() {
+                requestAnimationFrame(function () {
+                    draw(clips);
+                    update(clips);
+
+                    raf();
+                });
+            })();
+
+            function draw(cs) {
+                ctt.clearRect(0, 0, w, h);
+
+                ctt.save();
+
+                drawBg();
+                drawClip(cs);
+                drawText();
+
+                ctt.restore();
+            }
+
+            function update(cs) {
+                var clip, i = 0, l = cs.length;
+                //计算下一帧位移
+                for (; i < l; i++) {
+                    clip = cs[i];
+                    clip.x += clip.vx;
+                    clip.y += clip.vy;
+                }
+                //计算碰撞
+                for (i = 0; i < l; i++) {
+                    clip = cs[i];
+                    if (clip.x <= clip.r) {
+                        clip.x = clip.r;
+                        clip.vx *= -1;
+                    }
+                    if (clip.x >= w - clip.r) {
+                        clip.x = w - clip.r;
+                        clip.vx *= -1;
+                    }
+                    if (clip.y <= clip.r) {
+                        clip.y = clip.r;
+                        clip.vy *= -1;
+                    }
+                    if (clip.y >= h - clip.r) {
+                        clip.y = h - clip.r;
+                        clip.vy *= -1;
+                    }
+//                    ballsCollision(clip, cs, i);
+                }
+            }
+
+            function ballsCollision(clip, cs, index) {
+                for (var i = 0; i < cs.length; i++) {
+                    if (i == index) {
+                        continue;
+                    }
+                    var oc = cs[i];
+                }
+            }
+
+            function drawText() {
+                var text = "CANVAS",
+                        fontSize = font.size,
+                        textWidth,
+                        lg;
+                ctt.font = "bold " + fontSize + "px sans-serif";
+                textWidth = ctt.measureText(text).width;
+                font.x = font.x || (w - textWidth) * Math.random();
+                font.y = font.y || (h - fontSize) * Math.random();
+                lg = ctt.createLinearGradient(font.x, 0, font.x + textWidth, 0);
+                lg.addColorStop(0, "#f60");
+                lg.addColorStop(1 / 4, "#6f0");
+                lg.addColorStop(2 / 4, "#06f");
+                lg.addColorStop(3 / 4, "#6f0");
+                lg.addColorStop(1, "#f06");
+//                ctt.shadowColor = "#999";
+//                ctt.shadowOffsetX = 20;
+//                ctt.shadowOffsetY = 20;
+//                ctt.shadowBlur = 10;
+                ctt.fillStyle = lg;
+                ctt.strokeStyle = "#333";
+                ctt.textAlign = "left";
+                ctt.textBaseline = "top";
+                ctt.lineWidth = 5;
+                ctt.fillText(text, font.x, font.y);
+                ctt.strokeText(text, font.x, font.y);
+            }
+
+            function drawClip(cs) {
+                ctt.fillStyle = "#ccc";
+                ctt.beginPath();
+                for (var i = 0; i < cs.length; i++) {
+                    ctt.arc(cs[i].x, cs[i].y, cs[i].r, 0, 2 * Math.PI);
+                    if (i + 1 < cs.length) {
+                        ctt.moveTo(cs[i + 1].x, cs[i + 1].y);
+                    }
+                }
+                ctt.clip();
+                ctt.fill();
+            }
+
+            function drawBg() {
+                ctt.beginPath();
+                ctt.fillStyle = "#999";
+                ctt.fillRect(0, 0, w, h);
+            }
+
+        } else {
+            alert("浏览器不支持canvas");
+        }
+    };
+</script>
+</html>

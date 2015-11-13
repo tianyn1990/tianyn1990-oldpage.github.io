@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta name="viewport" content="initial-scale=1.0,user-scalable=no,maximum-scale=1,width=device-width"/>
+    <meta name="format-detection" content="telephone=no"/>
+    <title>3D旋转木马效果</title>
+    <link rel="stylesheet" href="">
+    <style>
+        * {
+            margin: 0;
+            border: 0;
+        }
+        html, body {
+            height: 100%;
+        }
+        .stage {
+            position: relative;
+            top: 0;
+            left: 0;
+            width: 80%;
+            height: 400px;
+            margin: 100px auto;
+            background: #54a7e6;
+
+            /*build 3d stage*/
+            perspective: 900px;
+            perspective-origin: center center;
+        }
+        ._3d-slide {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 128px;
+            height: 0;
+            margin-left: -64px;
+
+            /*build 3d stage*/
+            transform-style: preserve-3d;
+            transform-origin: center center;
+        }
+        ._3d-slide img {
+            position: absolute;
+            bottom: -50px;
+            left: 0;
+        }
+    </style>
+</head>
+<body>
+
+<div class="stage">
+    <div class="_3d-slide">
+        <img src="../../images/mm/mm1.jpg"/>
+        <img src="../../images/mm/mm2.jpg"/>
+        <img src="../../images/mm/mm3.jpg"/>
+        <img src="../../images/mm/mm4.jpg"/>
+        <img src="../../images/mm/mm5.jpg"/>
+        <img src="../../images/mm/mm6.jpg"/>
+        <img src="../../images/mm/mm7.jpg"/>
+        <img src="../../images/mm/mm8.jpg"/>
+        <img src="../../images/mm/mm9.jpg"/>
+    </div>
+</div>
+
+</body>
+<script>
+    window.onload = function () {
+        var $ = function (selector) {
+            return document.querySelector(selector);
+        };
+        var $$ = function (selector) {
+            return document.querySelectorAll(selector);
+        };
+
+        //获取鼠标位置坐标
+        function getEventXY(event) {
+            event = event || window.event;
+            return {
+                x: event.clientX,
+                y: event.clientY
+            }
+        }
+
+        var $imgs = $$("._3d-slide img"), deg = 360 / $imgs.length;
+        [].slice.apply($imgs).forEach(function (el, i) {
+            el.style["transform"] = " rotateY(" + deg * i + "deg) translateZ(200px)";
+        });
+
+        var slideRotateY = 0, slideRotateX = 0, changeRotateY = 0, changeRotateX = 0,
+                $body = $("body"), wAll = $body.clientWidth, hAll = $body.clientHeight;
+
+        (function raf() {
+            requestAnimationFrame(function () {
+                $("._3d-slide").style["transform"] = "rotateY(" + (slideRotateY -= changeRotateY) + "deg) rotateX(" + (slideRotateX -= changeRotateX) + "deg)";
+                raf();
+            });
+        })();
+
+        document.onmousemove = function (e) {
+            var pos = getEventXY(e);
+            changeRotateY = (pos.x - wAll / 2) / wAll * 3;
+            changeRotateX = (pos.y - hAll / 2) / hAll * 1;
+            $(".stage").style["perspectiveOrigin"] = pos.x + "px " + pos.y + "px";
+        };
+
+    };
+</script>
+</html>

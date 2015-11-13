@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta name="viewport" content="initial-scale=1.0,user-scalable=no,maximum-scale=1,width=device-width"/>
+    <meta name="format-detection" content="telephone=no"/>
+    <title>3D旋转木马效果</title>
+    <link rel="stylesheet" href="">
+    <style>
+        * {
+            margin: 0;
+            border: 0;
+            list-style: none;
+        }
+        html, body {
+            height: 100%;
+        }
+        .stage {
+            position: relative;
+            top: 0;
+            left: 0;
+            width: 80%;
+            height: 400px;
+            margin: 100px auto;
+            background: #54a7e6;
+
+            /*build 3d stage*/
+            perspective: 900px;
+            perspective-origin: center bottom;
+        }
+        .book {
+            position: relative;
+            width: 300px;
+            height: 200px;
+            top: 50%;
+            left: 50%;
+            transform: translate3d(-50%, -50%, 0);
+            transform-style: preserve-3d;
+        }
+        .book .page {
+            position: absolute;
+            top: 0;
+            left: 150px;
+            width: 150px;
+            height: 200px;
+            background: rgba(0, 0, 0, .7);
+            color: #eee;
+            line-height: 200px;
+            text-align: center;
+            font-size: 100px;
+            transform-origin: left center;
+            transition: transform 1s ease-in-out;
+            border-left: 1px solid #555;
+            box-shadow: 10px 10px 10px 10px rgba(0, 0, 0, 0);
+        }
+        .book .page:nth-child(1), .book .page:nth-last-child(1) { box-shadow: 5px 3px 10px rgba(0, 0, 0, .5) }
+    </style>
+</head>
+<body>
+
+<div class="stage">
+    <ul class="book" data-page-dom="<li class=page></li>">
+    </ul>
+</div>
+
+</body>
+<script>
+    window.onload = function () {
+        var $ = function (selector) {
+            return document.querySelector(selector);
+        };
+        var $$ = function (selector) {
+            return [].slice.apply(document.querySelectorAll(selector));
+        };
+        $.attr = function ($el, attr, val) {
+            if (val) {
+                $el.setAttribute(attr, val);
+                return $el;
+            }
+            return $el.getAttribute(attr);
+        };
+
+        //获取鼠标位置坐标
+        function getEventXY(event) {
+            event = event || window.event;
+            return {
+                x: event.clientX,
+                y: event.clientY
+            }
+        }
+
+        var $book = $(".book"), bookPageDom = $.attr($book, "data-page-dom"), $pages = '', pageNum = 10, i, moving = false;
+
+        for (i = 0; i < pageNum; i++) {
+            $pages += bookPageDom;
+        }
+        $book.innerHTML = $pages;
+        $pages = $$(".book .page");
+
+        $pages.forEach(function (el, i) {
+            if (i == 0 || i == pageNum - 1) {
+                $.attr(el, "page-pos", "stable");
+                el.style["zIndex"] = 1;
+                if (i == 0) {
+                    el.style["transform"] = "rotateY(-160deg)";
+                } else {
+                    el.style["transform"] = "rotateY(-20deg)";
+                }
+                return;
+            }
+            $.attr(el, "page-index", ++i);
+            $.attr(el, "page-pos", "next");
+            el.style["zIndex"] = pageNum - i + 1;
+            el.style["transform"] = "rotateY(-20deg)";
+            el.innerHTML = (i - 1) + '';
+            el.onclick = function () {
+                if (moving) {
+                    return;
+                }
+                moving = true;
+                var pos = $.attr(el, "page-pos");
+                if (pos == "next") {
+                    el.style["transform"] = "rotateY(-160deg)";
+                    setTimeout(function () {
+                        $.attr(el, "page-pos", "prev");
+                        el.style["zIndex"] = parseInt($.attr(el, "page-index"));
+                        moving = false;
+                    }, 500);
+                } else {
+                    el.style["transform"] = "rotateY(-20deg)";
+                    setTimeout(function () {
+                        $.attr(el, "page-pos", "next");
+                        el.style["zIndex"] = pageNum - parseInt($.attr(el, "page-index")) + 1;
+                        moving = false;
+                    }, 500);
+                }
+            };
+        });
+
+    };
+</script>
+</html>

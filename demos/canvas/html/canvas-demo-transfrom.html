@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta name="viewport" content="initial-scale=1.0,user-scalable=no,maximum-scale=1,width=device-width"/>
+    <meta name="format-detection" content="telephone=no"/>
+    <title>2d变换：translate，rotate，scale，transform</title>
+    <link rel="stylesheet" href="../css/count-down.css">
+</head>
+<body>
+
+<canvas width="800" height="600" id="count-down"></canvas>
+
+</body>
+<script src="../../common/js/jquery.min.js"></script>
+<script src="../../common/js/requestAnimationFrame.js"></script>
+<script>
+
+    window.onload = function () {
+        var canvas = document.getElementById("count-down"),
+                context = canvas.getContext("2d"),
+                ctt = context;
+        canvas.width = 800;
+        canvas.height = 600;
+        if (context) {
+
+            animate();
+
+            function animate() {
+                for (var i = 0; i < 300; i++) {
+                    drawShap({
+                        x: Math.random() * canvas.width,
+                        y: Math.random() * canvas.height,
+                        r: Math.random() * 7 + 3,
+                        rot: Math.random() * 360,
+                        n: 2 + Math.round(Math.random() * 5)
+                    }, starPath);
+                }
+            }
+
+            function drawShap(spec, shapePathFun) {
+                var x = spec.x || 0,
+                        y = spec.y || 0,
+                        rot = spec.rot || 0;
+                ctt.save();
+                //ctt.translate(x, y);
+                ///////////////////////////////
+                // transform(a,b,c,d,e,f);
+                // ——     ——
+                // | a,c,e |
+                // | b,d,f |
+                // | 0,0,1 |
+                // ——     ——
+                // a,d: 水平、垂直缩放
+                // c,b: 水平、垂直倾斜
+                // e,f: 水平、垂直位移
+                ///////////////////////////////
+                ctt.transform(1, 0, 0, 9999, 9999, 9999);
+                ctt.transform(9999, 9999, -9999, 1, 0, 0);
+                ctt.setTransform(1, 0, 0, 1, 0, 0);
+                ctt.transform(1, 0, 0, 1, x, 0);
+                ctt.transform(1, 0, 0, 1, 0, y);
+                ctt.rotate(rot / 180 * Math.PI);
+                shapePathFun(spec);
+                ctt.fill();
+                ctt.stroke();
+                ctt.restore();
+            }
+
+            function starPath(spec) {
+                var R = spec.r || 150,
+                        r = R / 2,
+                        i = 0,
+                        n = spec.n || 5,
+                        rdegBig = 18 / n * 5,
+                        rdegSmall = 54 / n * 5,
+                        baseDeg = 72 / n * 5;
+                ctt.beginPath();
+                for (; i < n; i++) {
+                    ctt.lineTo(Math.cos((rdegBig + i * baseDeg) / 180 * Math.PI) * R,
+                            -Math.sin((rdegBig + i * baseDeg) / 180 * Math.PI) * R);
+                    ctt.lineTo(Math.cos((rdegSmall + i * baseDeg) / 180 * Math.PI) * r,
+                            -Math.sin((rdegSmall + i * baseDeg) / 180 * Math.PI) * r);
+                }
+                ctt.closePath();
+            }
+
+        } else {
+            alert("浏览器不支持canvas");
+        }
+    };
+</script>
+</html>
