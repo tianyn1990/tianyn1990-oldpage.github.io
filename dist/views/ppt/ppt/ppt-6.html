@@ -1,0 +1,84 @@
+<div class="ppt-page ppt-page-6 darker-lt">
+
+    <div class="pa t10p r10p zi3 shake shake-little">
+        <div class="pre-step fl" ng-click="preStep()">
+            上一步
+        </div>
+        <div class="next-step fl ml-1" ng-click="nextStep()">
+            下一步
+        </div>
+    </div>
+    <div class="zi2 pr mauto h100p w80p">
+
+        <div class="pfv oh ng-show fade w65p" ng-show="s.step === 1">
+            <h2 class="t0"><span class="warning">定位</span></h2>
+        </div>
+        <div class="pfv oh ng-show fade w65p" ng-show="s.step === 2">
+            <h2 class="t1"><span class="warning">什么是定位(position)？</span></h2>
+            <ul>
+                <li class="t2">该属性配合top、bottom、left、right(下面简称TRBL)进行相对/绝对位置的确定</li>
+            </ul>
+        </div>
+        <div class="pfv oh ng-show fade w65p" ng-show="s.step === 3">
+            <h2 class="t1"><span class="warning">定位Position(<span class="danger">重难点</span>)</span><a href="http://runjs.cn/code/p4cbim87" target="_blank">另一个栗子</a></h2>
+            <ul>
+                <li class="t2">某个节点没有设定position属性，position属性默认static（静态）</li>
+                <li class="t2">position:relative（相对定位）：“坐标原点”为该节点本身左上角</li>
+                <li class="t2">position:absolute（绝对定位）：“坐标原点”为非static的父级节点左上角，脱离文档流</li>
+                <li class="t2">position:fixed（固定定位）：“坐标原点”为页面左上角，脱离文档流</li>
+                <li class="t2">节点设置的TRBL，为相对于“坐标原点”的距离</li>
+            </ul>
+        </div>
+        <div class="pfv oh ng-show fade w65p" ng-show="s.step === 4">
+            <img class="pfv-img ng-show fade" src="../../../images/ppt/zindex.png">
+        </div>
+        <div class="pfv oh ng-show fade w65p" ng-show="s.step === 5">
+            <h2 class="t1"><span class="warning">定位 & 层级关系z-index</span><a href="http://runjs.cn/code/p4cbim87" target="_blank">还是内栗子</a></h2>
+            <ul>
+                <li class="t2">只有“同层”的元素方能比较</li>
+                <li class="t2">元素按出现的先后顺序展现</li>
+                <li class="t2">脱离文档流的元素总是要更靠前</li>
+                <li class="t2">z-index只能工作在被定义了absolute，fixed或relative三个定位属性的元素中</li>
+                <li class="t2">注意：ie,firfox中关于zindex的bug们</li>
+            </ul>
+        </div>
+        <div class="pfv oh ng-show fade w65p" ng-show="s.step === 6">
+            <h2 class="t0"><span class="warning">复习</span></h2>
+        </div>
+        <div class="pfv oh ng-show fade w65p" ng-show="s.step === 7">
+            <dl class="oh">
+                <dt class="t1">页面布局的方式</dt>
+                <dd ng-click="chooseQn($event)" class="sq fl cp">浮动float<a href="http://runjs.cn/code/66meo6qr" target="_blank">栗子</a></dd>
+                <dd ng-click="chooseQn($event)" class="sq fl cp">定位position</dd>
+                <dd ng-click="chooseQn($event)" class="sq fl cp">
+                    <del>表格Table</del>
+                </dd>
+            </dl>
+        </div>
+        <div class="pfv oh ng-show fade w65p" ng-show="s.step === 8">
+            <h2 class="t1"><span class="warning">定位Position(<span class="danger">重难点</span>)</span><a href="http://runjs.cn/code/p4cbim87" target="_blank">另一个栗子</a></h2>
+            <ul>
+                <li class="t2">某个节点没有设定position属性，position属性默认static（静态）</li>
+                <li class="t2">position:relative（相对定位）：“坐标原点”为该节点本身左上角</li>
+                <li class="t2">position:absolute（绝对定位）：“坐标原点”为非static的父级节点左上角，脱离文档流</li>
+                <li class="t2">position:fixed（固定定位）：“坐标原点”为页面左上角，脱离文档流</li>
+                <li class="t2">节点设置的TRBL，为相对于“坐标原点”的距离</li>
+            </ul>
+        </div>
+        <div class="pfv oh ng-show fade w65p" ng-show="s.step === 9">
+            <h2 class="t1"><span class="warning">定位 & 层级关系z-index</span><a href="http://runjs.cn/code/p4cbim87" target="_blank">还是内栗子</a></h2>
+            <ul>
+                <li class="t2">只有“同层”的元素方能比较</li>
+                <li class="t2">元素按出现的先后顺序展现</li>
+                <li class="t2">脱离文档流的元素总是要更靠前</li>
+                <li class="t2">z-index只能工作在被定义了absolute，fixed或relative三个定位属性的元素中</li>
+                <li class="t2">注意：ie,firfox中关于zindex的bug们</li>
+            </ul>
+        </div>
+        <div class="pfv oh ng-show fade w65p" ng-show="s.step === 10">
+            <h2 class="t0"><span class="warning">补充：css hack</span><a href="" target="_blank">栗子</a></h2>
+        </div>
+
+    </div>
+
+</div>

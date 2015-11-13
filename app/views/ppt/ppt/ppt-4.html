@@ -1,0 +1,90 @@
+<div class="ppt-page ppt-page-1 darker-lt">
+    <div class="pa t10p r10p zi3 shake shake-little">
+        <div class="pre-step fl" ng-click="preStep()">
+            上一步
+        </div>
+        <div class="next-step fl ml-1" ng-click="nextStep()">
+            下一步
+        </div>
+    </div>
+    <div class="zi2 pr mauto h100p w80p">
+
+        <div class="pfv oh ng-show fade w65p" ng-show="s.step === 1">
+            <h2 class="t0"><span class="warning">元素类型</span></h2>
+        </div>
+        <div class="pfv oh ng-show fade w65p" ng-show="s.step === 2">
+            <h2 class="t1"><span class="warning">元素类型</span><a
+                href="http://www.w3cfuns.com/portal.php?mod=topic&quickforward=1&topicid=21" target="_blank">汇总</a></h2>
+            <ul>
+                <li class="t2">块级元素：其他元素的容器，独占一行，宽高生效，div,p</li>
+                <li class="t2">内联元素(行内元素)：容纳文本或者其他内联元素，共享一行，宽高失效，a</li>
+                <li class="t2">第三元素(特殊的内联元素)：img,input,button,textarea,label</li>
+            </ul>
+        </div>
+        <div class="pfv oh ng-show fade w65p" ng-show="s.step === 3">
+            <h2 class="t1"><span class="warning">两者的区别在于以下三点：<a href="http://runjs.cn/code/xn6qcabk"
+                                                                target="_blank">例子</a></span></h2>
+            <ul>
+                <li class="t2">块级元素会独占一行，而内联元素则都会在一行内显示。</li>
+                <li class="t2">块级元素可以设置width、height属性，而内联元素设置无效，内联元素关注的是行高！</li>
+                <li class="t2">块级元素的 width 默认为 100%，而内联元素则是根据其自身的内容或子元素来决定其宽度。</li>
+            </ul>
+        </div>
+        <div class="pfv oh ng-show fade w65p" ng-show="s.step === 4">
+            <h2 class="t0"><span class="warning">复习</span></h2>
+        </div>
+        <div class="pfv oh ng-show fade w65p" ng-show="s.step === 5">
+            <dl class="oh">
+                <dt class="t1">前面遇到的样式小结<a href="http://runjs.cn/code/h8dkctol" target="_blank">小练习</a></dt>
+                <dd ng-click="chooseQn($event)" class="sq fl cp">width</dd>
+                <dd ng-click="chooseQn($event)" class="sq fl cp">height</dd>
+                <dd ng-click="chooseQn($event)" class="sq fl cp">line-height</dd>
+                <dd ng-click="chooseQn($event)" class="sq fl cp">margin</dd>
+                <dd ng-click="chooseQn($event)" class="sq fl cp">padding</dd>
+                <dd ng-click="chooseQn($event)" class="sq fl cp">font-size</dd>
+                <dd ng-click="chooseQn($event)" class="sq fl cp">color</dd>
+                <dd ng-click="chooseQn($event)" class="sq fl cp">background</dd>
+                <dd ng-click="chooseQn($event)" class="sq fl cp">border</dd>
+                <dd ng-click="chooseQn($event)" class="sq fl cp">display</dd>
+            </dl>
+        </div>
+        <div class="pfv oh ng-show fade w65p" ng-show="s.step === 6">
+            <h2 class="t1"><span class="danger">复习：盒模型，块状/内联元素</span></h2>
+        </div>
+        <div class="pfv oh ng-show fade w65p" ng-show="s.step === 7">
+            <img class=" pfv-img ng-show fade" src="../../../images/ppt/box1.png"/>
+        </div>
+        <div class="pfv oh ng-show fade w65p" ng-show="s.step === 8">
+            <h2 class="t1"><span class="warning">元素类型</span></h2>
+            <ul>
+                <li class="t2">块状元素：一般当作 容器 包含其他元素可设置宽高，且独自占据一行</li>
+                <li class="t2">内联元素：一般存放内容，宽度由内容长度决定，高度由内容行高决定，共用一行</li>
+            </ul>
+        </div>
+        <div class="pfv oh ng-show fade w65p" ng-show="s.step === 9">
+            <h2 class="t1"><span class="warning">进阶：块状/内联元素&盒模型</span><a href="http://runjs.cn/code/gcl1jinn"
+                                                                         target="_blank">栗子</a></h2>
+            <ul>
+                <li class="t2">修改合模型的样式：widht、height、padding、margin</li>
+                <li class="t2">
+                    对行内元素：宽高属性无效，高度由line-height行高确定；宽度由内容和padding/margin值确定，纵向的padding值确实存在但不会对自身的位置产生影响；margin负值去实验～
+                </li>
+                <li class="t2">对块状元素：全部生效</li>
+                <li class="t2">特殊的inline-block：还是去实验吧～</li>
+            </ul>
+        </div>
+        <div class="pfv oh ng-show fade w65p" ng-show="s.step === 10">
+            <h2 class="t1"><span class="warning">letter-spacing作用</span></h2>
+            <ul>
+                <li class="t2">字间距</li>
+                <li class="t2">消除inline-block元素间的换行符空格间隙问题</li>
+            </ul>
+        </div>
+        <div class="pfv oh ng-show fade w65p" ng-show="s.step === 11">
+            <h2 class="t1">块状元素如何放在一行？见下一个重要概念：
+                <span class="info">浮动</span>
+            </h2>
+        </div>
+
+    </div>
+</div>

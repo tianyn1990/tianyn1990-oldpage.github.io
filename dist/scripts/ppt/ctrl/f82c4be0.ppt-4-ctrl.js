@@ -1,1 +1,0 @@
-define(["angular","devConfig","pathConfig","jquery"],function(e){e.module("ppt-4-module",[]).controller("ppt-4-ctrl",["$scope","$location","$$console","$timeout","$interval","$$ls","$q",function(e,n,o,t,i){{var l=e._f;e.s={}}l.pageSlideRight().nextPageAnimate().pagePop(),e.$on("$destroy",function(){i.cancel()})}])});

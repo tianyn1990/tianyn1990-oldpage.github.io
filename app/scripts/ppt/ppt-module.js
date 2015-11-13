@@ -20,6 +20,18 @@ define(["angular", "alertify", "devConfig", "jquery"], function (ng, alertify, c
                 //引用本应用所有控制器
                 "ppt-welcome-module",
                 "ppt-beach-module",
+                "ppt-game-module",
+                "ppt-view-switch-module",
+                "switch-view-1-module",
+                "switch-view-2-module",
+                "switch-view-3-module",
+                "switch-view-4-module",
+                "switch-view-5-module",
+                "switch-view-6-module",
+                "switch-view-7-module",
+                "switch-view-8-module",
+                "switch-view-9-module",
+                "switch-view-10-module",
                 "ppt-1-module",
                 "ppt-2-module",
                 "ppt-3-module",
@@ -29,7 +41,9 @@ define(["angular", "alertify", "devConfig", "jquery"], function (ng, alertify, c
                 "ppt-7-module",
                 "ppt-8-module",
                 "ppt-9-module",
-                "ppt-10-module"
+                "ppt-10-module",
+
+                "webcam-module"
             ])
         .config(["$routeProvider", function ($routeProvider) {
             $routeProvider
@@ -37,48 +51,101 @@ define(["angular", "alertify", "devConfig", "jquery"], function (ng, alertify, c
                     templateUrl: 'ppt-welcome.html',
                     controller: 'ppt-welcome-ctrl'
                 })
+                .when('/webcam', {
+                    templateUrl: 'webcam/webcam.html',
+                    controller: 'webcam-ctrl'
+                })
                 .when('/beach', {
                     templateUrl: 'ppt-beach.html',
                     controller: 'ppt-beach-ctrl'
                 })
-                .when('/1', {
-                    templateUrl: 'ppt-1.html',
+                .when('/game', {
+                    templateUrl: 'ppt-game.html',
+                    controller: 'ppt-game-ctrl'
+                })
+                .when('/view-switch', {
+                    templateUrl: 'view-switch/ppt-view-switch.html',
+                    controller: 'ppt-view-switch-ctrl'
+                })
+                .when('/view-switch/1', {
+                    templateUrl: 'view-switch/ppt-1.html',
+                    controller: 'switch-view-1-ctrl'
+                })
+                .when('/view-switch/2', {
+                    templateUrl: 'view-switch/ppt-2.html',
+                    controller: 'switch-view-2-ctrl'
+                })
+                .when('/view-switch/3', {
+                    templateUrl: 'view-switch/ppt-3.html',
+                    controller: 'switch-view-3-ctrl'
+                })
+                .when('/view-switch/4', {
+                    templateUrl: 'view-switch/ppt-4.html',
+                    controller: 'switch-view-4-ctrl'
+                })
+                .when('/view-switch/5', {
+                    templateUrl: 'view-switch/ppt-5.html',
+                    controller: 'switch-view-5-ctrl'
+                })
+                .when('/view-switch/6', {
+                    templateUrl: 'view-switch/ppt-6.html',
+                    controller: 'switch-view-6-ctrl'
+                })
+                .when('/view-switch/7', {
+                    templateUrl: 'view-switch/ppt-7.html',
+                    controller: 'switch-view-7-ctrl'
+                })
+                .when('/view-switch/8', {
+                    templateUrl: 'view-switch/ppt-8.html',
+                    controller: 'switch-view-8-ctrl'
+                })
+                .when('/view-switch/9', {
+                    templateUrl: 'view-switch/ppt-9.html',
+                    controller: 'switch-view-9-ctrl'
+                })
+                .when('/view-switch/10', {
+                    templateUrl: 'view-switch/ppt-10.html',
+                    controller: 'switch-view-10-ctrl'
+                })
+
+                .when('/ppt/1', {
+                    templateUrl: 'ppt/ppt-1.html',
                     controller: 'ppt-1-ctrl'
                 })
-                .when('/2', {
-                    templateUrl: 'ppt-2.html',
+                .when('/ppt/2', {
+                    templateUrl: 'ppt/ppt-2.html',
                     controller: 'ppt-2-ctrl'
                 })
-                .when('/3', {
-                    templateUrl: 'ppt-3.html',
+                .when('/ppt/3', {
+                    templateUrl: 'ppt/ppt-3.html',
                     controller: 'ppt-3-ctrl'
                 })
-                .when('/4', {
-                    templateUrl: 'ppt-4.html',
+                .when('/ppt/4', {
+                    templateUrl: 'ppt/ppt-4.html',
                     controller: 'ppt-4-ctrl'
                 })
-                .when('/5', {
-                    templateUrl: 'ppt-5.html',
+                .when('/ppt/5', {
+                    templateUrl: 'ppt/ppt-5.html',
                     controller: 'ppt-5-ctrl'
                 })
-                .when('/6', {
-                    templateUrl: 'ppt-6.html',
+                .when('/ppt/6', {
+                    templateUrl: 'ppt/ppt-6.html',
                     controller: 'ppt-6-ctrl'
                 })
-                .when('/7', {
-                    templateUrl: 'ppt-7.html',
+                .when('/ppt/7', {
+                    templateUrl: 'ppt/ppt-7.html',
                     controller: 'ppt-7-ctrl'
                 })
-                .when('/8', {
-                    templateUrl: 'ppt-8.html',
+                .when('/ppt/8', {
+                    templateUrl: 'ppt/ppt-8.html',
                     controller: 'ppt-8-ctrl'
                 })
-                .when('/9', {
-                    templateUrl: 'ppt-9.html',
+                .when('/ppt/9', {
+                    templateUrl: 'ppt/ppt-9.html',
                     controller: 'ppt-9-ctrl'
                 })
-                .when('/10', {
-                    templateUrl: 'ppt-10.html',
+                .when('/ppt/10', {
+                    templateUrl: 'ppt/ppt-10.html',
                     controller: 'ppt-10-ctrl'
                 })
                 .otherwise({
@@ -249,17 +316,26 @@ define(["angular", "alertify", "devConfig", "jquery"], function (ng, alertify, c
                                 }
                             });
                         },
+                        //非html的ajax请求
                         ajaxConc: {
+                            //路由切换开始，设置为false，当获取期望数量的非html的ajax返回时，为true
                             waitForAjaxReturn: false,
+                            //设置期望的返回数量
                             ajaxNumInRoute: -1
                         },
+                        //html的ajax请求
                         htmlConc: {
                             isAllViewSwitchAnimateFinished: false,
+                            //路由切换开始，设置为false，当获取期望数量的html返回时，为true
                             waitForAjaxHtmlReturn: false,
+                            //设置期望的返回数量
                             ajaxHtmlNumInRoute: -1
                         },
-                        ajaxRetDefer: function () {
+                        //当ajax请求返回ajaxNum个之后，方才调用defer.resolve()
+                        //代替原有的defer.resolve()方法，配合ff.then.go使用
+                        ajaxRetDefer: function (defer, ajaxNum) {
                             var that = this;
+                            that.htmlConc.ajaxNumInRoute = ajaxNum;
                             var itv = $interval(function () {
                                 if (that.htmlConc.waitForAjaxReturn) {
                                     $interval.cancel(itv);
@@ -267,8 +343,11 @@ define(["angular", "alertify", "devConfig", "jquery"], function (ng, alertify, c
                                 }
                             }, 100);
                         },
-                        ajaxHtmlRetDefer: function (defer) {
+                        //当ajax html请求返回ajaxHtmlNum个之后，方才调用defer.resolve()
+                        //代替原有的defer.resolve()方法，配合ff.then.go使用
+                        ajaxHtmlRetDefer: function (defer, ajaxHtmlNum) {
                             var that = this;
+                            that.htmlConc.ajaxHtmlNumInRoute = ajaxHtmlNum;
                             var itv = $interval(function () {
                                 if (that.htmlConc.waitForAjaxHtmlReturn) {
                                     $interval.cancel(itv);
@@ -276,53 +355,23 @@ define(["angular", "alertify", "devConfig", "jquery"], function (ng, alertify, c
                                 }
                             }, 100);
                         },
+                        //按顺序展示view-switch/*页面
                         showAllViewSwitchAnimate: function () {
                             var that = this;
-                            that.htmlConc.ajaxHtmlNumInRoute = 1;
+                            that.htmlConc.isAllViewSwitchAnimateFinished = false;
+                            var thenFun = function (i) {
+                                return function (data, defer) {
+                                    $location.path("/view-switch/" + i);
+                                    that.ajaxHtmlRetDefer(defer, 1);
+                                }
+                            };
+                            for (var i = 1; i <= 10; i++) {
+                                that.then(thenFun(i), 1200);
+                            }
                             that
                                 .then(function (data, defer) {
-                                    $location.path("/1");
-                                    that.ajaxHtmlRetDefer(defer);
-                                }, 1200)
-                                .then(function (data, defer) {
-                                    $location.path("/2");
-                                    that.ajaxHtmlRetDefer(defer);
-                                }, 1200)
-                                .then(function (data, defer) {
-                                    $location.path("/3");
-                                    that.ajaxHtmlRetDefer(defer);
-                                }, 1200)
-                                .then(function (data, defer) {
-                                    $location.path("/4");
-                                    that.ajaxHtmlRetDefer(defer);
-                                }, 1200)
-                                .then(function (data, defer) {
-                                    $location.path("/5");
-                                    that.ajaxHtmlRetDefer(defer);
-                                }, 1200)
-                                .then(function (data, defer) {
-                                    $location.path("/6");
-                                    that.ajaxHtmlRetDefer(defer);
-                                }, 1200)
-                                .then(function (data, defer) {
-                                    $location.path("/7");
-                                    that.ajaxHtmlRetDefer(defer);
-                                }, 1200)
-                                .then(function (data, defer) {
-                                    $location.path("/8");
-                                    that.ajaxHtmlRetDefer(defer);
-                                }, 1200)
-                                .then(function (data, defer) {
-                                    $location.path("/9");
-                                    that.ajaxHtmlRetDefer(defer);
-                                }, 1200)
-                                .then(function (data, defer) {
-                                    $location.path("/10");
-                                    that.ajaxHtmlRetDefer(defer);
-                                }, 1200)
-                                .then(function (data, defer) {
                                     that.htmlConc.isAllViewSwitchAnimateFinished = true;
-                                    $location.path("/welcome");
+                                    $location.path("/view-switch");
                                     that.htmlConc.ajaxHtmlNumInRoute = -1;
                                     defer.resolve();
                                 }, 1200)
@@ -334,7 +383,8 @@ define(["angular", "alertify", "devConfig", "jquery"], function (ng, alertify, c
                     //当路由发生变化时，控制...
                     $scope.$on('$routeChangeStart', function (next, current) {
                         $scope._s.bodyOh = true;
-                        $scope._s.waitForAjaxReturn = false;
+                        ff.ajaxConc.waitForAjaxReturn = false;
+                        ff.htmlConc.waitForAjaxHtmlReturn = true;
 
                         var reqHtml = "_html_ajax_request_in_route_count";
                         var rspHtml = "_html_ajax_response_in_route_count";

@@ -1,0 +1,1 @@
+define(["angular","devConfig","pathConfig","jquery"],function(e){e.module("switch-view-9-module",[]).controller("switch-view-9-ctrl",["$scope","$location","$$console","$timeout","$interval","$$ls","$q",function(e,o,n,t,i){{var a=e._f;e.s={}}a.pageRotate().nextPageAnimate().pageSlideLeftPop(),e.$on("$destroy",function(){i.cancel()})}])});

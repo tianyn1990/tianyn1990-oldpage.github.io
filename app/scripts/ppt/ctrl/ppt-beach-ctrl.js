@@ -17,7 +17,7 @@ define(
 
                     //加载视差效果
                     $("#parallax-beach").parallax();
-                    ff.success("卡死卡死卡死卡死卡死卡死卡死卡死...");
+                    ff.success("卡死卡死卡死卡死卡死卡死...");
 
                     $scope.toggle = function () {
                         s.toggle = !s.toggle;
@@ -30,7 +30,7 @@ define(
                                 return;
                             }
                             s.state = index;
-                            ff.error("【碎*念】淹死TA淹死TA淹死TA淹了TA");
+                            ff.error("淹死TA淹死TA淹死TA淹了TA");
                             var waveWidth = 10;
                             var waveCount = Math.floor(window.innerWidth / waveWidth);
                             var ocean = $("#ocean");
@@ -51,7 +51,7 @@ define(
                                 return;
                             }
                             s.wind = index;
-                            ff.log(winds[index] + winds[index] + "啦啦啦~");
+                            ff.log(winds[index] + winds[index] + "~~~~");
                         }
                     };
 

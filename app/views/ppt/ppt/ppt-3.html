@@ -1,0 +1,105 @@
+<div class="ppt-page ppt-page-3 darker-lt">
+    <div class="pa t10p r10p zi3 shake shake-little">
+        <div class="pre-step fl" ng-click="preStep()">
+            上一步
+        </div>
+        <div class="next-step fl ml-1" ng-click="nextStep()">
+            下一步
+        </div>
+    </div>
+    <div class="zi2 pr mauto h100p w80p">
+
+        <div class="pfv oh ng-show fade w65p" ng-show="s.step === 1">
+            <h2 class="t0"><span class="warning">先来...复习</span></h2>
+        </div>
+        <div class="pfv oh ng-show fade w65p" ng-show="s.step === 2">
+            <dl class="oh">
+                <dt class="t1">CSS如何控制页面</dt>
+                <dd ng-click="chooseQn($event)" class="sq fl cp">行内样式</dd>
+                <dd ng-click="chooseQn($event)" class="sq fl cp">内嵌样式</dd>
+                <dd ng-click="chooseQn($event)" class="sq fl cp">链接样式</dd>
+                <dd ng-click="chooseQn($event)" class="sq fl cp">导入样式</dd>
+            </dl>
+        </div>
+        <div class="pfv oh ng-show fade w65p" ng-show="s.step === 3">
+            <dl class="oh">
+                <dt class="t1">CSS选择器</dt>
+                <dd ng-click="chooseQn($event)" class="sq fl cp">基本选择器</dd>
+                <dd ng-click="chooseQn($event)" class="sq fl cp">属性选择器</dd>
+                <dd ng-click="chooseQn($event)" class="sq fl cp">伪类选择器</dd>
+            </dl>
+        </div>
+        <div class="pfv oh ng-show fade w65p" ng-show="s.step === 4">
+            <dl class="oh">
+                <dt class="t1">基本选择器</dt>
+                <dd ng-click="chooseQn($event)" class="sq fl cp">通配符选择器（＊）</dd>
+                <dd ng-click="chooseQn($event)" class="sq fl cp">元素选择器（E）</dd>
+                <dd ng-click="chooseQn($event)" class="sq fl cp">类选择器（.className）</dd>
+                <dd ng-click="chooseQn($event)" class="sq fl cp">id选择器（#ID）</dd>
+                <dd ng-click="chooseQn($event)" class="sq fl cp">后代选择器（E F）</dd>
+                <dd ng-click="chooseQn($event)" class="sq fl cp">群组选择器（s1,s2,...,sN）</dd>
+            </dl>
+        </div>
+        <div class="pfv oh ng-show fade w65p" ng-show="s.step === 5">
+            <dl class="oh">
+                <dt class="t1">属性选择器</dt>
+                <dd ng-click="chooseQn($event)" class="sq fl cp">Ｅ[attr~=“value"]-匹配一个属性值</dd>
+                <dd ng-click="chooseQn($event)" class="sq fl cp">E[attr*=“value"]-属性值中包含value</dd>
+            </dl>
+        </div>
+        <div class="pfv oh ng-show fade w65p" ng-show="s.step === 6">
+            <dl class="oh">
+                <dt class="t1">伪类选择器</dt>
+                <dd ng-click="chooseQn($event)" class="sq fl cp">:nth选择器</dd>
+                <dd ng-click="chooseQn($event)" class="sq fl cp">:nth-child(1)</dd>
+                <dd ng-click="chooseQn($event)" class="sq fl cp">:nth-child(2n)</dd>
+                <dd ng-click="chooseQn($event)" class="sq fl cp">:nth-child(2n+1)</dd>
+            </dl>
+        </div>
+        <div class="pfv oh ng-show fade w65p" ng-show="s.step === 7">
+            <dl class="oh">
+                <dt class="t1">样式优先级</dt>
+                <dd ng-click="chooseQn($event)" class="sq fl cp">!important高于一切</dd>
+                <dd ng-click="chooseQn($event)" class="sq fl cp">行内样式,加为“1,0,0,0”</dd>
+                <dd ng-click="chooseQn($event)" class="sq fl cp">ID属性,加“0,1,0,0”</dd>
+                <dd ng-click="chooseQn($event)" class="sq fl cp">类属性/伪类,加"0,0,1,0"</dd>
+                <dd ng-click="chooseQn($event)" class="sq fl cp">伪元素,加“0,0,0,1”</dd>
+                <dd ng-click="chooseQn($event)" class="sq fl cp"> + > ~ * :not()没加分</dd>
+            </dl>
+        </div>
+        <div class="pfv oh ng-show fade w65p" ng-show="s.step === 8">
+            <h2 class="t1">下面开始下一个重要概念：
+                <span class="info">盒子模型</span>
+            </h2>
+        </div>
+        <div class="pfv oh ng-show fade w65p" ng-show="s.step === 9">
+            <h2 class="t0"><span class="warning">盒模型</span></h2>
+        </div>
+        <div class="pfv oh ng-show fade w65p" ng-show="s.step === 10">
+            <dl class="oh">
+                <dt class="t1"><span class="warning">盒模型--页面布局中的核心！</span></dt>
+                <dd ng-click="chooseQn($event)" class="sq fl cp">content(内容)</dd>
+                <dd ng-click="chooseQn($event)" class="sq fl cp">padding(内边距)</dd>
+                <dd ng-click="chooseQn($event)" class="sq fl cp">border(边框)</dd>
+                <dd ng-click="chooseQn($event)" class="sq fl cp">margin(外边距)</dd>
+            </dl>
+        </div>
+        <div class="pfv oh ng-show fade w65p" ng-show="s.step === 11">
+            <img class=" pfv-img ng-show fade" src="../../../images/ppt/box2.png"/>
+        </div>
+        <div class="pfv oh ng-show fade w65p" ng-show="s.step === 12">
+            <img class=" pfv-img ng-show fade" src="../../../images/ppt/box3.png"/>
+        </div>
+        <div class="pfv oh ng-show fade w65p" ng-show="s.step === 13">
+            <img class=" pfv-img ng-show fade" src="../../../images/ppt/box1.png"/>
+        </div>
+        <div class="pfv oh ng-show fade w65p" ng-show="s.step === 14">
+            <dl class="oh">
+                <dt class="t1"><span class="warning">设置定宽的内边距<a href="http://runjs.cn/code/kl5pilfg"
+                                                                target="_blank">例子</a></span></dt>
+                <dd ng-click="chooseQn($event)" class="sq fl cp">box-sizing: border-box</dd>
+                <dd ng-click="chooseQn($event)" class="sq fl cp">border 和 padding 就被包含在了宽高之内</dd>
+            </dl>
+        </div>
+    </div>
+</div>

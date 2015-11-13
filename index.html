@@ -8,19 +8,76 @@
     <title></title>
     <link rel="stylesheet" href="./app/styles/mixins/reset.css"/>
     <style>
-
+        body{ background-color: #f2f2f2; width: 100%; height: 100%; font-size: 15px; }
+        .wapper{
+            position: relative; top: 50%; left: 0;
+            margin-top: -200px;
+        }
+        h1{ font-size: 2.4em; line-height: 70px; height: 70px; padding-bottom: 20px; }
+        p{ font-size: 1.6em; text-align: center; line-height: 35px; }
+        h1, p, span{
+            text-align: center;
+            color: #1a1a1a;
+            text-shadow: 2px 5px .2em rgba(0, 0, 0, .5);
+        }
+        span{ text-align: left; display: inline-block; font-size: 16px; padding-bottom: 10px; }
+        .tl{ text-align: left }
+        a{ }
+        ::selection{
+            color: #fff;
+            background-color: #666;
+            text-shadow: none;
+        }
+        ::-moz-selection{
+            color: #fff;
+            background-color: #666;
+            text-shadow: none;
+        }
+        @media all and (max-width: 600px){
+            h1{ font-size: 2em }
+            p{ font-size: 1.2em }
+            span{ font-size: 14px }
+        }
+        audio{ display: inline-block; padding-left: 50px; float: right; }
+        .audios{
+            min-width: 320px; max-width: 400px; padding: 0 30px; margin: 20px auto 0;
+        }
+        .pb10{ padding-bottom: 10px }
+        .oh{ overflow: hidden }
     </style>
 </head>
 <body>
-<h1>Hello World</h1>
-<p>I'm hosted with GitHub Pages.</p>
-<p>
-    主页还在构建中...无聊的话可以先去
-    <a href="/dist/views/ppt/ppt.html#/beach">岸边逛逛</a>
-    ，或者去了解一下
-    <a href="/dist/views/ppt/ppt.html#/welcome">页面切换特效</a>
-    ，亦或去
-    <a style="color: #444" href="#">玩玩游戏(尚未完成)</a>
-</p>
+<div class="wapper">
+    <h1><a href="/dist/views/ppt/ppt.html#/ppt/1" style="color:#e60">PPT已制作完成</a></h1>
+    <p>
+        无聊的话可以先去
+        <a href="/dist/views/ppt/ppt.html#/beach">岸边逛逛</a><br>
+        或者去了解一下
+        <a href="/dist/views/ppt/ppt.html#/view-switch">页面切换特效</a><br>
+        亦或去
+        <a href="/dist/views/ppt/ppt.html#/game">玩玩游戏(新)</a><br>
+        还可以来点儿音乐（星际穿越）：
+    </p>
+
+    <div class="audios">
+        <div class="audio-1 oh pb10">
+            <span class="tl"> Cornfield Chase(by Hans Zimmer):</span>
+            <audio controls="controls">
+                <source src="./audio/Cornfield%20Chase.mp3" type="audio/mpeg">
+                <source src="./audio/Cornfield%20Chase.wav" type="audio/wav">
+                你的浏览器不支持audio标签
+            </audio>
+        </div>
+        <div class="audio-2 oh">
+            <span class="tl"> Mountains(by Hans Zimmer):</span>
+            <audio controls="controls">
+                <source src="./audio/Mountains.mp3" type="audio/mpeg">
+                <source src="./audio/Mountains.wav" type="audio/wav">
+                你的浏览器不支持audio标签
+            </audio>
+        </div>
+    </div>
+
+</div>
 </body>
 </html>

@@ -1,0 +1,48 @@
+<div class="ppt-page ppt-page-8 darker-lt">
+    <div class="pa t10p r10p zi3 shake shake-little">
+        <div class="pre-step fl" ng-click="preStep()">
+            上一步
+        </div>
+        <div class="next-step fl ml-1" ng-click="nextStep()">
+            下一步
+        </div>
+    </div>
+    <div class="zi2 pr mauto h100p w80p">
+
+        <div class="pfv oh ng-show fade w65p" ng-show="s.step === 1">
+            <h2 class="t0"><span class="warning">浮动</span></h2>
+        </div>
+        <div class="pfv oh ng-show fade w65p" ng-show="s.step === 2">
+            <h2 class="t1"><span class="warning">页面布局的方式</span></h2>
+            <ul>
+                <li class="t2">浮动float<a href="http://runjs.cn/code/66meo6qr" target="_blank">栗子</a></li>
+                <li class="t2">定位position</li>
+                <li class="t2">
+                    <del>表格Table：不易维护，浏览器解析成本高</del>
+                </li>
+            </ul>
+        </div>
+        <div class="pfv oh ng-show fade w65p" ng-show="s.step === 3">
+            <h2 class="t0"><span class="warning">文档流</span></h2>
+        </div>
+        <div class="pfv oh ng-show fade w65p" ng-show="s.step === 4">
+            <h2 class="t1"><span class="warning">文档流</span><a href="http://runjs.cn/code/66meo6qr" target="_blank">上个栗子</a></h2>
+            <ul>
+                <li class="t2">一份无任何 CSS 样式的 HTML 代码最终呈现出的页面是根据元素出现的顺序和类型排列的。从上到下从左到右。</li>
+                <li class="t2">脱离文档流：浮动，定位(fixed,absolute)，它们在页面上的表现均不占据空间</li>
+                <li class="t2">reflow(回流)：可还记得...</li>
+            </ul>
+        </div>
+        <div class="pfv oh ng-show fade w65p" ng-show="s.step === 5">
+            <h2 class="t0"><span class="warning">清除浮动</span></h2>
+        </div>
+        <div class="pfv oh ng-show fade w65p" ng-show="s.step === 6">
+            <h2 class="t1"><span class="warning">清除浮动</span><a href="http://runjs.cn/code/66meo6qr" target="_blank">还是那个栗子</a></h2>
+            <ul>
+                <li class="t2">浮动元素脱离文档流 >> 在页面表现不占据空间 >> 清楚浮动:消除浮动元素对其他元素的影响</li>
+            </ul>
+        </div>
+
+    </div>
+
+</div>

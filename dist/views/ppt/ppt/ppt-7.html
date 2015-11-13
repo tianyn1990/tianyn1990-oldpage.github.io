@@ -1,0 +1,44 @@
+<div class="ppt-page ppt-page-7 darker-lt">
+
+    <div class="pa t10p r10p zi3 shake shake-little">
+        <div class="pre-step fl" ng-click="preStep()">
+            上一步
+        </div>
+        <div class="next-step fl ml-1" ng-click="nextStep()">
+            下一步
+        </div>
+    </div>
+    <div class="zi2 pr mauto h100p w80p">
+
+
+        <div class="pfv oh ng-show fade w65p" ng-show="s.step === 1">
+            <h2 class="t0"><span class="warning">其他的一些小技巧</span></h2>
+        </div>
+        <div class="pfv oh ng-show fade w65p" ng-show="s.step === 2">
+            <dl class="oh">
+                <dt class="t1">垂直居中N中方式<a href="http://runjs.cn/code/n9h4zjtd" target="_blank">栗子</a></dt>
+                <dd ng-click="chooseQn($event)" class="sq fl cp">单行文本行:高等于高度</dd>
+                <dd ng-click="chooseQn($event)" class="sq fl cp">高度足够:absolute+TRBL0+margin:auto</dd>
+                <dd ng-click="chooseQn($event)" class="sq fl cp">高于ie7:display:table-cell</dd>
+                <dd ng-click="chooseQn($event)" class="sq fl cp">已知高度:relative+top50%+margin负值</dd>
+                <dd ng-click="chooseQn($event)" class="sq fl cp">已知高度:新增div,fl,h50p,mb负值.clear:both</dd>
+                <dd ng-click="chooseQn($event)" class="sq fl cp">新增span,h100p,dib,vm:可用于相互垂直居中！</dd>
+                <dd ng-click="chooseQn($event)" class="sq fl cp">css3:pr,t50p,transform:translateY(-50%)</dd>
+            </dl>
+        </div>
+        <div class="pfv oh ng-show fade w65p" ng-show="s.step === 3">
+            <dl class="oh">
+                <dt class="t1">水平居中N中方式<a href="http://runjs.cn/code/n9h4zjtd" target="_blank">栗子</a></dt>
+                <dd ng-click="chooseQn($event)" class="sq fl cp">单行文本行:text-align:center</dd>
+                <dd ng-click="chooseQn($event)" class="sq fl cp">margin:0 auto</dd>
+                <dd ng-click="chooseQn($event)" class="sq fl cp">已知宽度:relative+left50%+margin负值</dd>
+                <dd ng-click="chooseQn($event)" class="sq fl cp">css3:pr,l50p,transform:translateX(-50%)</dd>
+            </dl>
+        </div>
+        <div class="pfv oh ng-show fade w65p" ng-show="s.step === 4">
+            <h2 class="t0"><span class="warning">未完待续...</span></h2>
+        </div>
+
+    </div>
+
+</div>

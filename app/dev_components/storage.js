@@ -7,21 +7,26 @@ define(['angular', 'ngConsole'], function (ng) {
                  * 获取/设置存储字段
                  */
                 item: function (name, value) {
-                    var val = null;
-                    if (value) {
-                        localStorage.setItem(name, value);
-                        val = value;
+                    if (this.isSupportLocalStorage()) {
+                        var val = null;
+                        if (value) {
+                            localStorage.setItem(name, value);
+                            val = value;
+                        } else {
+                            val = localStorage.getItem(name);
+                        }
+                        return val;
                     } else {
-                        val = localStorage.getItem(name);
+                        $$console.info('浏览器不支持html5的本地存储！');
+                        return false;
                     }
-                    return val;
                 },
                 /**
                  * 移除指定name的存储
                  */
                 removeItem: function (name) {
                     if (this.isSupportLocalStorage()) {
-                        if (typeof name !== "string" && name.length && name.length > 0) {
+                        if (ng.isArray(name)) {
                             name.forEach(function(elem,index){
                                 localStorage.removeItem(elem);
                             });

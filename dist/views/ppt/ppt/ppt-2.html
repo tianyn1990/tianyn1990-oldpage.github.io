@@ -1,0 +1,164 @@
+<div class="ppt-page ppt-page-2 darker-lt">
+    <div class="pa t10p r10p zi3 shake shake-little">
+        <div class="pre-step fl" ng-click="preStep()">
+            上一步
+        </div>
+        <div class="next-step fl ml-1" ng-click="nextStep()">
+            下一步
+        </div>
+    </div>
+    <div class="zi2 pr mauto h100p w80p">
+        <div class="pfv oh ng-show fade w65p" ng-show="s.step === 1">
+            <h2 class="t1"><span class="warning">层叠样式表</span></h2>
+            <ul>
+                <li class="t2">
+                    在css刚刚提出的时候，当时已经有过一些样式表语言的建议了，但CSS是第一个含有“层叠”的主意的。在CSS中，一个节点的样式可以从其他的节点的样式表中继承下来。但继承是有条件的，有些样式不适合继承，如宽高等。
+                </li>
+            </ul>
+        </div>
+        <div class="pfv oh ng-show fade w65p" ng-show="s.step === 2">
+            <h2 class="t0"><span class="warning">CSS如何控制页面</span></h2>
+        </div>
+        <div class="pfv oh ng-show fade w65p" ng-show="s.step === 3">
+            <h2 class="t1"><span class="warning">CSS如何控制页面</span></h2>
+            <ul>
+                <li class="t2">使用HTML+CSS布局页面，其中有个很重要的特点就是
+                    <span class="danger">结构</span>
+                    与
+                    <span class="danger">表现</span>
+                    相分离
+                </li>
+            </ul>
+        </div>
+        <div class="pfv oh ng-show fade w65p" ng-show="s.step === 4">
+            <h2 class="t1"><span class="warning">CSS如何控制页面</span></h2>
+            <ul>
+                <li class="t2">有4种样式(方式)，<a href="http://runjs.cn/code/ys0gn2q6" target="_blank">行内样式、</a>
+                    <a href="http://runjs.cn/code/twkuepfk" target="_blank">内嵌样式、</a>
+                    <a href="http://runjs.cn/code/802p12gg" target="_blank">链接样式、</a>
+                    <a href="http://runjs.cn/code/9wnkxufh" target="_blank">导入样式</a>
+                </li>
+            </ul>
+        </div>
+        <div class="pfv oh ng-show fade w65p" ng-show="s.step === 5">
+            <h2 class="t1"><span class="warning">四种样式的优先级</span></h2>
+            <ul>
+                <li class="t2 b">行内样式 > 内嵌样式 > 链接样式 > 导入样式</li>
+            </ul>
+        </div>
+        <div class="pfv oh ng-show fade w65p" ng-show="s.step === 6">
+            <h2 class="t0"><span class="warning">CSS选择器</span></h2>
+        </div>
+        <div class="pfv oh ng-show fade w65p" ng-show="s.step === 7">
+            <h2 class="t1">选择器用来确定html树形结构中的DOM节点</h2>
+            <ul>
+                <li class="t2">分为：基本选择器、属性选择器、伪类选择器</li>
+            </ul>
+        </div>
+        <div class="pfv oh ng-show fade w65p" ng-show="s.step === 8">
+            <h2 class="t1">
+                <span class="info">
+                    基本选择器（重点，常用）<a href="http://runjs.cn/code/xiejjkdq" target="_blank">栗子</a>
+                </span>
+            </h2>
+            <ul>
+                <li class="t2"><span class="danger">*</span>通配符选择器（＊）</li>
+                <li class="t2"><span class="danger">*</span>元素选择器（E）</li>
+                <li class="t2"><span class="danger">*</span>类选择器（.className）</li>
+                <li class="t2"><span class="danger">*</span>id选择器（#ID）</li>
+                <li class="t2"><span class="danger">*</span>后代选择器（E F）</li>
+                <li class="t2"><span class="danger">*</span>群组选择器（s1,s2,...,sN）</li>
+                <li class="t2"><span class="">*</span>子元素选择器(E>F)--ie6不支持</li>
+                <li class="t2"><span class="">*</span>相邻兄弟元素选择器(E+F)--ie6不支持</li>
+                <li class="t2"><span class="">*</span>通用兄弟选择器（Ｅ~Ｆ）css3</li>
+            </ul>
+        </div>
+        <div class="pfv oh ng-show fade w65p" ng-show="s.step === 9">
+            <h2 class="t1"><span class="info">属性选择器</span></h2>
+            <ul>
+                <li class="t2">对带有指定属性的HTML 元素设置样式，css2 就有，除了ie6外，其他支持较好</li>
+            </ul>
+        </div>
+        <div class="pfv oh ng-show fade w65p" ng-show="s.step === 10">
+            <h2 class="t1"><span class="info">属性选择器<a href="http://runjs.cn/code/dsjp5hg7" target="_blank">栗子</a></span></h2>
+            <ul>
+                <li class="t2"><span class="">*</span>E[attr=“value”] -- 完全匹配</li>
+                <li class="t2"><span class="danger">*</span>E[attr~=“value"] -- 匹配一个属性值即可</li>
+                <li class="t2"><span class="">*</span>E[attr^=“value"] -- 选择attr属性值以“value”开头的所有元素 .demo a[href^=“http://"]
+                </li>
+                <li class="t2"><span class="">*</span>E[attr$=“value"] -- 选择attr属性值以”value"结尾的所有元素 .demo a[href$=“png"]
+                </li>
+                <li class="t2"><span class="danger">*</span>E[attr*=“value"] -- 属性值中包含子串”value"的所有元素</li>
+                <li class="t2"><span class="">*</span>重点:<span class="warning">Ｅ[attr~=“value"]</span>和<span class="primary">E[attr*=“value"]</span></li>
+            </ul>
+        </div>
+        <div class="pfv oh ng-show fade w65p" ng-show="s.step === 11">
+            <h2 class="t1"><span class="info">伪类选择器</span></h2>
+            <ul>
+                <li class="t2"><span class="danger">*</span>动态伪类：当用户和网站交互的时候体现 如：”:link”,":visited"; “:hover”,”:active"</li>
+                <li class="t2"><span class="danger">*</span>UI元素状态伪类：“:enabled”,”:disabled”,":checked",":unchecked" 主要针对表单元素
+                </li>
+                <li class="t2"><span class="danger">*</span><span class="warning">CSS3的:nth选择器（重要）</span></li>
+                <li class="t2"><span class="">*</span>否定选择器（:not）和jq中的:not选择器一模一样：input:not([type="submit"]) {border:
+                    1px solid red}
+                </li>
+                <li class="t2"><span class="">*</span>伪元素、伪类：:first-line,:first-letter,:before,:after,::selection
+                </li>
+            </ul>
+        </div>
+        <div class="pfv oh ng-show fade w65p" ng-show="s.step === 12">
+            <h2 class="t1"><span class="info">:nth选择器之:nth-child()<a href="http://runjs.cn/code/bqtbpqgt" target="_blank">栗子</a></span></h2>
+            <ul>
+                <li class="t2"><span class=""></span>:nth-child(length)--参数是具体数字，从1开始的整数</li>
+                <li class="t2"><span class=""></span>:nth-child(n)--参数是n,n从0开始计算*/</li>
+                <li class="t2"><span class=""></span>:nth-child(n*length)--n的倍数选择，n从0开始算</li>
+                <li class="t2"><span class=""></span>:nth-child(n+length)--选择大于length后面的元素</li>
+                <li class="t2"><span class=""></span>:nth-child(-n+length)--选择小于length前面的元素</li>
+                <li class="t2"><span class=""></span>:nth-child(n*length+1)--表示隔几选一</li>
+            </ul>
+        </div>
+        <div class="pfv oh ng-show fade w65p" ng-show="s.step === 13">
+            <h2 class="t1"><span class="info">伪元素、伪类</span></h2>
+            <ul>
+                <li class="t2">
+                    CSS中的伪元素：:first-line,:first-letter,:before,:after，CSS3中，增加了一个“::selection”，同时把原来的改成两个冒号了，叫做“伪类”，两个“::”和一个“:”css3中主要用来区分伪类和伪元素，到目前来说，这两种方式都是被接受的
+                </li>
+            </ul>
+        </div>
+        <div class="pfv oh ng-show fade w65p" ng-show="s.step === 14">
+            <h2 class="t0"><span class="warning">样式优先级</span></h2>
+        </div>
+        <div class="pfv oh ng-show fade w65p" ng-show="s.step === 15">
+            <h2 class="t1"><span class="info">样式优先级-初步</span></h2>
+            <ul>
+                <li class="t2">首先看样式被引用的方式：<span class="warning-hover">行内样式 > 内嵌样式 > 链接样式 > 导入样式</span></li>
+                <li class="t2"><span class="danger-hover">!important</span>高于一切</li>
+            </ul>
+        </div>
+        <div class="pfv oh ng-show fade w65p" ng-show="s.step === 16">
+            <h2 class="t1"><span class="info">样式优先级-权重<a href="http://runjs.cn/code/ul2fr8lu" target="_blank">例子</a></span></h2>
+            <ul>
+                <li class="t2">对于”!important"加分高于上面的一切，将变成“1,0,0,0,0”</li>
+                <li class="t2">对于行内样式，加为“1,0,0,0”</li>
+                <li class="t2">对于选择器中给定的各个ID属性值，加“0,1,0,0”。</li>
+                <li class="t2">对于选择器中给定的各个类属性值，属性选择或伪类，加"0,0,1,0"。</li>
+                <li class="t2">对于选择器中给定的各个元素为伪元素，加“0,0,0,1”。</li>
+                <li class="t2">结合符( + > ~ )和通配符“*”以及”:not()”没有任何的加分权。</li>
+            </ul>
+        </div>
+        <div class="pfv oh ng-show fade w65p" ng-show="s.step === 17">
+            <img class="pfv-img ng-show fade" src="../../../images/ppt/priority1.png">
+        </div>
+        <div class="pfv oh ng-show fade w65p" ng-show="s.step === 18">
+            <img class="pfv-img ng-show fade" src="../../../images/ppt/priority2.png">
+        </div>
+        <div class="pfv oh ng-show fade w65p" ng-show="s.step === 19">
+            <img class="pfv-img ng-show fade" src="../../../images/ppt/priority3.png">
+        </div>
+        <div class="pfv oh ng-show fade w65p" ng-show="s.step === 20">
+            <h2 class="t1">下面开始下一个重要概念：
+                <span class="info">元素类型</span>
+            </h2>
+        </div>
+    </div>
+</div>

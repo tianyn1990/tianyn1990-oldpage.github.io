@@ -1,0 +1,48 @@
+<link rel="stylesheet" href="../../styles/topic/game/aeaa37bc.mixin.css">
+<div class="ppt-page light ofa" style="cursor: crosshair" ng-class="[s['ppt-page-num']]">
+    <!--<div class="back-btn top-right-corner" ng-click="toWelcome()"></div>-->
+    <!--<div class="balls-icon oh">-->
+    <!--<div class="scroll-ball scroll-ball-1 scroll-ball-noshadow top-left-corner"></div>-->
+    <!--<div class="scroll-ball scroll-ball-2 scroll-ball-noshadow top-left-corner"></div>-->
+    <!--</div>-->
+    <div class="zi2 pr table-panel-w">
+        <button class="primary" ng-click="spawnBegin()">开始</button>
+        <button class="info" ng-click="spawnPause()">暂停</button>
+        <button class="warning" ng-click="spawnReset()">重置</button>
+        <button class="success" ng-click="nextStep()">下一步</button>
+        <div class="patterns">
+            <span>设置间隔时间：</span>
+            <input ng-model="t.itvTimePre">
+            <button class="danger" ng-click="t.setItvTime()">设置</button>
+            <br>
+            <h4>——可选图案——</h4>
+            <input name="radio1" type="radio" value="Point" id="Point" ng-model="t.pattern">
+            <label for="Point">Point</label>
+            <input name="radio1" type="radio" value="Beehive" id="Beehive" ng-model="t.pattern">
+            <label for="Beehive">Beehive</label>
+            <input name="radio1" type="radio" value="Glinder" id="Glinder" ng-model="t.pattern">
+            <label for="Glinder">Glinder</label>
+            <input name="radio1" type="radio" value="Beacon" id="Beacon" ng-model="t.pattern">
+            <label for="Beacon">Beacon</label>
+            <input name="radio1" type="radio" value="LWSS" id="LWSS" ng-model="t.pattern">
+            <label for="LWSS">LWSS</label>
+            <input name="radio1" type="radio" value="Block" id="Block" ng-model="t.pattern">
+            <label for="Block">Block</label>
+            <input name="radio1" type="radio" value="GliderGun" id="GliderGun" ng-model="t.pattern">
+            <label for="GliderGun">GliderGun</label>
+        </div>
+        <span class="pr t30 fs20">
+            <span>参见维基百科：</span>
+            <a target="_blank" href="http://zh.wikipedia.org/wiki/%E5%BA%B7%E5%A8%81%E7%94%9F%E5%91%BD%E6%B8%B8%E6%88%8F">细胞机器人</a>
+        </span>
+    </div>
+    <div class="table-w">
+        <table cellspacing="0" cellpadding="0">
+            <tbody>
+            <tr ng-repeat="(row,rowCells) in t.cells">
+                <td ng-repeat="(col,cell) in rowCells" ng-class="{alive:cell.alive}" ng-click="clickCell(row,col)"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

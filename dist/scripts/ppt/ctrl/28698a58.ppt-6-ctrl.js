@@ -1,1 +1,0 @@
-define(["angular","devConfig","pathConfig","jquery"],function(e){e.module("ppt-6-module",[]).controller("ppt-6-ctrl",["$scope","$location","$$console","$timeout","$interval","$$ls","$q",function(e,n,o,t,a){{var l=e._f;e.s={}}l.pageFade().nextPageAnimate().pageFlipX(),e.$on("$destroy",function(){a.cancel()})}])});

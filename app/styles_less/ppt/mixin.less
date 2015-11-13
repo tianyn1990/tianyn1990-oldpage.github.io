@@ -10,10 +10,26 @@
 @danger-hover: darken(@danger, 15%);
 
 .ppt-page{
+    .zi2{ z-index: 2 }
+    .zi3{ z-index: 3 }
     position: relative; top: 0; left: 0;
     width: 100%; height: 100%; overflow: hidden;
     z-index: 1;
     background-color: rgba(0, 0, 0, .5);
+    transition: background-color 3s 0 linear;
+    &.ofa{ overflow: auto; }
+    button{
+        &.primary{ background-color: @primary }
+        &.success{ background-color: @success }
+        &.info{ background-color: @info }
+        &.warning{ background-color: @warning }
+        &.danger{ background-color: @danger }
+        &.primary:hover{ background-color: @primary-hover }
+        &.success:hover{ background-color: @success-hover }
+        &.info:hover{ background-color: @info-hover }
+        &.warning:hover{ background-color: @warning-hover }
+        &.danger:hover{ background-color: @danger-hover }
+    }
     .only-center{
         position: absolute; top: 50%;
         margin-top: -120px;
@@ -24,11 +40,33 @@
         text-shadow: 0 0 .09em rgba(0, 0, 0, .7);
         transition: all .3s 0 linear;
         cursor: pointer;
+        @media all and (max-width: 900px){
+            font-size: 150px;
+        }
+        @media all and (max-width: 600px){
+            font-size: 120px;
+        }
+        @media all and (max-width: 400px){
+            font-size: 100px;
+        }
     }
     .only-center:hover, .only-center.active{
         color: #000;
         text-shadow: 4px 10px .3em rgba(0, 0, 0, .8);
     }
+    &.lighter:before, &.darker:before, &.light:before, &.dark:before, &.lighter-lt:before, &.darker-lt:before{
+        content: " ";
+        position: absolute; top: 0; left: 0;
+        width: 100%; height: 100%;
+    }
+    &.lighter-lt:before{ background-color: rgba(255, 255, 255, .2) }
+    &.lighter:before{ background-color: rgba(255, 255, 255, .6) }
+    &.light:before{ background-color: rgba(255, 255, 255, .8) }
+
+    &.darker-lt:before{ background-color: rgba(0, 0, 0, .35) }
+    &.darker:before{ background-color: rgba(0, 0, 0, .5) }
+    &.dark:before{ background-color: rgba(0, 0, 0, .7) }
+
     &.ppt-page-1{ background-color: @primary }
     &.ppt-page-2{ background-color: @success }
     &.ppt-page-3{ background-color: @info }
@@ -39,4 +77,151 @@
     &.ppt-page-8{ background-color: @info-hover }
     &.ppt-page-9{ background-color: @warning-hover }
     &.ppt-page-10{ background-color: @danger-hover }
+
+    .scroll-ball{
+        z-index: 2;
+        display: block; position: fixed; top: 50%; left: 50%;
+        width: 24px; height: 24px; margin-left: -12px; margin-top: -12px;
+        background-color: #d0d0d0;
+        border-radius: 50%;
+        border: 1px solid rgba(0, 0, 0, .4);
+        box-shadow: 2px 2px 6px -2px #333;
+        transform-origin: 50% 50% 0;
+        transform-style: preserve-3d;
+        &.scroll-ball-noshadow{ box-shadow: none }
+        &.scroll-ball-1{
+            background-color: darken(@warning, 10%);
+            animation: scroll-ball-1 2s 0 infinite linear;
+        }
+        &.scroll-ball-2{
+            background-color: darken(@danger, 10%);
+            animation: scroll-ball-2 2s 2s infinite linear;
+        }
+        &.top-left-corner{ top: 50px; left: 50px; }
+    }
+    .back-btn{
+        position: absolute; top: 40px; right: 0;
+        width: 76px; height: 70px;
+        border: 3px solid #fff;
+        cursor: pointer;
+        z-index: 10;
+        &:hover{ border: 3px dotted #fff; }
+        &:before{
+            position: absolute; content: " "; top: 0; left: 0;
+            width: 100%; height: 100%;
+            background-color: #fff; opacity: .1;
+            animation: opacity-hover 1.5s 0 infinite alternate ease-in;
+        }
+        &:after{
+            position: absolute; content: " "; top: -3px; right: 50px;
+            width: 0; height: 0;
+            border-left: 20px solid #fff; border-top: 35px solid transparent; border-bottom: 35px solid transparent;
+            animation: right-hover 1.5s 0 infinite alternate ease-in;
+        }
+    }
+    @keyframes opacity-hover{
+        0%{ opacity: 0; }
+        100%{ opacity: 1; }
+    }
+    @keyframes right-hover{
+        0%{ right: 50px; }
+        100%{ right: -3px; }
+    }
+    @keyframes scroll-ball-1{
+        0%{ transform: rotateY(0deg) perspective(400px); z-index: 10; }
+        25%{ transform: rotateY(90deg) perspective(400px); z-index: 2; }
+        50%{ transform: rotateY(180deg) perspective(400px); z-index: 1; }
+        75%{ transform: rotateY(270deg) perspective(400px); z-index: 2; }
+        100%{ transform: rotateY(360deg) perspective(400px); z-index: 10; }
+    }
+    @keyframes scroll-ball-2{
+        0%{ transform: rotateY(0deg) perspective(400px); z-index: 1; }
+        25%{ transform: rotateY(90deg) perspective(400px); z-index: 2; }
+        50%{ transform: rotateY(180deg) perspective(400px); z-index: 10; }
+        75%{ transform: rotateY(270deg) perspective(400px); z-index: 2; }
+        100%{ transform: rotateY(360deg) perspective(400px); z-index: 1; }
+    }
+
+    a{
+        text-decoration: none;
+        padding-left: 10px; font-size: 36px;
+        color: #ed6d00; border-bottom: 1px solid #ed6d00;
+        cursor: pointer;
+    }
+
+    .t30{ top: 30px }
+    .t10p{ top: 10% }
+    .r10p{ right: 10% }
+
+    .m0{ margin: 0 }
+    .mauto{ margin: auto }
+    .ml-1{ margin-left: -1px }
+
+    .w65p{ width: 80% }
+    .w80p{ width: 80% }
+    .h100p{ height: 100% }
+
+    .cff{ color: #fff }
+    .cp{ cursor: pointer }
+
+    //固定定位垂直水平居中
+    .pfv{
+        position: fixed; top: 50%; left: 50%;
+        transform: translateX(-50%) translateY(-50%);
+        .pfv-img{
+            height: 650px;
+        }
+    }
+    *{ text-shadow: 1px 1px 2px rgba(0, 0, 0, .8); .cff }
+
+    .pre-step{
+        .next-step;
+    }
+    .next-step{
+        height: 40px; line-height: 40px;
+        border: 2px dashed #fff;
+        border-bottom: 0;
+        padding: 0 10px;
+        font-size: 20px;
+        background-color: rgba(255, 255, 255, .1);
+        cursor: pointer;
+        z-index: 3;
+    }
+
+    .t0{
+        .only-center; font-size: 110px; position: static; margin-top: 0;
+        .danger{ color: @danger }
+        .success{ color: @success }
+        .primary{ color: @primary }
+        .warning{ color: @warning }
+        .info{ color: @info }
+    }
+    .t1{
+        font-size: 44px; min-height: 42px; line-height: 42px; text-align: center; margin-bottom: 20px;
+        word-break: break-all; word-wrap: break-word;
+        .danger{ color: @danger }
+        .success{ color: @success }
+        .primary{ color: @primary }
+        .warning{ color: @warning }
+        .info{ color: @info }
+    }
+    .t2{
+        font-size: 36px; line-height: 38px; text-align: left; margin-bottom: 15px;
+        word-break: break-all; word-wrap: break-word;
+        .danger{ color: @danger }
+        .success{ color: @success }
+        .primary{ color: @primary }
+        .warning{ color: @warning }
+        .info{ color: @info }
+    }
+    .sq{
+        word-break: break-all; word-wrap: break-word;
+        display: inline-block;
+        height: 34px; line-height: 30px;
+        font-size: 28px;
+        padding: 0 10px; margin-bottom: 20px;
+        border: 2px solid #fff;
+    }
+    .sq-hover{ background-color: rgba(255, 255, 255, .5) }
+
 }

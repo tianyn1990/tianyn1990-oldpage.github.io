@@ -1,0 +1,112 @@
+<style type="text/css">
+    .files-w{ width: 100%; padding: 10px; background-color: #fff; overflow: hidden; }
+    output{ overflow: hidden; display: inline-block; }
+    .sec{ padding: 10px; margin: 10px auto; width: 60%; border: 1px solid #333; }
+    .sec h3{ font-size: 24px; color: #444; padding-bottom: 10px; }
+    #drop-zone{
+        width: 100%;
+        border: 2px dashed #666; border-radius: 4px; -webkit-border-radius: 4px; -moz-border-radius: 4px; -o-border-radius: 4px;
+        height: 64px; line-height: 60px; text-align: center;
+        font-size: 20px; color: #666; background-color: #f0f0f0;
+    }
+    .thumb{ height: 75px; margin: 10px; border: 1px solid #333; }
+    button{ background-color: #333; color: #fff; margin: 5px; border-radius: 4px; -webkit-border-radius: 4px; -moz-border-radius: 4px; -o-border-radius: 4px; }
+    .break{
+        word-break: break-all;
+        word-wrap: break-word;
+    }
+    #progress-bar{
+        margin: 10px 0;
+        padding: 3px;
+        border: 1px solid #000;
+        font-size: 14px;
+        clear: both;
+        opacity: 0;
+        -moz-transition: opacity 1s linear;
+        -o-transition: opacity 1s linear;
+        -webkit-transition: opacity 1s linear;
+    }
+    #progress-bar.loading{
+        opacity: 1.0;
+    }
+    #progress-bar .percent{
+        background-color: #99ccff;
+        height: auto;
+        width: 0;
+    }
+    h2{ padding: 5px; width: 100%; text-align: center; }
+    h2 a{ margin-left: 10px; }
+</style>
+<div class="files-w">
+
+    <h2>
+        <a href="http://www.html5rocks.com/zh/tutorials/file/dndfiles/" target="_blank">File & FileReader</a>
+    </h2>
+
+    <!-- 文件操作 -->
+    <div class="sec">
+        <h3>选择文件：使用input选择多个文件</h3>
+        <input type="file" id="file1" name="files[]" accept="image/*" multiple>
+        <output id="output1"></output>
+    </div>
+
+    <div class="sec">
+        <h3>选择文件：使用拖放操作进行选择</h3>
+
+        <div id="drop-zone">将文件拖放到这里</div>
+        <output id="output2"></output>
+    </div>
+
+    <div class="sec">
+        <h3>读取文件：展示缩略图</h3>
+        <input type="file" id="file2" name="files[]" accept="image/*" multiple>
+        <output id="output3"></output>
+    </div>
+
+    <div class="sec">
+        <h3>分割图片</h3>
+        <input type="file" id="file3" name="files[]" accept="image/*" multiple>
+
+        <div class="readBytesButton">
+            <button data-startbyte="0" data-endbyte="4">1-5</button>
+            <button data-startbyte="5" data-endbyte="14">6-15</button>
+            <button data-startbyte="6" data-endbyte="7">7-8</button>
+            <button>整个文件</button>
+        </div>
+        <p id="byte-range" class="break"></p>
+        <p id="byte-content"></p>
+    </div>
+
+    <div class="sec">
+        <h3>监控读取进度</h3>
+        <input type="file" id="file4" name="file"/>
+        <button id="cancel-read" ng-click="cancelRead()" class="fr">取消读取</button>
+        <div id="progress-bar">
+            <div class="percent" id="percent">0%</div>
+        </div>
+    </div>
+
+    <h2>
+        <a href="http://www.sitepoint.com/html5-javascript-file-upload-progress-bar/" target="_blank">Upload-Progress-Bar</a>
+    </h2>
+
+    <h2>
+        <a href="http://www.zhangxinxu.com/wordpress/2013/11/xmlhttprequest-ajax-localstorage-文件断点续传/" target="_blank">断点续传</a>
+    </h2>
+
+    <h2>
+        <a href="http://davidwalsh.name/browser-camera" target="_blank">Webcam</a>
+        <a href="http://davidwalsh.name/convert-canvas-image" target="_blank">Convert-Canvas-Image</a>
+    </h2>
+
+    <div class="sec sec-wid ">
+        <h3>demo n：Webcam(网络摄像头) : Camera and Video Control with HTML5</h3>
+        <video style="background:#eee;" id="video" width="640" height="480" autoplay></video>
+        <br>
+        <button style="margin:20px;" id="snap">Snap Photo</button>
+        <br>
+        <canvas style="background:#eee;" id="canvas" width="640" height="480"></canvas>
+        <br>
+        <img style="background:#eee;" id="img" width="640" height="480">
+    </div>
+</div>
