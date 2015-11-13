@@ -17,7 +17,7 @@
 
 原理示意图如下所示
 
-![web message原理](/blog/images/6608228710167581530.png)
+![web message原理](/images/6608228710167581530.png)
 
 这里我们可以简单理解为各个窗体之间有一个消息通道，对于消息通道的关系我们定义为以下两种类型：
 
@@ -39,7 +39,7 @@
 
 MessageEvent定义
 
-![message event](/blog/images/2209297092302616725.png)
+![message event](/images/2209297092302616725.png)
 
 data
 
@@ -66,7 +66,7 @@ ports
 
 原理图示
 
-![send message](/blog/images/1396397359562519963.png)
+![send message](/images/1396397359562519963.png)
 
 发送消息使用规范定义的window.postMessage接口，接口定义如下
 
@@ -119,25 +119,25 @@ window.addEventListener(
 
 前面我们通过postMessage接口和onmessage事件实现了父子窗体之间的消息通讯，接下来我们需要完成兄弟关系的窗体之间的消息通讯
 
-![message between sibling](/blog/images/1414411758071900501.png)
+![message between sibling](/images/1414411758071900501.png)
 
 这里如果window2要向window1发送消息，因为window2不能直接拿到window1的窗体对象，因此无法直接通过postMessage接口来向window1发送消息，一种折中的方式就是通过父窗体将消息做一次转发，window2先给消息parent，然后由parent将消息转交给window1，如下图所示
 
-![message by parent proxy](/blog/images/6619527291653512726.png)
+![message by parent proxy](/images/6619527291653512726.png)
 
 但是这样我们会发现消息的路径比较长，因此效率比较低，W3C针对此类消息提供了MessageChannel机制来完成消息通讯
 
 一个MessageChannel包含两个端口，每个端口可以独立的完成消息的收发功能
 
-![message channel abstract](/blog/images/2210985942163057055.png)
+![message channel abstract](/images/2210985942163057055.png)
 
 MessageChannel定义
 
-![message channel](/blog/images/4796333603250057446.png)
+![message channel](/images/4796333603250057446.png)
 
 因此兄弟关系的窗体之间的消息通讯机制可抽象为如下图所示
 
-![message between sibling](/blog/images/3017974700392032857.png)
+![message between sibling](/images/3017974700392032857.png)
 
 下面通过代码例子来解析整个流程
 
@@ -217,7 +217,7 @@ window.addEventListener(
 
 这里我们主要利用Trident引擎下跨域窗体可设置window.name的特性来实现消息的传递，具体实现原理示意图如下所示
 
-![message by window.name](/blog/images/6608700400654849159.png)
+![message by window.name](/images/6608700400654849159.png)
 
 假设上图Window1需要传递消息至Window2中，则消息的传递步骤如下：
 
