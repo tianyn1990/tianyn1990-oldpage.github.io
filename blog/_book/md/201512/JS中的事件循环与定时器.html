@@ -1,0 +1,399 @@
+<!DOCTYPE HTML>
+<html lang="en" >
+    
+    <head>
+        
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <title>JS中的事件循环与定时器 | 博客 by tianyn1990</title>
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+        <meta name="generator" content="GitBook 2.5.2">
+        
+        
+        <meta name="HandheldFriendly" content="true"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-status-bar-style" content="black">
+        <link rel="apple-touch-icon-precomposed" sizes="152x152" href="../../gitbook/images/apple-touch-icon-precomposed-152.png">
+        <link rel="shortcut icon" href="../../gitbook/images/favicon.ico" type="image/x-icon">
+        
+    <link rel="stylesheet" href="../../gitbook/style.css">
+    
+        
+        <link rel="stylesheet" href="../../gitbook/plugins/gitbook-plugin-highlight/website.css">
+        
+    
+        
+        <link rel="stylesheet" href="../../gitbook/plugins/gitbook-plugin-search/search.css">
+        
+    
+        
+        <link rel="stylesheet" href="../../gitbook/plugins/gitbook-plugin-fontsettings/website.css">
+        
+    
+    
+
+        
+    
+    
+    
+    <link rel="prev" href="../../index.html" />
+    
+
+        
+    </head>
+    <body>
+        
+        
+    <div class="book" data-level="1.1" data-chapter-title="JS中的事件循环与定时器" data-filepath="md/201512/JS中的事件循环与定时器.md" data-basepath="../.." data-revision="Tue Dec 01 2015 19:54:36 GMT+0800 (CST)">
+    
+
+<div class="book-summary">
+    <nav role="navigation">
+        <ul class="summary">
+            
+            
+            
+            
+
+            
+
+            
+    
+        <li class="chapter " data-level="0" data-path="index.html">
+            
+                
+                    <a href="../../index.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                        Introduction
+                    </a>
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="1" >
+            
+            <span><b>1.</b> 2015.12</span>
+            
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter active" data-level="1.1" data-path="md/201512/JS中的事件循环与定时器.html">
+            
+                
+                    <a href="../../md/201512/JS中的事件循环与定时器.html">
+                
+                        <i class="fa fa-check"></i>
+                        
+                            <b>1.1.</b>
+                        
+                        JS中的事件循环与定时器
+                    </a>
+            
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+
+            
+            <li class="divider"></li>
+            <li>
+                <a href="https://www.gitbook.com" target="blank" class="gitbook-link">
+                    Published with GitBook
+                </a>
+            </li>
+            
+        </ul>
+    </nav>
+</div>
+
+    <div class="book-body">
+        <div class="body-inner">
+            <div class="book-header" role="navigation">
+    <!-- Actions Left -->
+    
+
+    <!-- Title -->
+    <h1>
+        <i class="fa fa-circle-o-notch fa-spin"></i>
+        <a href="../../" >博客 by tianyn1990</a>
+    </h1>
+</div>
+
+            <div class="page-wrapper" tabindex="-1" role="main">
+                <div class="page-inner">
+                
+                
+                    <section class="normal" id="section-">
+                    
+                        <h2 id="js&#x4E2D;&#x7684;&#x4E8B;&#x4EF6;&#x5FAA;&#x73AF;&#x4E0E;&#x5B9A;&#x65F6;&#x5668;">JS&#x4E2D;&#x7684;&#x4E8B;&#x4EF6;&#x5FAA;&#x73AF;&#x4E0E;&#x5B9A;&#x65F6;&#x5668;</h2>
+<blockquote>
+<p>by tianyn1990</p>
+</blockquote>
+<p><em>&#x672C;&#x6587;&#x662F;&#x5728;&#x770B;&#x8FC7;&#x4E00;&#x4E9B;&#x6587;&#x7AE0;&#x548C;&#x89C6;&#x9891;&#x4E4B;&#x540E;&#xFF0C;&#x7ED3;&#x5408;&#x81EA;&#x5DF1;&#x7684;&#x7406;&#x89E3;&#xFF0C;&#x505A;&#x7684;&#x4E00;&#x4E2A;&#x6C47;&#x603B;&#xFF0C;&#x5982;&#x679C;&#x53D1;&#x73B0;&#x7406;&#x89E3;&#x9519;&#x8BEF;&#x7684;&#x5730;&#x65B9;&#xFF0C;&#x8BF7;&#x53CA;&#x65F6;&#x6307;&#x51FA;&#x4FBF;&#x4E8E;&#x66F4;&#x6B63;&#x3002;</em> <strong>Orz</strong></p>
+<h3 id="&#x4E00;&#x3001;&#x5355;&#x7EBF;&#x7A0B;">&#x4E00;&#x3001;&#x5355;&#x7EBF;&#x7A0B;</h3>
+<p>javascript&#x5355;&#x7EBF;&#x7A0B;&#x6267;&#x884C;&#xFF0C;&#x662F;&#x7531;&#x6D4F;&#x89C8;&#x5668;&#x7684;&#x573A;&#x666F;&#x51B3;&#x5B9A;&#x7684;&#xFF0C;&#x907F;&#x514D;&#x4E86;&#x590D;&#x6742;&#x7684;&#x540C;&#x6B65;&#x95EE;&#x9898;&#x3002;HTML5&#x63D0;&#x51FA;&#x300C;Web Worker&#x300D;&#x6807;&#x51C6;&#xFF0C;&#x5141;&#x8BB8;js&#x521B;&#x5EFA;&#x591A;&#x4E2A;&#x7EBF;&#x7A0B;&#xFF0C;&#x4F46;&#x5B50;&#x7EBF;&#x7A0B;&#x4ECD;&#x53D7;&#x4E3B;&#x7EBF;&#x7A0B;&#x63A7;&#x5236;&#xFF0C;&#x4E14;&#x4E0D;&#x80FD;&#x64CD;&#x4F5C;DOM&#xFF0C;js&#x7684;&#x672C;&#x8D28;&#x672A;&#x53D8;&#x3002;</p>
+<h3 id="&#x4E8C;&#x3001;&#x4EFB;&#x52A1;&#x961F;&#x5217;--&#x4E8B;&#x4EF6;&#x5FAA;&#x73AF;">&#x4E8C;&#x3001;&#x4EFB;&#x52A1;&#x961F;&#x5217; &amp; &#x4E8B;&#x4EF6;&#x5FAA;&#x73AF;</h3>
+<p><img src="../../images/taskqueue.png" alt="image"></p>
+<ul>
+<li><p>&#x4EFB;&#x52A1;&#x5206;&#x4E3A;&#xFF1A;<strong>&#x540C;&#x6B65;&#x4EFB;&#x52A1;&#xFF08;synchronous&#xFF09;</strong>&#x3001;<strong>&#x5F02;&#x6B65;&#x4EFB;&#x52A1;&#xFF08;asynchronous&#xFF09;</strong>&#xFF1B;&#x540C;&#x6B65;&#x4EFB;&#x52A1;&#x88AB;&#x653E;&#x5165;<strong>&#x4E3B;&#x7EBF;&#x7A0B;</strong>&#xFF0C;&#x5F02;&#x6B65;&#x4EFB;&#x52A1;&#x653E;&#x5165;<strong>&#x4EFB;&#x52A1;&#x961F;&#x5217;&#xFF08;task queue&#xFF09;</strong>&#x3002;&#x4EFB;&#x52A1;&#x961F;&#x5217;&#x4E2D;&#x7684;&#x5F02;&#x6B65;&#x4EFB;&#x52A1;&#x4E00;&#x65E6;&#x8FD0;&#x884C;&#x6709;&#x4E86;&#x7ED3;&#x679C;&#xFF0C;&#x90A3;&#x4E48;&#x4F1A;&#x5728;&#x4EFB;&#x52A1;&#x961F;&#x5217;&#x4E2D;&#x653E;&#x7F6E;&#x4E00;&#x4E2A;&#x5BF9;&#x5E94;&#x7684;&#x4E8B;&#x4EF6;&#xFF0C;&#x5F53;&#x4E3B;&#x7EBF;&#x7A0B;&#x4E2D;&#x7684;&#x540C;&#x6B65;&#x4EFB;&#x52A1;&#x5168;&#x90E8;&#x6267;&#x884C;&#x5B8C;&#x6BD5;&#x4EE5;&#x540E;&#xFF0C;&#x4F1A;&#x68C0;&#x67E5;&#x4EFB;&#x52A1;&#x961F;&#x5217;&#xFF0C;&#x5C06;&#x5305;&#x542B;&#x5BF9;&#x5E94;&#x4E8B;&#x4EF6;&#x7684;&#x5F02;&#x6B65;&#x4EFB;&#x52A1;&#x653E;&#x5165;&#x4E3B;&#x7EBF;&#x7A0B;&#xFF0C;&#x7136;&#x540E;&#x4E3B;&#x7EBF;&#x7A0B;&#x4F1A;&#x6267;&#x884C;&#x6240;&#x6709;&#x4EFB;&#x52A1;&#xFF0C;&#x6267;&#x884C;&#x5B8C;&#x6BD5;&#x4EE5;&#x540E;&#x518D;&#x6B21;&#x68C0;&#x67E5;task queue&#x3002;&#x8FD9;&#x6837;&#x4E0D;&#x65AD;&#x5FAA;&#x73AF;&#x7684;&#x8FC7;&#x7A0B;&#x5C31;&#x53EB;&#x505A;<strong>&#x300C;event loop&#x300D;</strong>&#x3002;&#xFF08;&#x9700;&#x8981;&#x6CE8;&#x610F;&#x7684;&#x662F;&#xFF0C;loop&#x7684;&#x65F6;&#x95F4;&#x7CBE;&#x5EA6;&#x5728;4ms-16ms&#x4E4B;&#x95F4;&#xFF0C;oldIE&#x4F1A;&#x6BD4;&#x8F83;&#x5927;&#xFF0C;&#x90E8;&#x5206;&#x73B0;&#x4EE3;&#x6D4F;&#x89C8;&#x5668;&#x4F1A;&#x5224;&#x65AD;pc&#x662F;&#x5426;&#x5916;&#x63A5;&#x7535;&#x6E90;&#x6765;&#x8C03;&#x6574;&#x7CBE;&#x786E;&#x5EA6;&#xFF09;</p>
+</li>
+<li><p>task queue&#x4E2D;&#x7684;&#x300C;&#x4E8B;&#x4EF6;&#x300D;&#x5305;&#x62EC;&#xFF1A;IO&#x8BBE;&#x5907;&#xFF08;keypress,network events like ajax...&#xFF09;&#x3001;&#x9F20;&#x6807;&#x70B9;&#x51FB;&#x3001;&#x9875;&#x9762;&#x6EDA;&#x52A8;&#x7B49;&#x3002;&#x4E8B;&#x4EF6;&#x88AB;&#x6DFB;&#x52A0;&#x5230;&#x4E3B;&#x7EBF;&#x7A0B;&#x540E;&#xFF0C;&#x5728;&#x4E0B;&#x4E00;&#x4E2A;loop&#x4E2D;&#x6267;&#x884C;&#x7684;&#x662F;&#x8BE5;&#x4E8B;&#x4EF6;&#x7684;&#x300C;&#x56DE;&#x8C03;&#x51FD;&#x6570;&#x300D;&#xFF0C;&#x6240;&#x4EE5;async task&#x90FD;&#x6709;&#x56DE;&#x8C03;&#x51FD;&#x6570;&#x3002;</p>
+</li>
+<li><p>task queue&#x662F;&#x300C;&#x5148;&#x8FDB;&#x5148;&#x51FA;&#x300D;&#x961F;&#x5217;&#x7ED3;&#x6784;&#xFF0C;&#x9996;&#x5148;&#x6CE8;&#x518C;&#x7684;&#x4E8B;&#x4EF6;&#x7B2C;&#x4E00;&#x4E2A;&#x8FDB;&#x5165;&#x4E3B;&#x7EBF;&#x7A0B;&#x7B49;&#x5F85;&#x6267;&#x884C;&#x3002;&#x4F46;&#x300C;&#x5B9A;&#x65F6;&#x5668;&#x300D;&#x529F;&#x80FD;&#x8FD8;&#x4F1A;&#x6821;&#x9A8C;&#x8BE5;&#x4E8B;&#x4EF6;&#x7684;&#x65F6;&#x95F4;&#xFF0C;&#x5230;&#x8FBE;&#x65F6;&#x95F4;&#x540E;&#x7684;async task&#x624D;&#x8FDB;&#x5165;&#x4E3B;&#x7EBF;&#x7A0B;&#x3002;</p>
+</li>
+</ul>
+<p><img src="../../images/eventloop.png" alt="image"></p>
+<ul>
+<li>&#x5982;&#x4E0A;&#x56FE;&#xFF0C;&#x4E3B;&#x7EBF;&#x7A0B;&#x7684;&#x8FD0;&#x884C;&#x4F1A;&#x4EA7;&#x751F;<strong>&#x300C;&#x5806; heap&#x300D;</strong>&#x548C;<strong>&#x300C;&#x6808; stack&#x300D;</strong>&#xFF0C;<strong>&#x300C;&#x6267;&#x884C;&#x6808;&#x300D;</strong>&#xFF08;&#x4E3B;&#x7EBF;&#x7A0B;&#xFF09;&#x4E2D;&#x7684;&#x4EE3;&#x7801;&#x53EF;&#x80FD;&#x4F1A;&#x901A;&#x8FC7;&#x8C03;&#x7528;&#x300C;WebAPIs&#x300D;&#x5728;task queue&#x4E2D;&#x521B;&#x5EFA;async task&#xFF0C;&#x5F97;&#x5230;&#x7ED3;&#x679C;&#x7684;async task&#x4F1A;&#x5C06;&#x300C;&#x56DE;&#x8C03;&#x51FD;&#x6570;&#x300D;&#x653E;&#x5165;callback queue&#x4E2D;&#xFF0C;&#x5E76;&#x628A;&#x76F8;&#x5E94;&#x4E8B;&#x4EF6;&#x653E;&#x5165;task queue&#x4E2D;&#xFF0C;&#x5F53;&#x300C;&#x6267;&#x884C;&#x6808;&#x300D;&#x4E2D;&#x7684;&#x4EE3;&#x7801;&#x6267;&#x884C;&#x5B8C;&#x6BD5;&#xFF0C;&#x5C31;&#x4F1A;&#x4F9D;&#x6B21;&#x5C06;task queue&#x4E2D;&#x6240;&#x6709;&#x7B26;&#x5408;&#x65F6;&#x95F4;&#x8981;&#x6C42;&#xFF08;&#x5B9A;&#x65F6;&#x5668;&#xFF09;&#x7684;&#x4E8B;&#x4EF6;&#x653E;&#x5165;&#x300C;&#x6267;&#x884C;&#x6808;&#x300D;&#x4E2D;&#xFF0C;&#x5E76;&#x5728;&#x4E0B;&#x4E00;&#x4E2A;event loop&#x4E2D;&#x6267;&#x884C;&#x5BF9;&#x5E94;&#x7684;&#x300C;&#x56DE;&#x8C03;&#x51FD;&#x6570;&#x300D;&#x3002;</li>
+</ul>
+<h3 id="&#x4E09;&#x3001;&#x5B9A;&#x65F6;&#x5668;">&#x4E09;&#x3001;&#x5B9A;&#x65F6;&#x5668;</h3>
+<h3 id="settimeout">setTimeout</h3>
+<ul>
+<li><p>setTimeout &#x4E0E; setInterval &#x5B9E;&#x73B0;&#x539F;&#x7406;&#x4E00;&#x81F4;&#xFF0C;setTimeout(fn,0) &#x4F1A;&#x5C06;&#x300C;&#x4E8B;&#x4EF6;&#x300D;&#x653E;&#x5165;task queue&#x7684;<strong>&#x5C3E;&#x90E8;</strong>&#xFF0C;&#x5728;<strong>&#x4E0B;&#x4E00;&#x6B21;loop</strong>&#x4E2D;&#xFF0C;&#x5F53;&#x300C;&#x540C;&#x6B65;&#x4EFB;&#x52A1;&#x300D;&#x4E0E;task queue&#x4E2D;&#x73B0;&#x6709;&#x4E8B;&#x4EF6;&#x90FD;&#x6267;&#x884C;&#x5B8C;&#x4E4B;&#x540E;&#x518D;&#x6267;&#x884C;&#x3002;</p>
+</li>
+<li><p>setTimeout&#x5B58;&#x5728;<strong>&#x300C;&#x65F6;&#x95F4;&#x7CBE;&#x5EA6;&#x95EE;&#x9898;&#x300D;</strong>&#xFF0C;&#x81F3;&#x5C11;&#x5728;4ms&#x4EE5;&#x4E0A;&#xFF0C;&#x6839;&#x636E;&#x6D4F;&#x89C8;&#x5668;&#x3001;&#x8BBE;&#x5907;&#x662F;&#x5426;&#x63D2;&#x7535;&#x6E90;&#x7B49;&#x6709;&#x6240;&#x4E0D;&#x540C;&#xFF0C;&#x6700;&#x591A;&#x80FD;&#x8FBE;&#x5230;&#x8FD1;16ms&#x3002;&#x4E3A;&#x4E86;&#x89E3;&#x51B3;&#x8FD9;&#x4E2A;&#x95EE;&#x9898;&#xFF0C;&#x52A0;&#x5FEB;&#x54CD;&#x5E94;&#x901F;&#x5EA6;&#xFF0C;&#x4EA7;&#x751F;&#x4E86;<strong>&#x300C;setImmediate API &#x4E0E; setImmediate.js&#x9879;&#x76EE;&#x300D;</strong>&#x4E0E;<strong>&#x300C;requestAnimationFrame&#x300D;</strong>&#xFF0C;&#x524D;&#x8005;&#x89E3;&#x51B3;<strong>&#x300C;&#x89E6;&#x53D1;&#x4E4B;&#x540E;&#xFF0C;&#x7ACB;&#x5373;&#x8C03;&#x7528;&#x56DE;&#x8C03;&#x51FD;&#x6570;&#xFF0C;&#x5E0C;&#x671B;&#x5EF6;&#x8FDF;&#x5C3D;&#x53EF;&#x80FD;&#x77ED;&#x300D;</strong>&#x7684;&#x60C5;&#x51B5;&#xFF0C;&#x540E;&#x8005;&#x53EF;&#x4EE5;&#x5B9E;&#x73B0;<strong>&#x300C;&#x6D41;&#x7545;&#x7684;JS&#x52A8;&#x753B;&#x300D;&#xFF08;&#x89C1;&#x4E0B;&#x6587;&#xFF09;</strong></p>
+</li>
+</ul>
+<h3 id="setinterval">setInterval</h3>
+<ul>
+<li><p>setInterval&#x5982;&#x679C;&#x4F7F;&#x7528;&#x300C;&#x56FA;&#x5B9A;&#x6B65;&#x957F;&#x300D;&#xFF08;&#x95F4;&#x9694;&#x65F6;&#x95F4;&#x4E3A;&#x5B9A;&#x503C;&#xFF09;&#xFF0C;&#x4F8B;&#x5982;200ms&#xFF0C;&#x90A3;&#x4E48;&#x5B83;&#x53EF;&#x80FD;&#x4F1A;&#x5728;&#x8DDD;&#x79BB;js&#x6267;&#x884C;&#x5F00;&#x59CB;&#x7684;205ms&#xFF0C;405ms&#xFF0C;605ms...&#x65F6;&#x5C06;&#x300C;&#x4E8B;&#x4EF6;&#x300D;&#x653E;&#x5165;task queue&#x4E2D;&#x7684;&#x672B;&#x5C3E;&#x7B49;&#x5F85;&#x6267;&#x884C;&#x3002;</p>
+</li>
+<li><h4 id="&#x95EE;&#x9898;&#x4E00;&#xFF1A;">&#x95EE;&#x9898;&#x4E00;&#xFF1A;</h4>
+<p>&#x5982;&#x679C;&#x4E3B;&#x7EBF;&#x7A0B;&#xFF08;&#x6216;&#x6267;&#x884C;&#x6808;&#xFF09;&#x4E2D;&#x7684;&#x4EFB;&#x52A1;&#x4E0E;task queue&#x4E2D;&#x7684;&#x5176;&#x5B83;&#x4EFB;&#x52A1;&#x518D;&#x52A0;&#x4E0A;setInterval&#x4E2D;&#x7684;&#x56DE;&#x8C03;&#x51FD;&#x6570;&#x7684;&#x603B;&#x6267;&#x884C;&#x65F6;&#x95F4;&#x8D85;&#x8FC7;&#x4E86;&#x300C;&#x56FA;&#x5B9A;&#x6B65;&#x957F;&#x300D;&#xFF08;200ms&#xFF09;&#xFF0C;&#x90A3;&#x4E48;setInterval&#x7684;&#x56DE;&#x8C03;&#x51FD;&#x6570;&#x5C31;&#x4F1A;&#x300C;&#x5EF6;&#x540E;&#x6267;&#x884C;&#x300D;&#xFF0C;&#x6D4F;&#x89C8;&#x5668;&#x4F1A;&#x4FDD;&#x8BC1;<strong>&#x300C;&#x5F53;&#x4EFB;&#x52A1;&#x961F;&#x5217;&#x4E2D;&#x6CA1;&#x6709;&#x5B9A;&#x65F6;&#x5668;&#x7684;&#x4EFB;&#x4F55;&#x5176;&#x5B83;&#x4EE3;&#x7801;&#x5B9E;&#x4F8B;&#x65F6;&#xFF0C;&#x624D;&#x5C06;&#x65B0;&#x7684;&#x5B9A;&#x65F6;&#x5668;&#x6DFB;&#x52A0;&#x5230;&#x4EFB;&#x52A1;&#x961F;&#x5217;&#x300D;</strong>&#xFF0C;&#x957F;&#x65F6;&#x95F4;&#x8FD0;&#x884C;&#x5C31;&#x4F1A;&#x4EA7;&#x751F;&#x5927;&#x91CF;&#x300C;&#x79EF;&#x538B;&#x300D;&#x5728;&#x5185;&#x5B58;&#x4E2D;&#x5F85;&#x6267;&#x884C;&#x7684;&#x51FD;&#x6570;&#xFF0C;&#x5982;&#x679C;&#x4E3B;&#x7EBF;&#x7A0B;&#x7EC8;&#x4E8E;&#x7A7A;&#x95F2;&#x4E0B;&#x6765;&#xFF0C;&#x90A3;&#x4E48;&#x5C31;&#x4F1A;&#x7ACB;&#x523B;&#x6267;&#x884C;<strong>&#x300C;&#x79EF;&#x538B;&#x300D;</strong>&#x7684;&#x5927;&#x91CF;&#x51FD;&#x6570;&#xFF0C;&#x4E2D;&#x95F4;&#x4E0D;&#x4F1A;&#x6709;&#x4EFB;&#x4F55;&#x505C;&#x987F;&#x3002;&#x90A3;&#x4E48;&#x771F;&#x6B63;&#x7684;&#x6267;&#x884C;&#x65F6;&#x95F4;&#x53EF;&#x80FD;&#x5C31;&#x53D8;&#x6210;&#x4E86;&#xFF08;&#x5047;&#x8BBE;&#x4E3B;&#x7EBF;&#x7A0B;&#x6267;&#x884C;&#x65F6;&#x95F4;&#x6BCF;loop&#x56FA;&#x5B9A;&#x4E3A;300ms&#xFF09;&#xFF1A;305ms&#x3001;605ms&#x3001;605ms&#x3001;905ms&#x3001;1205ms&#x3001;1205ms...&#x5C31;&#x4F1A;&#x4EA7;&#x751F;<strong>&#x300C;&#x8DF3;&#x5E27;&#x300D;</strong>&#x3002;&#x4F8B;&#x5B50;&#x5982;&#x4E0B;&#xFF1A;&#xFF08;&#x8865;&#x5145;&#xFF1A;<a href="https://developer.mozilla.org/zh-CN/docs/Code_snippets/Timers" target="_blank">Date.now</a> IE9&#x4EE5;&#x4E0A;&#x652F;&#x6301;&#xFF0C;&#x76F8;&#x5BF9;new Date()&#x6765;&#x8BF4;&#x51CF;&#x5C11;&#x521B;&#x5EFA;&#x4E00;&#x6B21;&#x5BF9;&#x8C61;&#x7684;&#x65F6;&#x95F4;&#x548C;&#x5185;&#x5B58;&#xFF09;</p>
+</li>
+</ul>
+<pre><code>    var i = 0, itv;
+    (function btnclick(){
+        itv = setInterval(function(){
+            console.log(&apos;run:&apos;+i++);
+            var start = Date.now();
+            while(Date.now() - start &lt; 2000) {}
+        }, 500);
+    })();
+</code></pre><p><strong>&#x4F46;&#x5728;&#x8BD5;&#x9A8C;&#x4E2D;&#xFF08;ff&#xFF0C;chrome&#xFF0C;safari&#xFF09;&#xFF0C;&#x53EA;&#x6709;firefox&#x53D1;&#x751F;&#x4E86;&#x300C;&#x79EF;&#x538B;&#x300D;&#x6548;&#x679C;</strong>&#xFF0C;&#x5177;&#x4F53;&#x8868;&#x73B0;&#x4E3A;&#xFF1A;&#x4F1A;&#x6709;&#x51E0;&#x4E2A;&#x300C;run:i&#x300D;&#x540C;&#x65F6;&#x6253;&#x5370;&#x5230;&#x63A7;&#x5236;&#x53F0;&#x3002;&#x63A8;&#x6D4B;&#x662F;webkit&#x5185;&#x6838;&#x5BF9;&#x8FD9;&#x5757;&#x505A;&#x4E86;&#x4F18;&#x5316;&#x3002;&#x5982;&#x679C;&#x4E00;&#x5B9A;&#x8981;&#x4F7F;&#x7528;setInterval&#x7684;&#x8BDD;&#xFF0C;&#x95EE;&#x9898;&#x4E00;&#xFF08;&#x907F;&#x514D;&#x4E8B;&#x4EF6;&#x79EF;&#x538B;&#xFF09;&#x7684;&#x89E3;&#x51B3;&#x529E;&#x6CD5;&#x6709;&#xFF08;&#x6458;&#x81EA;&#x300E;javascript&#x9AD8;&#x7EA7;&#x7A0B;&#x5E8F;&#x8BBE;&#x8BA1;&#x300F;&#xFF09;&#xFF1A;<br>(1) &#x95F4;&#x9694;&#x65F6;&#x95F4;&#x4F7F;&#x7528;&#x767E;&#x5206;&#x6BD4;: &#x5F00;&#x59CB;&#x503C; + (&#x76EE;&#x6807;&#x503C; - &#x5F00;&#x59CB;&#x503C;) * &#xFF08;Date.now() - &#x5F00;&#x59CB;&#x65F6;&#x95F4;&#xFF09;/ &#x65F6;&#x95F4;&#x533A;&#x95F4;&#xFF1B;<br>(2) &#x4F7F;&#x7528;&#x94FE;&#x5F0F;setTimeout&#xFF1B;</p>
+<ul>
+<li><h4 id="&#x95EE;&#x9898;&#x4E8C;&#xFF1A;">&#x95EE;&#x9898;&#x4E8C;&#xFF1A;</h4>
+<p><strong>&#x300C;setTimeout&#x540C;&#x6837;&#x6709;&#x8FD9;&#x4E2A;&#x95EE;&#x9898;&#xFF01;&#x300D;</strong>&#x901A;&#x8FC7;&#x5207;&#x6362;&#x6807;&#x7B7E;&#x9875;&#x7B49;&#x64CD;&#x4F5C;&#x8BA9;&#x9875;&#x9762;&#x5728;&#x540E;&#x53F0;&#x8FD0;&#x884C;&#xFF0C;&#x5FAA;&#x73AF;&#x4ECD;&#x5728;&#x7EE7;&#x7EED;&#xFF0C;&#x53EA;&#x662F;&#x300C;&#x65F6;&#x95F4;&#x95F4;&#x9694;&#x53D8;&#x957F;&#x300D;&#x4E86;&#x800C;&#x5DF2;&#x3002;&#x53E6;&#x5916;&#xFF0C;&#x5F53;&#x52A8;&#x753B;&#x53D1;&#x751F;&#x5728;&#x9875;&#x9762;viewport&#x53EF;&#x89C6;&#x533A;&#x57DF;&#x4EE5;&#x5916;&#x7684;&#x65F6;&#x5019;&#xFF0C;&#x4E2D;&#x65AD;&#x52A8;&#x753B;&#x8FD0;&#x884C;&#xFF0C;&#x624D;&#x662F;&#x6027;&#x80FD;&#x66F4;&#x4F18;&#x7684;&#x9009;&#x62E9;&#xFF08;raf&#x5C31;&#x662F;&#x5982;&#x6B64;&#xFF09;&#x3002;</p>
+</li>
+<li><h4 id="&#x95EE;&#x9898;&#x4E09;&#xFF1A;">&#x95EE;&#x9898;&#x4E09;&#xFF1A;</h4>
+<p>&#x5728;&#x4F7F;&#x7528;setTimeout&#x5236;&#x4F5C;JS&#x52A8;&#x753B;&#x7684;&#x65F6;&#x5019;&#xFF0C;&#x65F6;&#x95F4;&#x95F4;&#x9694;&#x662F;&#x4E0D;&#x597D;&#x628A;&#x63E1;&#x7684;&#xFF0C;&#x5982;&#x679C;&#x5047;&#x8BBE;&#x67D0;&#x6D4F;&#x89C8;&#x5668;&#x7684;&#x6E32;&#x67D3;&#x901F;&#x7387;&#x4E3A;60Hz&#xFF0C;&#x90A3;&#x4E48;&#x5C31;&#x662F;16&#x53C8;2/3&#x6BEB;&#x79D2;&#x6E32;&#x67D3;&#x4E00;&#x6B21;&#xFF0C;&#x4E3A;&#x4E86;&#x5339;&#x914D;&#x8FD9;&#x4E2A;&#x901F;&#x7387;&#xFF0C;&#x6211;&#x4EEC;&#x9700;&#x8981;&#x786E;&#x4FDD;&#x300C;setTimeout&#x4E2D;&#x8BBE;&#x5B9A;&#x7684;&#x65F6;&#x95F4;&#x95F4;&#x9694;&#x300D;+&#x300C;&#x56DE;&#x8C03;&#x51FD;&#x6570;&#x6267;&#x884C;&#x65F6;&#x95F4;&#x300D;+&#x300C;&#x5728;&#x663E;&#x793A;&#x5668;&#x4E0A;&#x7ED8;&#x5236;/&#x6539;&#x53D8;&#x52A8;&#x753B;&#x7684;&#x4E0B;&#x4E00;&#x5E27;&#x7684;&#x65F6;&#x95F4;&#x300D;&#x521A;&#x597D;&#x7B49;&#x4E8E;&#x300C;16 2/3ms&#x300D;&#xFF0C;&#x5047;&#x8BBE;3&#x8005;&#x76F8;&#x52A0;&#x65F6;&#x95F4;&#x4E3A;15ms&#xFF0C;&#x90A3;&#x4E48;&#x6BCF;10&#x300E;(16 2/3) / ((16 2/3)- 15)=10&#x300F;&#x5E27;&#x4F1A;&#x591A;&#x51FA;&#x4E00;&#x5E27;&#x6765;&#xFF0C;&#x90A3;&#x4E48;&#x7ED3;&#x679C;&#x5C31;&#x662F;&#x5728;&#x7B2C;10&#x5E27;&#x7684;&#x65F6;&#x5019;&#xFF0C;&#x52A8;&#x753B;&#x51FD;&#x6570;&#x8FDE;&#x7EED;&#x6267;&#x884C;&#x4E86;&#x4E24;&#x6B21;&#xFF0C;&#x4E8E;&#x662F;&#x52A8;&#x753B;&#x4E0D;&#x518D;&#x5E73;&#x6ED1;&#x4E86;...&#xFF08;&#x8BE6;&#x89C1;<a href="https://lists.webkit.org/pipermail/webkit-dev/2011-September/018095.html" target="_blank">&#x8FD9;&#x7BC7;&#x5570;&#x55E6;&#x7684;&#x6587;&#x7AE0;</a>&#xFF09;&#xFF0C;&#x66F4;&#x4E0D;&#x8981;&#x8BF4;&#x8FD8;&#x8981;&#x8003;&#x8651;setTimeout&#x7684;&#x300C;&#x65F6;&#x95F4;&#x7CBE;&#x5EA6;&#x300D;&#x95EE;&#x9898;&#xFF08;4ms &#x4E00;&#x6B21; event loop&#xFF0C;&#x4E5F;&#x5373;&#x662F;&#x6700;&#x5C11;4ms&#x624D;&#x68C0;&#x67E5;&#x4E00;&#x6B21;setTimeout&#x7684;&#x65F6;&#x95F4;&#x662F;&#x5426;&#x8FBE;&#x5230;&#xFF09;</p>
+</li>
+</ul>
+<h3 id="requestanimationframe">requestAnimationFrame</h3>
+<ul>
+<li><p>requestAnimationFrame &#x4F1A;&#x628A;&#x6BCF;&#x4E00;&#x5E27;&#x4E2D;&#x7684;&#x6240;&#x6709;DOM&#x64CD;&#x4F5C;&#x96C6;&#x4E2D;&#x8D77;&#x6765;&#xFF0C;&#x5728;<strong>&#x300C;&#x4E00;&#x6B21;&#x91CD;&#x7ED8;&#x6216;&#x56DE;&#x6D41;&#x4E2D;&#x5C31;&#x5B8C;&#x6210;&#x300D;</strong>&#xFF0C;&#x5E76;&#x4E14;<strong>&#x300C;&#x91CD;&#x7ED8;&#x6216;&#x56DE;&#x6D41;&#x7684;&#x65F6;&#x95F4;&#x95F4;&#x9694;&#x7D27;&#x7D27;&#x8DDF;&#x968F;&#x6D4F;&#x89C8;&#x5668;&#x7684;&#x5237;&#x65B0;&#x9891;&#x7387;&#x300D;</strong>&#xFF0C;&#x4E00;&#x822C;&#x6765;&#x8BF4;&#xFF0C;&#x8FD9;&#x4E2A;&#x9891;&#x7387;&#x4E3A;&#x6BCF;&#x79D2;60&#x5E27;&#x3002;</p>
+</li>
+<li><p>&#x5728;&#x9690;&#x85CF;&#x6216;&#x4E0D;&#x53EF;&#x89C1;&#x7684;&#x5143;&#x7D20;&#x4E2D;&#xFF0C;requestAnimationFrame&#x5C06;&#x4E0D;&#x4F1A;&#x8FDB;&#x884C;&#x91CD;&#x7ED8;&#x6216;&#x56DE;&#x6D41;&#xFF0C;&#x8FD9;&#x5F53;&#x7136;&#x5C31;&#x610F;&#x5473;&#x7740;&#x66F4;&#x5C11;&#x7684;&#x7684;cpu&#xFF0C;gpu&#x548C;&#x5185;&#x5B58;&#x4F7F;&#x7528;&#x91CF;&#x3002;  </p>
+</li>
+</ul>
+<pre><code>    var i = 0, _load = +new Date(), loop = 1000/60;
+    function f(){
+        var _now = +new Date();
+        console.log(i++, (_now-_load)/loop);
+        _load = _now;
+        requestAnimationFrame(f);
+    }
+</code></pre><ul>
+<li><p>&#x4E0E;setTimeout&#x76F8;&#x6BD4;&#xFF0C;requestAnimationFrame&#x4E0D;&#x662F;&#x81EA;&#x5DF1;&#x6307;&#x5B9A;&#x56DE;&#x8C03;&#x51FD;&#x6570;&#x8FD0;&#x884C;&#x7684;&#x65F6;&#x95F4;&#xFF0C;&#x800C;&#x662F;&#x8DDF;&#x7740;&#x6D4F;&#x89C8;&#x5668;&#x5185;&#x5EFA;&#x7684;&#x5237;&#x65B0;&#x9891;&#x7387;&#x6765;&#x6267;&#x884C;&#x56DE;&#x8C03;&#xFF0C;&#x8FD9;&#x5F53;&#x7136;&#x5C31;&#x80FD;&#x8FBE;&#x5230;&#x6D4F;&#x89C8;&#x5668;&#x6240;&#x80FD;&#x5B9E;&#x73B0;&#x52A8;&#x753B;&#x7684;&#x6700;&#x4F73;&#x6548;&#x679C;&#x4E86;&#x3002;</p>
+</li>
+<li><p>&#x4F46;&#x53E6;&#x5916;&#x4E00;&#x65B9;&#x9762;&#xFF0C;requestAnimationFrame&#x7684;&#x9884;&#x671F;&#x6267;&#x884C;&#x65F6;&#x95F4;&#x8981;&#x6BD4;setTimeout&#x8981;&#x957F;&#xFF0C;&#x56E0;&#x4E3A;setTimeout&#x7684;&#x6700;&#x5C0F;&#x6267;&#x884C;&#x65F6;&#x95F4;&#x662F;&#x7531;&#x300C;&#x7B2C;7&#x70B9;&#xFF1A;&#x6D4F;&#x89C8;&#x5668;&#x7684;&#x65F6;&#x95F4;&#x7CBE;&#x5EA6;&#x300D;&#x51B3;&#x5B9A;&#x7684;&#xFF0C;&#x4F46;raf&#x4F1A;&#x8DDF;&#x968F;&#x6D4F;&#x89C8;&#x5668;DOM&#x7684;&#x5237;&#x65B0;&#x9891;&#x7387;&#x6765;&#x6267;&#x884C;&#xFF0C;&#x7406;&#x8BBA;&#x4E3A;16 2/3ms&#x3002;&#x4F46;&#x662F;&#xFF0C;<strong>&#x5728;setTimeout&#x4E2D;&#x5982;&#x679C;&#x8FDB;&#x884C;&#x4E86;DOM&#x64CD;&#x4F5C;&#xFF08;&#x5C24;&#x5176;&#x662F;&#x4EA7;&#x751F;&#x4E86;&#x91CD;&#x7ED8;&#xFF09;&#x901A;&#x5E38;&#x4E0D;&#x4F1A;&#x7ACB;&#x5373;&#x6267;&#x884C;&#xFF0C;&#x800C;&#x662F;&#x7B49;&#x5F85;&#x6D4F;&#x89C8;&#x5668;&#x5185;&#x5EFA;&#x5237;&#x65B0;&#x65F6;&#x624D;&#x6267;&#x884C;</strong>&#x3002;&#x56E0;&#x6B64;&#x5BF9;&#x4E8E;&#x300C;&#x52A8;&#x753B;&#x300D;&#x6765;&#x8BF4;&#x7684;&#x8BDD;&#xFF0C;raf&#x8981;&#x8FDC;&#x8FDC;&#x6BD4;setTimeout&#x9002;&#x5408;&#x5F97;&#x591A;&#x3002;</p>
+</li>
+<li><p>rAF&#x4E0E;setTimeout&#x6027;&#x80FD;&#x6BD4;&#x8F83;&#xFF1A;&#xFF08;&#x636E;&#x67D0;&#x4E9B;&#x4EBA;&#x8BF4;&#xFF0C;&#x65E9;&#x671F;&#x7684;raf&#x6027;&#x80FD;&#x582A;&#x5FE7;&#xFF0C;&#x5C24;&#x5176;&#x662F;&#x5728;&#x624B;&#x673A;&#x4E0A;&#xFF0C;&#x53CD;&#x800C;&#x4E0D;&#x5982;setTimeout&#xFF09;<br><strong>macbook pro chrome 46.0.2490.86 (64-bit)&#xFF1A;</strong><br>(1) setTimeout&#x7528;&#x65F6;&#xFF1A;37280ms<br>(2) raf&#x7528;&#x65F6;&#xFF1A;       18360ms  </p>
+</li>
+</ul>
+<p><strong>setTimeout:</strong>  </p>
+<pre><code>    var raf, i= 1, body = document.querySelector(&apos;body&apos;);
+    body.innerHTML = &apos;&lt;div id=&quot;sq&quot; style=&quot;position:fixed;width:30px;height:30px;top:50px;left:50px;background:red;&quot;&gt;&lt;/div&gt;&apos;;
+    var sq = document.querySelector(&quot;#sq&quot;);
+    var pause = 10;//&#x56DE;&#x8C03;&#x51FD;&#x6570;&#x6267;&#x884C;&#x65F6;&#x95F4;
+    var _load = +new Date();
+    var t = 1000/60;
+    function run1(){
+        i++;
+        sq.style.left = sq.offsetLeft + 1 + &apos;px&apos;;
+        var start = Date.now();
+        while(Date.now() - start &lt; pause) {}
+        if(i == 1000){
+            console.log(Date.now() - _load);
+        }
+        raf = setTimeout(run1, t);
+    }
+    function stop(){
+        clearTimeout(raf);
+    }
+    //37280
+</code></pre><p><strong>rAF:</strong>  </p>
+<pre><code>    var raf, i= 1, body = document.querySelector(&apos;body&apos;);
+    body.innerHTML = &apos;&lt;div id=&quot;sq&quot; style=&quot;position:fixed;width:30px;height:30px;top:50px;left:50px;background:red;&quot;&gt;&lt;/div&gt;&apos;;
+    var sq = document.querySelector(&quot;#sq&quot;);
+    var pause = 10;//&#x56DE;&#x8C03;&#x51FD;&#x6570;&#x6267;&#x884C;&#x65F6;&#x95F4;
+    var _load = +new Date();
+    function run(){
+        i++;
+        sq.style.left = sq.offsetLeft + 1 + &apos;px&apos;;
+        var start = Date.now();
+        while(Date.now() - start &lt; pause) {}
+        if(i == 1000){
+            console.log(Date.now() - _load);
+        }
+        raf = requestAnimationFrame(run);
+    }
+    function stop(){
+        cancelAnimationFrame(raf);
+    }
+    //18360
+</code></pre><ul>
+<li>&#x7531;&#x4E8E;requestAnimationFrame&#x7684;&#x7279;&#x6027;&#x4E4B;&#x4E00;&#xFF1A;&#x4F1A;&#x628A;&#x6BCF;&#x4E00;&#x5E27;&#x4E2D;&#x7684;&#x6240;&#x6709;DOM&#x64CD;&#x4F5C;&#x96C6;&#x4E2D;&#x8D77;&#x6765;&#xFF0C;&#x5728;&#x300C;&#x4E00;&#x6B21;&#x91CD;&#x7ED8;&#x6216;&#x56DE;&#x6D41;&#x4E2D;&#x5C31;&#x5B8C;&#x6210;&#x300D;&#x3002;&#x56E0;&#x6B64;&#x6709;github&#x9879;&#x76EE;fastdom&#xFF0C;&#x6211;&#x4F1A;&#x5728;&#x53E6;&#x4E00;&#x7BC7;&#x6587;&#x7AE0;&#x4E2D;&#x8BE6;&#x7EC6;&#x5206;&#x6790;fastdom&#x7684;&#x5B9E;&#x73B0;&#x601D;&#x8DEF;&#x4E0E;&#x4EE3;&#x7801;&#x3002;</li>
+</ul>
+<h3 id="&#x56DB;&#x3001;&#x66F4;&#x5FEB;&#x7684;&#x5F02;&#x6B65;&#x6267;&#x884C;">&#x56DB;&#x3001;&#x66F4;&#x5FEB;&#x7684;&#x5F02;&#x6B65;&#x6267;&#x884C;</h3>
+<p><em>&#x4E0D;&#x662F;&#x4E3A;&#x4E86;&#x300C;&#x52A8;&#x753B;&#x300D;&#xFF0C;&#x800C;&#x662F;&#x5355;&#x7EAF;&#x7684;&#x5E0C;&#x671B;&#x6700;&#x5FEB;&#x901F;&#x7684;&#x6267;&#x884C;&#x5F02;&#x6B65;&#x56DE;&#x8C03;&#xFF1A;</em></p>
+<h4 id="&#x4F7F;&#x7528;&#x5F02;&#x6B65;&#x51FD;&#x6570;&#xFF1A;settimeout&#x3001;raf&#x3001;setimmediate&#xFF1A;">&#x4F7F;&#x7528;&#x5F02;&#x6B65;&#x51FD;&#x6570;&#xFF1A;setTimeout&#x3001;raf&#x3001;setImmediate&#xFF1A;</h4>
+<ol>
+<li>setTimeout&#x4F1A;&#x6709;&#x300C;&#x65F6;&#x95F4;&#x7CBE;&#x5EA6;&#x95EE;&#x9898;&#x300D;&#xFF0C;&#x7ECF;&#x8FC7;&#x672C;&#x5730;&#x8BD5;&#x9A8C;&#xFF0C;chrome&#x7528;&#x65F6;&#x7EA6;1.5ms&#xFF08;&#x8FDE;&#x63A5;&#x7535;&#x6E90;&#xFF09;&#x3001;safari&#x7528;&#x65F6;&#x7EA6;5ms&#x3001;firefox&#x7528;&#x65F6;&#x7EA6;0.3ms&#xFF08;&#x4E3A;&#x4F55;&#x8FD9;&#x4E48;&#x5FEB;...&#xFF09;</li>
+<li>raf&#x4F1A;&#x8DDF;&#x968F;&#x6D4F;&#x89C8;&#x5668;&#x5185;&#x7F6E;&#x91CD;&#x7ED8;&#x9875;&#x9762;&#x7684;&#x9891;&#x7387;&#xFF0C;&#x7EA6;60Hz&#xFF0C;&#x7406;&#x8BBA;&#x4E0A;&#x5E73;&#x5747;&#x65F6;&#x95F4;&#x4E3A;&#xFF1A;1000/60/2ms&#xFF0C;chrome&#x4E0A;&#x6D4B;&#x8BD5;&#xFF1A;&#x7B2C;&#x4E00;&#x6B21;&#x65F6;&#x95F4;&#x591A;&#x5728;1ms&#x5185;&#xFF0C;&#x7B2C;&#x4E8C;&#x6B21;&#x8C03;&#x7528;&#x65F6;&#x95F4;&#x5927;&#x4E8E;10ms&#x3002;</li>
+<li>setImmediate&#xFF1A;&#x4EC5;IE10&#x652F;&#x6301;&#xFF0C;&#x5C1A;&#x672A;&#x6210;&#x4E3A;&#x6807;&#x51C6;&#x3002;&#x4F46;nodeJS&#x5DF2;&#x7ECF;&#x652F;&#x6301;&#x5E76;&#x63A8;&#x8350;&#x4F7F;&#x7528;&#x6B64;&#x65B9;&#x6CD5;&#x3002;&#x53E6;&#x5916;&#xFF0C;github&#x4E0A;&#x6709;<a href="https://github.com/YuzuJS/setImmediate/blob/master/README.md" target="_blank">setImmediate.js&#x9879;&#x76EE;</a>&#xFF0C;&#x7528;&#x5176;&#x5B83;&#x65B9;&#x6CD5;&#x5B9E;&#x73B0;&#x4E86;setImmediate&#x529F;&#x80FD;</li>
+</ol>
+<p>&#x6D4B;&#x8BD5;&#xFF1A;<br><strong>setTimeout:</strong></p>
+<pre><code>    var now = function(){
+        return performance ? performance.now() : +new Date();
+    };
+    var i = now();
+    setTimeout(function(){
+        setTimeout(function(){
+            console.log(now()-j);
+        },0);
+        var j = now();
+        console.log(j-i);
+    },0);
+</code></pre><p><strong>raf:</strong></p>
+<pre><code>    var now = function(){
+        return performance ? performance.now() : +new Date();
+    };
+    var i = now();
+    requestAnimationFrame(function(){
+        requestAnimationFrame(function(){
+            console.log(now()-j);
+        });
+        var j = now();
+        console.log(j-i);
+    });
+</code></pre><h4 id="&#x5176;&#x5B83;&#x65B9;&#x5F0F;&#x5B9E;&#x73B0;&#x5F02;&#x6B65;&#x8C03;&#x7528;&#xFF1A;">&#x5176;&#x5B83;&#x65B9;&#x5F0F;&#x5B9E;&#x73B0;&#x5F02;&#x6B65;&#x8C03;&#x7528;&#xFF1A;</h4>
+<ul>
+<li>onmessage&#xFF1A;&#x548C;iframe&#x901A;&#x4FE1;&#x65F6;&#x5E38;&#x5E38;&#x4F1A;&#x4F7F;&#x7528;&#x5230;onmessage&#x65B9;&#x6CD5;&#xFF0C;&#x4F46;&#x662F;&#x5982;&#x679C;&#x540C;&#x4E00;&#x4E2A;window postMessage&#x7ED9;&#x81EA;&#x8EAB;&#xFF0C;&#x5176;&#x5B9E;&#x4E5F;&#x76F8;&#x5F53;&#x4E8E;&#x5F02;&#x6B65;&#x6267;&#x884C;&#x4E86;&#x4E00;&#x4E2A;function&#x3002;  </li>
+</ul>
+<pre><code>    var doSth = function(){};
+    window.addEventListener(&quot;message&quot;, doSth, true);
+    window.postMessage(&quot;&quot;, &quot;*&quot;);
+</code></pre><ul>
+<li>&#x53E6;&#x5916;&#xFF0C;&#x8FD8;&#x53EF;&#x4EE5;&#x5229;&#x7528;script&#x6807;&#x7B7E;&#xFF0C;&#x5B9E;&#x73B0;&#x51FD;&#x6570;&#x5F02;&#x6B65;&#x6267;&#x884C;&#xFF08;&#x628A;script&#x6DFB;&#x52A0;&#x5230;&#x6587;&#x6863;&#x4E5F;&#x4F1A;&#x6267;&#x884C;onreadystatechange &#x4F46;&#x662F;&#x8BE5;&#x65B9;&#x6CD5;&#x53EA;&#x80FD;&#x5728;IE&#x4E0B;&#x6D4F;&#x89C8;&#x5668;&#x91CC;&#x4F7F;&#x7528;&#xFF09;&#xFF0C;&#x4F8B;&#x5982;&#xFF1A;  </li>
+</ul>
+<pre><code>    var newScript = document.createElement(&quot;script&quot;);
+    newScript.onreadystatechange = doSth;
+    document.documentElement.appendChild(newScript);
+</code></pre><p>&#x7406;&#x8BBA;&#x4E0A;&#xFF0C;&#x6267;&#x884C;&#x56DE;&#x8C03;&#x51FD;&#x6570;&#x7684;&#x7B49;&#x5F85;&#x65F6;&#x95F4;&#x6392;&#x5E8F;&#xFF1A;<br><strong>setImmediate &lt; readystatechange &lt; onmessage &lt; setTimeout 0 &lt; requestAnimationFrame</strong></p>
+<ul>
+<li>&#x53E6;&#x5916;&#xFF0C;&#x5728;<strong>&#x300C;<a href="https://github.com/YuzuJS/setImmediate/blob/master/README.md" target="_blank">setImmediate.js&#x9879;&#x76EE;</a>&#x300D;</strong>&#x4E2D;&#x8BF4;&#x4E86;&#x5B83;&#x7684;&#x5B9E;&#x73B0;&#x7B56;&#x7565;&#xFF0C;&#x5BF9;&#x4E0A;&#x6587;&#x8FDB;&#x884C;&#x4E00;&#x4E2A;&#x6709;&#x529B;&#x7684;&#x8865;&#x5145;&#xFF1A;  </li>
+</ul>
+<pre><code>## The Tricks
+
+### `process.nextTick`
+
+In Node.js versions below 0.9, `setImmediate` is not available, but [`process.nextTick`][nextTick] is&#x2014;and in those versions, `process.nextTick` uses macrotask semantics. So, we use it to shim support for a global `setImmediate`.
+
+In Node.js 0.9 and above, `process.nextTick` moved to microtask semantics, but `setImmediate` was introduced with macrotask semantics, so there&apos;s no need to polyfill anything.
+
+Note that we check for *actual* Node.js environments, not emulated ones like those produced by browserify or similar. Such emulated environments often already include a `process.nextTick` shim that&apos;s not as browser-compatible as setImmediate.js.
+
+### `postMessage`
+
+In Firefox 3+, Internet Explorer 9+, all modern WebKit browsers, and Opera 9.5+, [`postMessage`][postMessage] is available and provides a good way to queue tasks on the event loop. It&apos;s quite the abuse, using a cross-document messaging protocol within the same document simply to get access to the event loop task queue, but until there are native implementations, this is the best option.
+
+Note that Internet Explorer 8 includes a synchronous version of `postMessage`. We detect this, or any other such synchronous implementation, and fall back to another trick.
+
+### `MessageChannel`
+
+Unfortunately, `postMessage` has completely different semantics inside web workers, and so cannot be used there. So we turn to [`MessageChannel`][MessageChannel], which has worse browser support, but does work inside a web worker.
+
+### `&lt;script&gt; onreadystatechange`
+
+For our last trick, we pull something out to make things fast in Internet Explorer versions 6 through 8: namely, creating a `&lt;script&gt;` element and firing our calls in its `onreadystatechange` event. This does execute in a future turn of the event loop, and is also faster than `setTimeout(&#x2026;, 0)`, so hey, why not?
+</code></pre><h3 id="setimmediate-api&#xFF1A;&#x672A;&#x5B8C;&#x5F85;&#x7EED;">setImmediate API&#xFF1A;&#x672A;&#x5B8C;&#x5F85;&#x7EED;...</h3>
+<h3 id="&#x90E8;&#x5206;&#x53C2;&#x8003;&#x8D44;&#x6599;&#xFF1A;">&#x90E8;&#x5206;&#x53C2;&#x8003;&#x8D44;&#x6599;&#xFF1A;</h3>
+<ol>
+<li><p>JavaScript &#x8FD0;&#x884C;&#x673A;&#x5236;&#x8BE6;&#x89E3;&#xFF1A;&#x518D;&#x8C08;Event Loop
+<a href="http://www.ruanyifeng.com/blog/2014/10/event-loop.html" target="_blank">http://www.ruanyifeng.com/blog/2014/10/event-loop.html</a>
+&#x2014;&#x76F8;&#x5173;&#x89C6;&#x9891;&#xFF1A;Help, I&apos;m stuck in an event-loop  <a href="https://vimeo.com/96425312" target="_blank">https://vimeo.com/96425312</a></p>
+</li>
+<li><p>&#x66F4;&#x5FEB;&#x7684;&#x5F02;&#x6B65;&#x6267;&#x884C;
+<a href="http://www.alloyteam.com/2014/03/faster-asynchronous-execution/" target="_blank">http://www.alloyteam.com/2014/03/faster-asynchronous-execution/</a></p>
+</li>
+<li><p>Enable REQUEST_ANIMATION_FRAME on all ports?
+<a href="https://lists.webkit.org/pipermail/webkit-dev/2011-September/018095.html" target="_blank">https://lists.webkit.org/pipermail/webkit-dev/2011-September/018095.html</a></p>
+</li>
+<li><p>&#x62E5;&#x6709;&#x66F4;&#x597D;&#x6027;&#x80FD;&#x7684;requesAnimationFrame
+<a href="http://sentsin.com/web/949.html" target="_blank">http://sentsin.com/web/949.html</a></p>
+</li>
+<li><p>&#x6027;&#x80FD;&#x66F4;&#x597D;&#x7684;js&#x52A8;&#x753B;&#x5B9E;&#x73B0;&#x65B9;&#x5F0F;&#x2014;&#x2014;requestAnimationFrame
+<a href="http://www.cnblogs.com/2050/p/3871517.html" target="_blank">http://www.cnblogs.com/2050/p/3871517.html</a></p>
+</li>
+</ol>
+
+                    
+                    </section>
+                
+                
+                </div>
+            </div>
+        </div>
+
+        
+        <a href="../../index.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page: Introduction"><i class="fa fa-angle-left"></i></a>
+        
+        
+    </div>
+</div>
+
+        
+<script src="../../gitbook/app.js"></script>
+
+    
+    <script src="../../gitbook/plugins/gitbook-plugin-search/lunr.min.js"></script>
+    
+
+    
+    <script src="../../gitbook/plugins/gitbook-plugin-search/search.js"></script>
+    
+
+    
+    <script src="../../gitbook/plugins/gitbook-plugin-sharing/buttons.js"></script>
+    
+
+    
+    <script src="../../gitbook/plugins/gitbook-plugin-fontsettings/buttons.js"></script>
+    
+
+    
+    <script src="../../gitbook/plugins/gitbook-plugin-livereload/plugin.js"></script>
+    
+
+<script>
+require(["gitbook"], function(gitbook) {
+    var config = {"highlight":{},"search":{},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"livereload":{}};
+    gitbook.start(config);
+});
+</script>
+
+        
+    </body>
+    
+</html>
