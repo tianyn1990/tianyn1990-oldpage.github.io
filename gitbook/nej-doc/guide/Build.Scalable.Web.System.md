@@ -660,7 +660,7 @@ NEJ模板说明
  * ------------------------------------------
  * 项目模块基类实现文件
  * @version  1.0
- * @author   genify(caijf@corp.netease.com)
+ * @author   genify
  * ------------------------------------------
  */
 NEJ.define([
@@ -710,7 +710,7 @@ NEJ.define([
  * ------------------------------------------
  * 项目模块实现文件
  * @version  1.0
- * @author   genify(caijf@corp.netease.com)
+ * @author   genify
  * ------------------------------------------
  */
 NEJ.define([

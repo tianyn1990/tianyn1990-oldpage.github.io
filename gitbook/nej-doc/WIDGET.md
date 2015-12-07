@@ -926,7 +926,7 @@ NEJ.define([
      * 控件描述内容
      *
      * @version  1.0
-     * @author   genify(caijf@corp.netease.com)
+     * @author   genify
      * ------------------------------------------
      */
 ```
