@@ -11,6 +11,7 @@
 > 我们把上图所有的类都称作「元件」
 
 上图列出了 createjs 的主要类结构，如图可以得到如下信息：
+
 1. 所有元件的基类都是 DisplayObject，所有元件都是一个构造函数（类）
 2. Container 可以包含其他（任何）元件。由于它本身也是一个元件，所以不同的 Container 之间可以相互包含
 3. 舞台 Stage 是一个特殊的 Container ，也是一个 DisplayObject，它内部封装了 canvas 对象

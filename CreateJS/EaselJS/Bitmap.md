@@ -268,7 +268,8 @@ function handleClick(event) {
 参数：无  
 继承：DisplayObject  
 说明：因为 Bitmap 对象已经是「简单格式」对象（的资源只有一个 image、video、canvas，且绘制操作只调用一个 API drawImage），
-因此没有使用缓存（离屏 canvas 技术）的必要。
+因此没有使用缓存的必要。  
+缓存提升性能的原理：[离屏 canvas 技术](https://github.com/tianyn1990/tianyn1990.github.io/blob/master/Canvas/Learning.md#其他手段离屏canvas)
 
 
 
