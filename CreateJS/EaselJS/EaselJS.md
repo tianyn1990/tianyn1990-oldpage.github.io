@@ -48,7 +48,17 @@
 
 > 期待你的加入 ∩_∩
 
-> 不必依次进行介绍，请直接按重要性来
+> 请按重要性进行总结（开发常用的、直接使用(非继承)的 优先，重要的基类优先）
+
+已排序
+
+未排序
+
+* [EaselJS]()
+
+* [DisplayObject]()
+
+* [Container]()
 
 * [AlphaMapFilter]()
 * [AlphaMaskFilter]()
@@ -58,12 +68,13 @@
 * [ColorFilter]()
 * [ColorMatrix]()
 * [ColorMatrixFilter]()
-* [Container]()
-* [DisplayObject]()
 * [DisplayProps]()
 * [DOMElement]()
-* [EaselJS]()
+
 * [Filter]()
+
+* [Shadow]()
+
 * [Graphics]()
 * [Graphics.Arc]()
 * [Graphics.ArcTo]()
@@ -82,22 +93,35 @@
 * [Graphics.Stroke]()
 * [Graphics.StrokeDash]()
 * [Graphics.StrokeStyle]()
+
 * [Matrix2D]()
+
 * [MouseEvent]()
+
 * [MovieClip]()
 * [MovieClipPlugin]()
+
 * [Point]()
+
 * [Rectangle]()
-* [Shadow]()
+
 * [Shape]()
+
 * [Sprite]()
 * [SpriteContainer]()
 * [SpriteSheet]()
 * [SpriteSheetBuilder]()
 * [SpriteSheetUtils]()
 * [SpriteStage]()
+
 * [Stage]()
+
 * [Text]()
+
 * [Touch]()
+
 * [UID]()
 * [Utility Method]()
+
+
+#### 游戏 & 特效

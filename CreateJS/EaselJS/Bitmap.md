@@ -247,9 +247,22 @@ Sprite & MovieClip frame advancing, DOMElement visibility handling。
 
 #### 方法
 
-> 主要是继承于父类 DisplayObject 的方法
+> Bitmap 的方法主要是继承于 DisplayObject 类 和 EventDispatcher 类
+> 继承关系：Bitmap -> DisplayObject -> EventDispatcher
 
+1. addEventListener  
+参数：( type  listener  [useCapture] )  
+继承：EventDispatcher 类  
+说明：为当前对象注册事件，如果对多个事件注册同一个回调方法，方法有可能被触发多次。
+```
+displayObject.addEventListener("click", handleClick);
+function handleClick(event) {
+// Click happened.
+}
+```
+第三个参数 useCapture 参考[这里](https://github.com/tianyn1990/tianyn1990.github.io/blob/master/CreateJS/EaselJS/learning.md#事件冒泡)
 
+2. 
 
 
 

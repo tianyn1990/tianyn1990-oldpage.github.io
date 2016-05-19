@@ -17,7 +17,7 @@
 ![image](./images/EaselJs_Class_Model.png)
 > 我们把上图所有的类都称作「元件」
 
-上图列出了 createjs 的主要类结构，如图可以得到如下信息：
+上图列出了 createjs 的主要类结构，如图可以得到如下信息：  
 1. 所有元件的基类都是 DisplayObject，所有元件都是一个构造函数（类）
 2. Container 可以包含其他（任何）元件。由于它本身也是一个元件，所以不同的 Container 之间可以相互包含
 3. 舞台 Stage 是一个特殊的 Container ，也是一个 DisplayObject，它内部封装了 canvas 对象
@@ -34,7 +34,7 @@
 
 每个类都有各自的静态方法，如：`createjs.Ticker.setFPS(20)` ，同时也可以用来初始化一个对象，如：`new createjs.Stage('myCanvas')`
 
-参考：
+参考：  
 1. [博客园 kenkofox 的文章](http://www.cnblogs.com/kenkofox/p/4153853.html)
 2. [API doc](http://www.createjs.com/docs/easeljs)
 
@@ -373,7 +373,7 @@ stage.update();
 
 举例：实现一个继承于 Container 类的自定义类 Button：
 
-共分 4 步：
+共分 4 步：  
 1. 自定义构造器
 2. 继承父类，获得父类的功能
 3. 重写已有方法，扩展自身方法
@@ -507,6 +507,7 @@ circle.on(type, listener, scope, once, data, useCapture);
 参考：[DEMO](https://jsfiddle.net/tianyn1990/gnhd7pbt/)
 
 通过上面的 DEMO，当多个事件同时触发时（更换绑定顺序结果不变）：
+
 1. 先触发 click 再触发 pressup
 2. 先 rollover 再 mouseover
 3. 先 mouseout 再 rollout
@@ -540,10 +541,12 @@ circle.on(type, listener, scope, once, data, useCapture);
 createjs 中的 on 方法也有 useCapture 参数用来注册捕获事件：`circle.on(type, listener, scope, once, data, useCapture)`
 
 我们先明确一下名词的定义（以 click 事件为例）：
+
 1. target：触发事件的节点中最内层的节点。比如点击有多个节点重合（父节点子节点都有），那么最内层的子节点就是 target。
 2. currentTarget：事件流转到的当前节点。
 
 createjs 中的对象/容器处理事件也经过 3 个同样的阶段：
+
 1. 捕获阶段：  
 首先触发 stage 的捕获事件（stage 上绑定的 useCapture == true 的事件），然后依次触发 target 的最外层祖先容器到最内层父容器的捕获事件
 2. 目标阶段：  
@@ -555,6 +558,7 @@ target 对象触发自身的事件（包括所有捕获事件和冒泡事件）
 其中 button 对象是一个 Container 容器对象，它包含两个显示对象：background、label。你可以通过点击「红色背景」和「白色文字」来分别查看对应「事件阶段」结果。
 
 另外还有两个属性用来控制捕获&冒泡：
+
 1. `mouseChildren` 可用来将一个显示对象集合作为一个事件整体，如上面的 DEMO 中，设置 `button.mouseChildren = false;` 那么 button 这个容器
 所包含的所有子显示对象的事件将不会触发，整个 button 集合将作为整体对事件进行相应。
 
