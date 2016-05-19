@@ -8,7 +8,8 @@ Bitmap 可以在显示列表中代表 Image、canvas、Video。它可以通过 H
  var bitmap = new createjs.Bitmap("imagePath.jpg");
 ```
 
-注意：  
+注意：
+
 1. 如果图片等资源还没加载完毕，只有当加载完毕并调用 stage.update() 之后才会展示该资源。
 2. Bitmaps with an SVG source currently will not respect an alpha value other than 0 or 1. To get around this, the Bitmap can be cached.
 3. Bitmaps with an SVG source will taint the canvas with cross-origin data, which prevents interactivity. This happens in all browsers except recent Firefox builds.
@@ -263,8 +264,11 @@ function handleClick(event) {
 第三个参数 useCapture 参考[这里](https://github.com/tianyn1990/tianyn1990.github.io/blob/master/CreateJS/EaselJS/learning.md#事件冒泡)
 返回值：第二个参数 listener
 
-2. cache  
-参数：
+2. cache [弃用]  
+参数：无  
+继承：DisplayObject  
+说明：因为 Bitmap 对象已经是「简单格式」对象（的资源只有一个 image、video、canvas，且绘制操作只调用一个 API drawImage），
+因此没有使用缓存（离屏 canvas 技术）的必要。
 
 
 

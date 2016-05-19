@@ -1,6 +1,9 @@
 ### EaselJS
 
-[EaselJS API doc](http://createjs.com/docs/easeljs/modules/EaselJS.html)
+#### 说明
+
+在学习的过程中对 [EaselJS API doc](http://createjs.com/docs/easeljs/modules/EaselJS.html) 
+进行整理，方便其他初学者，也方便查阅。
 
 #### EaselJS 类的结构：
 
@@ -123,5 +126,7 @@
 * [UID]()
 * [Utility Method]()
 
+
+#### 解读
 
 #### 游戏 & 特效

@@ -17,7 +17,8 @@
 ![image](./images/EaselJs_Class_Model.png)
 > 我们把上图所有的类都称作「元件」
 
-上图列出了 createjs 的主要类结构，如图可以得到如下信息：  
+上图列出了 createjs 的主要类结构，如图可以得到如下信息：
+
 1. 所有元件的基类都是 DisplayObject，所有元件都是一个构造函数（类）
 2. Container 可以包含其他（任何）元件。由于它本身也是一个元件，所以不同的 Container 之间可以相互包含
 3. 舞台 Stage 是一个特殊的 Container ，也是一个 DisplayObject，它内部封装了 canvas 对象
@@ -34,7 +35,8 @@
 
 每个类都有各自的静态方法，如：`createjs.Ticker.setFPS(20)` ，同时也可以用来初始化一个对象，如：`new createjs.Stage('myCanvas')`
 
-参考：  
+参考：
+
 1. [博客园 kenkofox 的文章](http://www.cnblogs.com/kenkofox/p/4153853.html)
 2. [API doc](http://www.createjs.com/docs/easeljs)
 
@@ -373,7 +375,8 @@ stage.update();
 
 举例：实现一个继承于 Container 类的自定义类 Button：
 
-共分 4 步：  
+共分 4 步：
+
 1. 自定义构造器
 2. 继承父类，获得父类的功能
 3. 重写已有方法，扩展自身方法
