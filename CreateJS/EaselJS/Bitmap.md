@@ -261,8 +261,10 @@ function handleClick(event) {
 }
 ```
 第三个参数 useCapture 参考[这里](https://github.com/tianyn1990/tianyn1990.github.io/blob/master/CreateJS/EaselJS/learning.md#事件冒泡)
+返回值：第二个参数 listener
 
-2. 
+2. cache  
+参数：
 
 
 
