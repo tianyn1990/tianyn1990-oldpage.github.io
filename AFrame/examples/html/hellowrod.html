@@ -7,18 +7,41 @@
 <script src="../js/aframe-v0.2.0.js"></script>
 <body>
 <a-scene>
+  <!-- 资源管理 -->
   <a-assets>
     <img id="texture" src="../images/texture.png"/>
   </a-assets>
-  <a-box height="10" width="4" depth="2" color="#FFF"
-         position="-10 2 -5" rotation="0 0 45" scale="2 0.5 3"
+
+  <a-box id="aBox" height="10" width="4" depth="2" color="#FFF"
+         position="-10 2 -5" rotation="0 0 45" scale="1.7 0.5 2"
          src="#texture">
+
     <!-- click 事件触发 -->
     <a-animation attribute="rotation" begin="click" repeat="indefinite" to="0 360 0"></a-animation>
+
+    <!-- 使用元素注册事件 -->
+    <a-event name="mouseenter" scale="2.5 .75 3"></a-event>
   </a-box>
+
+  <!-- 灯光 -->
+  <a-light type="spot" color="#666" position="20 10 0" look-at="a-box"></a-light>
+  <a-light type="point" color="#AAA" position="0 5 0"></a-light>
+
+  <!-- 背景 -->
+  <a-sky color="#CCC"></a-sky>
+
+  <!-- 照相机（人眼） -->
   <a-camera position="0 1.8 0">
+    <!-- 人眼的焦点、屏幕中心 -->
     <a-cursor color="#2E3A87"></a-cursor>
   </a-camera>
 </a-scene>
 </body>
+<script>
+//  //手动注册事件
+//  var aBox = document.querySelector("#aBox");
+//  aBox.addEventListener("mouseenter", function () {
+//    aBox.setAttribute("scale", {x: 4, y: 1, z: 6});
+//  });
+</script>
 </html>
