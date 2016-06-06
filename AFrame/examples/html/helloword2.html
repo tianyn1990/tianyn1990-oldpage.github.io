@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+  <meta charset="UTF-8">
+  <title></title>
+</head>
+<script src="../js/aframe-v0.2.0.js"></script>
+<script src="../js/aframe-layout-component.min.js"></script>
+<script src="../js/aframe-template-component.min.js"></script>
+<body>
+<a-scene>
+  <a-assect>
+    <img id="enemy-sprite" src="../images/doom.png"/>
+    <script id="enemies" type="text/x-nunjucks-template">
+      <a-entity layout="type: circle; radius: {{radius}}" position="{{axis}}">
+        <a-animation from="0 0 0" to="{{animation}}}" dur="10000" easing="linear" repeat="indefinite"></a-animation>
+        {% for x in range(num)%}
+        <a-image src="#enemy-sprite" look-at="#player" transparent="true" ></a-image>
+        {% endfor %}
+      </a-entity>
+    </script>
+  </a-assect>
+
+  <a-entity template="src:#enemies" data-num="4" data-radius="2.5" data-axis="0 3 0" data-animation="0 360 0"></a-entity>
+  <a-entity template="src:#enemies" data-num="7" data-radius="4" data-axis="0 2 0" data-animation="0 -360 0"></a-entity>
+  <a-entity template="src:#enemies" data-num="10" data-radius="5" data-axis="0 .5 0" data-animation="0 360 0"></a-entity>
+  <a-entity template="src:#enemies" data-num="7" data-radius="4" data-axis="0 -1 0" data-animation="0 -360 0"></a-entity>
+  <a-entity template="src:#enemies" data-num="4" data-radius="2.5" data-axis="0 -2.5 0" data-animation="0 360 0"></a-entity>
+
+  <a-camera id="player" position="0 1.8 0"></a-camera>
+
+  <a-sky color="#252243"></a-sky>
+
+</a-scene>
+</body>
+<script>
+</script>
+</html>
