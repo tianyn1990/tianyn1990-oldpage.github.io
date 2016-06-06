@@ -11,10 +11,14 @@
     <img id="texture" src="../images/texture.png"/>
   </a-assets>
   <a-box height="10" width="4" depth="2" color="#FFF"
-         position="-1 2 -1" rotation="0 0 45" scale="2 0.5 3"
+         position="-10 2 -5" rotation="0 0 45" scale="2 0.5 3"
          src="#texture">
-    <!--<a-animation attribute="rotation" repeat="indefinite" to="0 360 0"></a-animation>-->
+    <!-- click 事件触发 -->
+    <a-animation attribute="rotation" begin="click" repeat="indefinite" to="0 360 0"></a-animation>
   </a-box>
+  <a-camera position="0 1.8 0">
+    <a-cursor color="#2E3A87"></a-cursor>
+  </a-camera>
 </a-scene>
 </body>
 </html>
