@@ -13,11 +13,15 @@
   </a-assets>
 
   <a-box id="aBox" height="10" width="4" depth="2" color="#FFF"
-         position="-10 2 -5" rotation="0 0 45" scale="1.7 0.5 2"
+         position="0 2 -10" rotation="0 0 45" scale="1.7 0.5 2"
          src="#texture">
 
-    <!-- click 事件触发 -->
-    <a-animation attribute="rotation" begin="click" repeat="indefinite" to="0 360 0"></a-animation>
+    <!-- click 事件触发：增加属性：beign='click' -->
+    <a-animation
+      attribute="rotation" from="0 0 360" to="0 360 0"
+      repeat="indefinite" dur="10000" fill="both" direction="alternate"
+      easing="linear"
+      ></a-animation>
 
     <!-- 使用元素注册事件 -->
     <a-event name="mouseenter" scale="2.5 .75 3"></a-event>
