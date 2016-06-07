@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+  <meta charset="UTF-8">
+  <title></title>
+</head>
+<script src="../js/aframe-v0.2.0.js"></script>
+<body>
+<a-scene>
+  <a-assets>
+    <video id="video" src="../video/videoplayback.mp4" autoplay loop></video>
+  </a-assets>
+  <a-videosphere src="#video" rotation="0 0 0"></a-videosphere>  
+</a-scene>
+<a-camera>
+  <a-entity cursor="fuse: true; timeout: 500">
+  </a-entity>
+</a-camera>
+</body>
+<script>
+</script>
+</html>
