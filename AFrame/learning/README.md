@@ -27,7 +27,7 @@ A-Frame 的设计思路是基于的 **[entity-component-system](https://aframe.i
 
 #### 游戏开发中的 ECS
 
-本小结内容根据这 2 篇文章整理，建议直接阅读原文：
+本小结内容根据这 2 篇文章整理，建议直接阅读原文（比较长）：
 
 * [游戏开发中的实体系统框架（译文）](http://blog.csdn.net/aisajiajiao/article/details/19011259)，
 （[原文](http://www.richardlord.net/blog/what-is-an-entity-framework)）
