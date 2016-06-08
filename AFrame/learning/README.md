@@ -13,6 +13,7 @@ A-Frame 很大的一个优点是提供了对 VR 头戴设备和非 VR 设备（�
 ### 举个例子
 
 全景照片：[DEMO](http://tianyn1990.github.io/AFrame/examples/html/image.html)、[jsFiddle](https://jsfiddle.net/tianyn1990/86sh626g/)
+
 全景视频（视频源不太好）：[DEMO](http://tianyn1990.github.io/AFrame/examples/html/video.html)、[jsFiddle](https://jsfiddle.net/tianyn1990/taLeko6a/)
 
 ### ECS 模式
@@ -25,9 +26,12 @@ A-Frame 的设计思路是基于的 **[entity-component-system](https://aframe.i
 
 #### 游戏开发中的 ECS
 
-本小结内容根据这 2 篇文章整理，建议直接阅读：[游戏开发中的实体系统框架（译文）](http://blog.csdn.net/aisajiajiao/article/details/19011259)，
-（[原文](http://www.richardlord.net/blog/what-is-an-entity-framework)）；
-[游戏 Entity 设计不完全整理](http://blog.csdn.net/nightmare/article/details/1415188)。
+本小结内容根据这 2 篇文章整理，建议直接阅读：
+
+* [游戏开发中的实体系统框架（译文）](http://blog.csdn.net/aisajiajiao/article/details/19011259)，
+（[原文](http://www.richardlord.net/blog/what-is-an-entity-framework)）
+
+* [游戏 Entity 设计不完全整理](http://blog.csdn.net/nightmare/article/details/1415188)。
 
 简单整理如下：
 
@@ -137,19 +141,19 @@ sound 组件来让它发出声音，physics 组件来让它受到重力影响并
 
 ### A-Frame 可以做什么
 
-A-Frame 是在 three.js 之上的抽象，使用 A-Frame 组件，几乎可以完成所有 three.js 能做的事。
+A-Frame 是在 three.js 之上的抽象，使用 A-Frame 组件，几乎可以完成所有 three.js 能做的事（官方说法）。
 
-官方提供的 components：[components docs](https://aframe.io/docs/0.2.0/components/)
+库本身提供的组件参考：[components docs](https://aframe.io/docs/0.2.0/components/)
 
-图形方面，geometry 组件提供了：box, circle, cone, cylinder, plane, ring, sphere, torus, torusKnot。
+比如：图形方面，geometry 组件提供了：box, circle, cone, cylinder, plane, ring, sphere, torus, torusKnot。
+其他类似：全景视频、全景图片效果、光照、纹理、声音、照相机、前进后退、交互等都可以很容易的通过组件实现和定义。
+另外第三方也提供了大量很有用的组件，比如下方的「可交互效果 DEMO」中就有应用。
 
-还可以非常简单的实现：全景视频、全景图片。
-
-可以参考根据 [官方 Guide](https://aframe.io/docs/0.2.0/guide/) 制作的两个 DEMO：
+这是根据 [官方 Guide](https://aframe.io/docs/0.2.0/guide/) 制作的两个 DEMO：
 [简单的物体](http://tianyn1990.github.io/AFrame/examples/html/helloword.html) [jsFiddle](https://jsfiddle.net/tianyn1990/g75tvjzo/)、
 [可交互效果](http://tianyn1990.github.io/AFrame/examples/html/helloword2.html) [jsFiddle](https://jsfiddle.net/tianyn1990/nd4t2cq3/)。
 
-官方推荐的一些案例：[A-Frame 的作品展示](https://github.com/aframevr/awesome-aframe#scenes)
+这是官方推荐的一些精彩的案例：[A-Frame 的作品展示](https://github.com/aframevr/awesome-aframe#scenes)
 
 
 ### 补充
