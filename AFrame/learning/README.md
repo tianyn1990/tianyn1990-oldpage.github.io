@@ -10,6 +10,11 @@ A-Frame 很大的一个优点是提供了对 VR 头戴设备和非 VR 设备（�
 
 参考：[2015年刚推出时，开源中国上的新闻稿](http://www.oschina.net/news/69119/mozilla-open-source-a-frame)
 
+### 举个例子
+
+全景照片：[DEMO](http://tianyn1990.github.io/AFrame/examples/html/image.html)、[jsFiddle](https://jsfiddle.net/tianyn1990/86sh626g/)
+全景视频（视频源不太好）：[DEMO](http://tianyn1990.github.io/AFrame/examples/html/video.html)、[jsFiddle](https://jsfiddle.net/tianyn1990/taLeko6a/)
+
 ### ECS 模式
 
 A-Frame 的设计思路是基于的 **[entity-component-system](https://aframe.io/docs/0.2.0/core/)** （ECS）模式，
