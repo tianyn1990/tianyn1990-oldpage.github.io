@@ -1,5 +1,5 @@
 <!--http://163.fm/Zjax1VD-->
-## A-Frame 学习总结
+## A-Frame 调研
 
 ### 简介
 
@@ -13,9 +13,9 @@ A-Frame 很大的一个优点是提供了对 VR 头戴设备和非 VR 设备（�
 
 ### 举个例子
 
-全景照片：[DEMO](http://tianyn1990.github.io/AFrame/examples/html/image.html)、[jsFiddle](https://jsfiddle.net/tianyn1990/86sh626g/)
+全景照片：[DEMO](http://tianyn.coding.me/AFrame/examples/html/image.html)、[jsFiddle](https://jsfiddle.net/tianyn1990/86sh626g/)
 
-全景视频（视频源不太好）：[DEMO](http://tianyn1990.github.io/AFrame/examples/html/video.html)、[jsFiddle](https://jsfiddle.net/tianyn1990/taLeko6a/)
+全景视频（视频源不太好）：[DEMO](http://tianyn.coding.me/AFrame/examples/html/video.html)、[jsFiddle](https://jsfiddle.net/tianyn1990/taLeko6a/)
 
 ### ECS 模式
 
@@ -41,11 +41,11 @@ A-Frame 的设计思路是基于的 **[entity-component-system](https://aframe.i
 
 偏好继承的类的基本结构：
 
-![image](http://tianyn1990.github.io/AFrame/learning/images/inheritance.jpg)
+![image](http://tianyn.coding.me/AFrame/learning/images/inheritance.jpg)
 
 偏好合成的类的基本结构：
 
-![image](http://tianyn1990.github.io/AFrame/learning/images/composition.jpg)
+![image](http://tianyn.coding.me/AFrame/learning/images/composition.jpg)
 
 通过这种合成生成的对象：静态对象、太空船、飞碟、小行星、子弹和 force field 都叫做 **实体（ entities ）**。
 
@@ -85,7 +85,7 @@ Engine 类跟踪实体上的组件并创建（在必要时销毁）节点,将这
 
 最终的类的结构图：
 
-![image](http://tianyn1990.github.io/AFrame/learning/images/engine.jpg);
+![image](http://tianyn.coding.me/AFrame/learning/images/engine.jpg);
 
 
 #### A-Frame 中的 ECS
@@ -151,8 +151,8 @@ A-Frame 是在 three.js 之上的抽象，使用 A-Frame 组件，几乎可以�
 另外第三方也提供了大量很有用的组件，比如下方的「可交互效果 DEMO」中就有应用。
 
 这是根据 [官方 Guide](https://aframe.io/docs/0.2.0/guide/) 制作的两个 DEMO：
-[简单的物体](http://tianyn1990.github.io/AFrame/examples/html/helloword.html) [jsFiddle](https://jsfiddle.net/tianyn1990/g75tvjzo/)、
-[可交互效果](http://tianyn1990.github.io/AFrame/examples/html/helloword2.html) [jsFiddle](https://jsfiddle.net/tianyn1990/nd4t2cq3/)。
+[简单的物体](http://tianyn.coding.me/AFrame/examples/html/helloword.html) [jsFiddle](https://jsfiddle.net/tianyn1990/g75tvjzo/)、
+[可交互效果](http://tianyn.coding.me/AFrame/examples/html/helloword2.html) [jsFiddle](https://jsfiddle.net/tianyn1990/nd4t2cq3/)。
 
 这是官方推荐的一些精彩的案例：[A-Frame 的作品展示](https://github.com/aframevr/awesome-aframe#scenes)
 
