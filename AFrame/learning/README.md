@@ -1,7 +1,5 @@
 ## A-Frame 调研
 
-> github page 访问地址：http://163.fm/Zjax1VD
-
 ### 简介
 
 A-Frame 是对 three.js 的抽象封装，是 Mozilla 的 MozVR 团队在 2015 年发布的开源框架。
