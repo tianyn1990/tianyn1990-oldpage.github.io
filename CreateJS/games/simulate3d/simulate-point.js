@@ -8,8 +8,8 @@ var rect = $$tool.getRect('body'),
   canvas = stage.canvas,
   cw = canvas.width = rect.width,   // canvas width
   ch = canvas.height = rect.height, // canvas height
-  focalLen = 500,                   // focal length in z axis
-  FPS = 60,
+  focalLen = 1280,                   // focal length in z axis
+  FPS = 30,
   TICK_ITV_TIME = 1000 / 60;        // interval time between frames in theory
 
 
@@ -17,20 +17,36 @@ var rect = $$tool.getRect('body'),
 var loop = {
   draw: $$tool.noop,
   update: $$tool.noop,
-  stateTime: 0,
+  globalUpdate: $$tool.noop,
+  stateCurrentTime: 0,
   totalTime: 0
 };
 
 // data storage
 var gdata = {
+  currentShape: 0,
+  shapes: [
+    {name: 'Hi~', fontSize: ~~(ch / 1.3)},
+    {name: '618', fontSize: ~~(ch / 1.3)},
+    {name: '天呐', fontSize: ~~(ch / 1.2)},
+    {name: 'Fight', fontSize: ~~(ch / 1.5)},
+    {name: '考拉', fontSize: ~~(ch / 1.2)}
+  ],
+
   shapePos: [],
-  shapeZ: 50,
+  shapeZ: 500,
+
   ballParas: [],
-  rotsV: [.001, .0012, 0],
+  backgroundParas: [],
+
+  rotsV: [0, 0, 0],
   rots: [0, 0, 0],
+  maxRots: [50, 30, 50],
+  minRots: [-50, -30, -50],
+
   translate: [0, 0, 0],
   globalTrans: [0, 0, 0],
-  r: 5
+  r: 8
 };
 
 //---------------------------------------------------------------------------
@@ -38,23 +54,30 @@ var gdata = {
 // finite state machine 有限状态机，便于控制状态的切换
 
 var fsm = StateMachine.create({
-  initial: {state: 'hi', defer: true, event: 'init'},
+  initial: {state: 'aggregation', defer: true, event: 'init'},
   events: [
-    {name: 'tofsm', from: 'hi', to: 'fsm'},
-    {name: 'tohi', from: 'fsm', to: 'hi'}
+    {name: 'explosion', from: '*', to: 'separate'},
+    {name: 'rebuild', from: '*', to: 'aggregation'},
+    {name: 'calm', from: '*', to: 'stable'}
   ],
   callbacks: {
     // init
     "oninit": function (event, from, to) {
-      console.log('event: ' + event + ', ' + from + '->' + to);
+      //console.log('event: ' + event + ', ' + from + '->' + to);
+
+      initRot();
       // calc txt pos
-      calcPos('@');
-      // generate balls in stage.children 在极远处生成小球
-      generateBalls(gdata.shapePos.length);
+      calcPos(gdata.shapes[gdata.currentShape].name, gdata.shapes[gdata.currentShape].fontSize || ~~(ch / 1.2));
+      gdata.currentShape++;
+      // generate balls in stage.children 生成小球
+      generateBalls(gdata.ballParas, gdata.shapePos.length);
+      generateBalls(gdata.backgroundParas, 500);
+      // 入场动画 update 函数
+      loop.update = rebuildUpdate;
       // 通用 draw 方法
       loop.draw = generalDraw;
-      // 入场动画
-      loop.update = appearAniUpdate;
+      // 全局 update 函数
+      loop.globalUpdate = globalUpdate;
       // tick
       startTick();
     },
@@ -62,20 +85,48 @@ var fsm = StateMachine.create({
     // global
     "onleavestate": function (event, from, to) {
       if (event == 'init') return;
-      console.log('leaving : ' + from);
+      //console.log('leaving : ' + from);
+
+      // reset state time
+      loop.stateCurrentTime = 0;
+      loop.waitTime = 0;
     },
     "onenterstate": function (event, from, to) {
       if (event == 'init') return;
-      console.log('enter : ' + to);
-      loop.stateTime = 0; // reset state time
+      //console.log('enter : ' + to);
     },
 
     // prototype
-    "ontofsm": function (event, from, to) {
-      console.log('event: ' + event + ', ' + from + '->' + to);
+    "oncalm": function (event, from, to) {
+      //console.log('event: ' + event + ', ' + from + '->' + to);
+      if (from == 'aggregation') {
+        loop.nextEvent = 'explosion';
+      } else if (from == 'separate') {
+        loop.nextEvent = 'rebuild';
+      }
+      loop.waitTime = arguments[3];
+      loop.update = calmUpdate;
+      loop.draw = generalDraw;
     },
-    "ontowelcome": function (event, from, to) {
-      console.log('event: ' + event + ', ' + from + '->' + to);
+    "onexplosion": function (event, from, to) {
+      //console.log('event: ' + event + ', ' + from + '->' + to);
+      resetPos();
+      loop.update = explosionUpdate;
+      loop.draw = generalDraw;
+    },
+    "onrebuild": function (event, from, to) {
+      //console.log('event: ' + event + ', ' + from + '->' + to);
+      calcPos(gdata.shapes[gdata.currentShape].name, gdata.shapes[gdata.currentShape].fontSize || ~~(ch / 1.4));
+      gdata.currentShape++;
+      if (!gdata.shapes[gdata.currentShape]) gdata.currentShape = 0;
+
+      generateBalls(gdata.backgroundParas, gdata.shapePos.length, true);
+      var ballsArr = adjustBalls(gdata.ballParas, gdata.shapePos.length, gdata.backgroundParas);
+      gdata.ballParas = ballsArr[0];
+      gdata.backgroundParas = ballsArr[1];
+
+      loop.update = rebuildUpdate;
+      loop.draw = generalDraw;
     }
   }
 });
@@ -89,29 +140,87 @@ function startTick() {
   c.Ticker.timingMode = c.Ticker.RAF_SYNCHED;
   c.Ticker.setFPS(FPS);
   c.Ticker.on('tick', function (evt) {
-    loop.update(evt.delta);
+
+    // calc times
+    var delta = evt.delta,
+      timeScale = delta * FPS / 1000; // > 1 表示循环变慢
+    timeScale = timeScale < 1 ? 1 : timeScale;
+    loop.totalTime += delta;          // 总时间
+    loop.stateCurrentTime += delta;   // 当前状态时间
+
+    // update
+    var currentFrame = ~~(loop.stateCurrentTime / TICK_ITV_TIME); // 当前状态帧数
+    loop.globalUpdate(delta, timeScale, currentFrame);            // 全局 update 函数
+    loop.update(delta, timeScale, currentFrame);                  // 当前状态的 update 函数
+
+    // draw
     loop.draw();
-    loop.totalTime += evt.delta;
+
     stage.update(evt);
   });
 }
 
+var getRandomXYZ = (function () {
+  var randomxyz = [0, 0, 0];
+  var long = Math.max(cw, ch, focalLen);
+  return function () {
+    randomxyz[0] = $$tool.random(-long * 2 / 3 + cw / 2, long * 4 / 3);
+    randomxyz[1] = $$tool.random(-long * 2 / 3 + ch / 2, long * 4 / 3);
+    randomxyz[2] = $$tool.random(-long * 2 / 3, long * 4 / 3);
+    return randomxyz;
+  };
+})();
+
 // 获取文本 txt 对应图形的坐标
-function calcPos(txt) {
-  gdata.shapePos = $$tool.getParticlePos($$tool.createTxtCanvas(txt, cw, ch, 'bold ' + ~~(ch / 1.2) + 'px Arial'), 127, 12);
+function calcPos(txt, fontSize) {
+  gdata.shapePos = $$tool.getParticlePos($$tool.createTxtCanvas(txt, cw, ch, 'bold ' + fontSize + 'px Arial'), 127, 19);
+}
+
+function resetPos() {
+  for (var l = gdata.shapePos.length, pos, _pos; l; l--) {
+    _pos = getRandomXYZ();
+    pos = gdata.shapePos[l - 1];
+    pos.x = _pos[0];
+    pos.y = _pos[1];
+    pos.z = _pos[2];
+  }
+}
+
+// 从 backupBalls 中抽取 num 个补充到 balls 中，balls 原来的都放到 backupBalls 中
+function adjustBalls(balls, num, backupBalls) {
+  var ballsNew, num2;
+  ballsNew = [];
+  num2 = backupBalls.length; // num2 一定大于 num
+  var ratio = num2 / num;
+  for (var i = 0, n, pick; i < num2; i++) {
+    n = ~~(i * ratio);
+    pick = backupBalls[n];
+    if (!!pick) {
+      backupBalls[n] = backupBalls[ballsNew.length];
+      backupBalls[ballsNew.length] = pick;
+      ballsNew.push(pick);
+    }
+  }
+  backupBalls.splice(0, ballsNew.length);
+  return [ballsNew, backupBalls.concat(balls)];
 }
 
 // 初始化一定数量的小球，坐标随机
-function generateBalls(num) {
-  var _num = stage.children.length;
+function generateBalls(balls, num, isFar) {
+  var _num = balls.length;
   if (_num >= num) return;
-  var colors = [255, 255, 255];
-  for (var l = num - _num, x, y, z, ball; l; l--) {
-    x = $$tool.random(0, cw);
-    y = $$tool.random(0, ch);
-    z = $$tool.random(-focalLen * 2, focalLen * 4);
+  var colors = [255, 0, 0];
+  for (var l = num - _num, x, y, z, ball, _pos; l; l--) {
+    _pos = getRandomXYZ();
+    x = _pos[0];
+    y = _pos[1];
+    z = _pos[2];
     ball = addBall();
-    gdata.ballParas.push({
+    if (!!isFar) {
+      x = x > cw / 2 ? x + cw / 2 : x - cw / 2;
+      y = y > ch / 2 ? y + ch / 2 : y - ch / 2;
+    }
+    balls.push({
       x: x, y: y, z: z, colors: colors, ball: ball,
       backupPos: {x: x, y: y, z: z},      // 备份初始坐标数据，用于 tween 缓动函数的计算
       transPos: {x: x, y: y, z: z}        // 存储经过图形变换矩阵变换之后的坐标
@@ -119,83 +228,144 @@ function generateBalls(num) {
   }
 }
 
-function sort(arr) {
-  arr.length && arr.sort(function (a, b) {
-    return a.transPos.z - b.transPos.z;
-  });
-}
-
 // 添加一个空白 ball
 function addBall() {
   var b = new c.Shape();
-  b.graphics.f('rgba(0,0,0,0)').dc(0, 0, 0);
+  b.graphics.f('rgba(255,255,255,0)').dc(0, 0, 0);
   stage.addChild(b);
   return b;
 }
 // 更新 ball 的坐标、大小、颜色
-function resetBall(ball, x, y, colors, scale) {
+function resetBall(ball, x, y, z, colors, scale) {
   ball.x = x;
   ball.y = y;
+  ball._z = z;
   ball.graphics.clear()
-    .f('rgba(' + colors[0] + ',' + colors[1] + ',' + colors[2] + ',1)')
+    .f('rgba(' + colors[0] + ',' + colors[1] + ',' + colors[2] + ', 1)')
     .dc(0, 0, gdata.r * scale);
+}
+
+function syncBackup() {
+  for (var l = gdata.ballParas.length, para, backup; l; l--) {
+    para = gdata.ballParas[l - 1];
+    backup = para.backupPos;
+    backup.x = para.x;
+    backup.y = para.y;
+    backup.z = para.z;
+  }
 }
 
 // 通用 draw 方法
 function generalDraw() {
-  //sort(gdata.ballParas);
-  var centers = [cw / 2 + gdata.translate[0] + gdata.globalTrans[0], ch / 2 + gdata.translate[1] + gdata.globalTrans[1], gdata.shapeZ + gdata.translate[2] + gdata.globalTrans[2]],
+  var centers = [
+      cw / 2 + gdata.translate[0] + gdata.globalTrans[0],
+      ch / 2 + gdata.translate[1] + gdata.globalTrans[1],
+      gdata.shapeZ + gdata.translate[2] + gdata.globalTrans[2]
+    ],
     matrix2Trans = $$tool.matrixMultipy(
       $$tool.rotate(gdata.rots[0], gdata.rots[1], gdata.rots[2]),
-      $$tool.translate(gdata.translate[0] + gdata.globalTrans[0], gdata.translate[1] + gdata.globalTrans[1], gdata.translate[2] + gdata.globalTrans[2])
+      $$tool.translate(centers[0] - cw / 2, centers[1] - ch / 2, centers[2])
     );
-  for (var l = gdata.ballParas.length, pos, para; l; l--) {
-    para = gdata.ballParas[l - 1];
+  for (var l = gdata.ballParas.length, pos, para, i = 0; i < l; i++) {
+    para = gdata.ballParas[i];
     para.transPos = $$tool.getTransPos(para, centers, matrix2Trans);       // 经过图形变换矩阵变换之后的坐标
     pos = $$tool.get3dPos(para.transPos, focalLen, para.colors, centers);  // 施加 z 坐标对 x、y、colors 的影响
-    resetBall(para.ball, pos.pos.x, pos.pos.y, pos.colors, pos.scale);
+    resetBall(para.ball, pos.pos.x, pos.pos.y, para.transPos.z, pos.colors, pos.scale);
+  }
+  for (l = gdata.backgroundParas.length, i = 0; i < l; i++) {
+    para = gdata.backgroundParas[i];
+    para.transPos = $$tool.getTransPos(para, centers, matrix2Trans);
+    pos = $$tool.get3dPos(para.transPos, focalLen, para.colors, centers);
+    resetBall(para.ball, pos.pos.x, pos.pos.y, para.transPos.z, pos.colors, pos.scale);
+  }
+  stage.children.sort(function (a, b) {
+    return b._z - a._z;
+  });
+}
+
+// 全局 update 方法
+function globalUpdate(delta, timeScale, currentFrame) {
+  var vScale = delta / TICK_ITV_TIME;       // 将增量跟时间关联，保证任意 FPS 下速率不变
+
+  gdata.rots[0] += gdata.rotsV[0] * vScale;
+  gdata.rots[1] += gdata.rotsV[1] * vScale;
+  gdata.rots[2] += gdata.rotsV[2] * vScale;
+  gdata.rots[0] = Math.max(Math.min(gdata.rots[0], gdata.maxRots[0]), gdata.minRots[0]);
+  gdata.rots[1] = Math.max(Math.min(gdata.rots[1], gdata.maxRots[1]), gdata.minRots[1]);
+  gdata.rots[2] = Math.max(Math.min(gdata.rots[2], gdata.maxRots[2]), gdata.minRots[2]);
+}
+
+// calm update
+function calmUpdate(delta, timeScale, currentFrame) {
+  var totalFrame = ~~((loop.waitTime || 5000) / TICK_ITV_TIME);
+  if (currentFrame - totalFrame > 0) {
+    !!loop.nextEvent && fsm[loop.nextEvent]();
   }
 }
 
-// 某一个 update 方法
-function appearAniUpdate(delta) {
-  loop.stateTime += delta;
-  var totalTime = 3000,
-    totalFrame = totalTime / TICK_ITV_TIME,
-    currentFrame = loop.stateTime / TICK_ITV_TIME;
-  gdata.rots[0] += gdata.rotsV[0];
-  gdata.rots[1] += gdata.rotsV[1];
-  gdata.rots[2] += gdata.rotsV[2];
-  if (!!appearAniUpdate.stop) return;
-  if (currentFrame - totalFrame > 0 && currentFrame - totalFrame < 5) {
+// onexplosion update
+function explosionUpdate(delta, timeScale, currentFrame) {
+  var totalFrame = ~~(1000 / TICK_ITV_TIME),
+    remain = currentFrame - totalFrame;
+  if (remain > 0 && remain < 10) {
     currentFrame = totalFrame;
-  } else if (currentFrame - totalFrame >= 5) {
-    showTutorial();
-    appearAniUpdate.stop = true;
+  } else if (remain >= 10) {
+    syncBackup();
+    fsm.calm(1000);
     return;
   }
-  var l = gdata.ballParas.length, para, backupPos, spara;
-  for (; l; l--) {
-    para = gdata.ballParas[l - 1];
+  var l = gdata.ballParas.length, para, backupPos, spara, i = 0;
+  for (; i < l; i++) {
+    para = gdata.ballParas[i];
     backupPos = para.backupPos;
-    spara = gdata.shapePos[l - 1];
+    spara = gdata.shapePos[i];
     if (!spara) break;
-    para.x = Tween.Bounce.easeOut(currentFrame, backupPos.x, spara.x - backupPos.x, totalFrame);
-    para.y = Tween.Bounce.easeOut(currentFrame, backupPos.y, spara.y - backupPos.y, totalFrame);
-    para.z = Tween.Bounce.easeOut(currentFrame, backupPos.z, gdata.shapeZ - backupPos.z + gdata.globalTrans[2], totalFrame);
+    para.x = Tween.Cubic.easeInOut(currentFrame, backupPos.x, spara.x - backupPos.x, totalFrame);
+    para.y = Tween.Cubic.easeInOut(currentFrame, backupPos.y, spara.y - backupPos.y, totalFrame);
+    para.z = Tween.Cubic.easeInOut(currentFrame, backupPos.z, spara.z + gdata.globalTrans[2] - backupPos.z, totalFrame);
+  }
+}
+
+// oninit、onrebuild update
+function rebuildUpdate(delta, timeScale, currentFrame) {
+  var totalFrame = ~~(2000 / TICK_ITV_TIME),
+    remain = currentFrame - totalFrame;
+  if (remain > 0 && remain < 10) { // 预留 10 帧，用来避免对齐问题 
+    currentFrame = totalFrame;
+  } else if (remain >= 10) {
+    showTutorial();
+    syncBackup();
+    fsm.calm(5000); // 进入 stable 状态
+    return;
+  }
+  var l = gdata.ballParas.length, para, backupPos, spara, i = 0;
+  for (; i < l; i++) {
+    para = gdata.ballParas[i];
+    backupPos = para.backupPos;
+    spara = gdata.shapePos[i];
+    if (!spara) break;
+    para.x = Tween.Cubic.easeInOut(currentFrame, backupPos.x, spara.x - backupPos.x, totalFrame);
+    para.y = Tween.Cubic.easeInOut(currentFrame, backupPos.y, spara.y - backupPos.y, totalFrame);
+    para.z = Tween.Cubic.easeInOut(currentFrame, backupPos.z, gdata.globalTrans[2] - backupPos.z, totalFrame);
   }
 }
 
 // 展示「指引」
 function showTutorial() {
   var $tt = document.querySelector(".m-tutorial");
+  if (!$tt) return;
   $tt.setAttribute('class', 'm-tutorial z-show');
   setTimeout(function () {
     $tt.setAttribute('class', 'm-tutorial');
-    setTimeout(function (){
-      $tt.remove();  
+    setTimeout(function () {
+      $tt.remove();
     }, 1000);
   }, 10000);
+}
+
+function initRot() {
+  gdata.rotsV[0] = -.02;
+  gdata.rotsV[1] = -.02;
 }
 
 //---------------------------------------------------------------------------
@@ -211,8 +381,8 @@ $$body.addEventListener('mousemove', function (evt) {
     gdata.translate[1] = my - mousedownPos[1];
     return;
   }
-  gdata.rotsV[0] = (my - ch / 2) * .00004;
-  gdata.rotsV[1] = (mx - cw / 2) * .00004;
+  gdata.rotsV[0] = (my - ch / 2) * .0001;
+  gdata.rotsV[1] = (mx - cw / 2) * .0001;
 });
 $$body.addEventListener('mousedown', function (evt) {
   var mx = evt.clientX - rect.left,

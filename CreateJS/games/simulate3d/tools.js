@@ -101,6 +101,9 @@
   };
   // 三维矩阵变换：旋转
   $$tool.rotate = function (regx, regy, regz) {
+    regx = regx / 180 * Math.PI;
+    regy = regy / 180 * Math.PI;
+    regz = regz / 180 * Math.PI;
     var sinx = Math.sin(regx),
       siny = Math.sin(regy),
       sinz = Math.sin(regz),
