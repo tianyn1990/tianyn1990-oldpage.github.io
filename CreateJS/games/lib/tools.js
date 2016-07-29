@@ -190,6 +190,20 @@
     return [~~(colors[0] * colorScale), ~~(colors[1] * colorScale), ~~(colors[2] * colorScale)];
   }
 
+  $$tool.setImageData = function (imageData) {
+    var that = {};
+    var w = imageData.width,
+      h = imageData.height,
+      data = imageData.data,
+      idx;
+    that.pointAt = function (x, y) {
+      if (y > h) throw Error('$$tool.setImageData#pointAt error');
+      idx = ((w * y) + x) * 4;
+      return [data[idx], data[idx + 1], data[idx + 2], data[idx + 3]];
+    };
+    return that;
+  };
+
   //---------------------------------------------------------------------------
 
   //============

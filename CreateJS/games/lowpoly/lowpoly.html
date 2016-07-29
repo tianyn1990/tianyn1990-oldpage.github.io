@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+  <meta name="viewport" content="initial-scale=1.0,user-scalable=no,maximum-scale=3,width=device-width"/>
+  <title></title>
+  <script type="text/javascript" src="../lib/createjs-2015.11.26.min.js"></script>
+  <style>
+    * { margin: 0; padding: 0; }
+    html, body { width: 100%; height: 100%; overflow: hidden; position: relative; background: #f0f0f0; }
+    .file {
+      visibility: hidden;
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+    }
+    #cvs {
+      width: 100%;
+      height: 100%;
+    }
+    .tutorial {
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 300px;
+      text-align: center;
+      padding: 30px;
+      font-size: 35px;
+      background: rgba(0, 0, 0, .2);
+      color: #fff;
+      cursor: pointer;
+      -webkit-transition: background .15s;
+      transition: background .15s;
+    }
+    .tutorial:hover {
+      background: rgba(0, 0, 0, .05);
+    }
+  </style>
+</head>
+<body>
+<canvas id="cvs"></canvas>
+<div class="tutorial j-tutorial">
+  <span>点击选择图片</span>
+  <input type="file" class="file" id="inputFile"/>
+</div>
+</body>
+<script type="text/javascript" src="../lib/tools.js"></script>
+<script type="text/javascript" src="../lib/sobel-mine.js"></script>
+<script type="text/javascript" src="../lib/delaunay/delaunay.js"></script>
+<script type="text/javascript" src="./lowpoly.js"></script>
+</html>
