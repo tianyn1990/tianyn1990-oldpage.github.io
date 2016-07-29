@@ -106,7 +106,7 @@ function getPoints(imageData, width, height) {
   });
 
   // 随机取收集到的点
-  for (var i = 0, n = collectors.length, l = imageWidth * 2, random, tmp; i < l; i++) {
+  for (var i = 0, n = collectors.length, l = imageWidth * 3, random, tmp; i < l; i++) {
     random = $$tool.random(i, n - i);
     tmp = collectors[random];
     collectors[random] = collectors[i];
