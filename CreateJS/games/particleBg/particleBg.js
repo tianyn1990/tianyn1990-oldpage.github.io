@@ -81,13 +81,13 @@ function updateLine() {
         if (dis > data.maxGravityLen / 5 * 4) {
           color = 'red';
           width += .1;
-          p1.x -= (dx * (dis - data.maxGravityLen / 5 * 4) / 12000);
-          p1.y -= (dy * (dis - data.maxGravityLen / 5 * 4) / 12000);
+          p1.x -= (dx * (dis - data.maxGravityLen / 5 * 4) / 8000);
+          p1.y -= (dy * (dis - data.maxGravityLen / 5 * 4) / 8000);
         } else {
           dx = p1.x - p2.x;
           dy = p1.y - p2.y;
-          p1.x += (dx * (data.maxGravityLen / 5 - dis) / 12000);
-          p1.y += (dy * (data.maxGravityLen / 5 - dis) / 12000);
+          p1.x += (dx * (data.maxGravityLen / 5 - dis) / 8000);
+          p1.y += (dy * (data.maxGravityLen / 5 - dis) / 8000);
         }
         if (p2 == data.mousePoint && data.isMoving) {
           color = 'rgba(0,0,0,0)';
@@ -149,7 +149,7 @@ Line.prototype.show = function () {
 };
 
 function calcPointV() {
-  var v = $$tool.random(-200, 400) / 300;
+  var v = $$tool.random(-200, 400) / 200;
   if (Math.abs(v) < .2) {
     return calcPointV();
   }
