@@ -204,6 +204,33 @@
     return that;
   };
 
+  $$tool.loadImage2Canvas = function (imgSrc, callback, maxWidth) {
+    var offCvs = document.createElement('canvas'),
+      offContext = offCvs.getContext('2d'),
+      img = new Image(),
+      w, nw, h;
+    img.src = imgSrc;
+    img.onload = function () {
+      w = img.width;
+      h = img.height;
+      if (!!maxWidth) {
+        nw = w > maxWidth ? maxWidth : w;
+        h = h * nw / w;
+        w = nw;
+      }
+      offCvs.width = w;
+      offCvs.height = h;
+      offContext.drawImage(img, 0, 0, img.width, img.height, 0, 0, w, h);
+      callback({
+        canvas: offCvs,
+        ctt: offContext,
+        image: img,
+        width: w,
+        height: h
+      });
+    };
+  };
+
   //---------------------------------------------------------------------------
 
   //============

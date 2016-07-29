@@ -25,7 +25,8 @@ inputFile.onchange = function (evt) {
 
   var reader = new FileReader();
   reader.onload = function () {
-    parseImage2Lowpoly(reader.result, initImageCallback, cw);
+    ctt.clearRect(0, 0, cw, ch);
+    $$tool.loadImage2Canvas(reader.result, initImageCallback, cw);
   };
   reader.readAsDataURL(file);
 
@@ -35,8 +36,8 @@ var imageData,
   edgePos,
   triangles;
 
-// 加载图片
-parseImage2Lowpoly("./img/horse.jpg", initImageCallback, cw);
+// 加载图片，图片三角化
+$$tool.loadImage2Canvas("./img/view3.jpg", initImageCallback, cw);
 
 // 加载图片回调
 function initImageCallback(data) {
@@ -136,32 +137,4 @@ function getPoints(imageData, width, height) {
   }
 
   return edgePos;
-}
-
-function parseImage2Lowpoly(imgSrc, callback, maxWidth) {
-  ctt.clearRect(0, 0, cw, ch);
-  var offCvs = document.createElement('canvas'),
-    offContext = offCvs.getContext('2d'),
-    img = new Image(),
-    w, nw, h;
-  img.src = imgSrc;
-  img.onload = function () {
-    w = img.width;
-    h = img.height;
-    if (!!maxWidth) {
-      nw = w > maxWidth ? maxWidth : w;
-      h = h * nw / w;
-      w = nw;
-    }
-    offCvs.width = w;
-    offCvs.height = h;
-    offContext.drawImage(img, 0, 0, img.width, img.height, 0, 0, w, h);
-    callback({
-      canvas: offCvs,
-      ctt: offContext,
-      image: img,
-      width: w,
-      height: h
-    });
-  };
 }
