@@ -41,11 +41,11 @@ A-Frame 的设计思路是基于的 **[entity-component-system](https://aframe.i
 
 偏好继承的类的基本结构：
 
-![image](http://tianyn.coding.me/AFrame/learning/images/inheritance.jpg)
+![image](./images/inheritance.jpg)
 
 偏好合成的类的基本结构：
 
-![image](http://tianyn.coding.me/AFrame/learning/images/composition.jpg)
+![image](./images/composition.jpg)
 
 通过这种合成生成的对象：静态对象、太空船、飞碟、小行星、子弹和 force field 都叫做 **实体（ entities ）**。
 
@@ -85,7 +85,7 @@ Engine 类跟踪实体上的组件并创建（在必要时销毁）节点,将这
 
 最终的类的结构图：
 
-![image](http://tianyn.coding.me/AFrame/learning/images/engine.jpg);
+![image](./images/engine.jpg);
 
 
 #### A-Frame 中的 ECS
