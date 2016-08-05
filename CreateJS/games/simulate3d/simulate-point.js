@@ -1,8 +1,10 @@
 /*
  
-参考：http://www.cnblogs.com/axes/p/3500655.html
- 1、canvas 2d 模拟 3d效果
- 2、文字和图片的粒子化
+参考：
+ 关于 3d 投影到 2d 平面（2d 模拟 3d）
+ 1、摄像机、投影、3D旋转、缩放：http://www.cnblogs.com/iamzhanglei/archive/2011/09/23/2185627.html 
+ 2、事情没有那么难—JX官网首页3D粒子效果：http://www.cnblogs.com/hongru/archive/2012/03/28/2420415.html、http://www.cnblogs.com/axes/p/3500655.html
+ 3、另外，上面两个文章中的三维图形变换，可以使用「三维矩阵变换」来完成，公式：http://blog.sina.com.cn/s/blog_620bf89501011fl8.html
 
  一点心得：
  1、虽然是「点」，但连接在一起就是「面」，帖上图片之后，就是三维物体

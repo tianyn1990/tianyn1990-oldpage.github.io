@@ -3,7 +3,7 @@
 * https://github.com/Ovilia/Polyvia
 * http://www.cnblogs.com/axes/p/4605474.html
 * https://www.zhihu.com/question/29856775/answer/57668656
-* */ 
+* */
 
 var rect = $$tool.getRect('body'),
   canvas = document.querySelector('#cvs'),
