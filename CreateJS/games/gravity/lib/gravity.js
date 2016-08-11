@@ -78,7 +78,7 @@
         time2Call = Math.max(0, self.timeStep - delta);
       self._lastTime += delta;
       return setTimeout(function () {
-        if (delta < (self.timeStep * 10)) {
+        if (delta < (self.timeStep * 2)) {
           callback(self.timeStep / 1000); // 单位：毫秒 -> 秒
         } else {
           // 离开页面之后，setTimeout 频率下降，大于 2 倍的 timeStep

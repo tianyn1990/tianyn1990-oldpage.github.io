@@ -8,7 +8,7 @@
 $$gravity.World.Gravity = $$klass({
   acceleration: 9.80665,                 // 重力加速度：9.80665 m/s2
   initialize: function (spec) {
-    this.position = new $$vector2(0, 1); // 重力方向，默认 x 无，y 为 1 表示正方向向下
+    this.position = new $$vector2(0, 1); // 重力方向，默认 x: 0，y: 1 表示横向没有，纵向正向下
     if (spec.position && spec.position instanceof $$vector2) {
       this.position = spec.position;
     }

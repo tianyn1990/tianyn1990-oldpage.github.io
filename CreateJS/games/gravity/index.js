@@ -3,6 +3,7 @@ new $$gravity.Render(world).tick(function () {
 });
 function createCircle(x, y, vx, vy) {
   return new $$gravity.Body.Circle({
+    //bodyType: $$gravity.BODY_TYPE_STATIC,
     position: new $$vector2(x || $$tool.random(0, 1000), y || 0),
     linearVelocity: new $$vector2(vx || $$tool.random(-150, 150), vy || $$tool.random(0, 10)),
     angularVelocity: Math.PI * $$tool.random(-5, 10),

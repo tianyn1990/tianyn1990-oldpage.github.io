@@ -1,5 +1,6 @@
 (function (window) {
 
+  // 二维向量计算
 
   // 注意：为了性能考虑，尽量避免创建新的 vector 对象
   var $$vector2 = $$klass({
