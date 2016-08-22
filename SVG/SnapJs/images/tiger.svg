@@ -1,7 +1,8 @@
 <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
      viewBox="-34 122.4 542 548.6" style="enable-background:new 0 0 542 548.6;" xml:space="preserve">
 <g>
-<style>
+<style type="text/css">
+<![CDATA[
     .st0 { fill: #FFE475; }
     .st1 { fill: #C26C47; }
     .st2 { fill: #49312D; }
@@ -37,6 +38,7 @@
     .st32 { fill: #FFD386; }
     .st33 { fill: #D1C76D; }
     .st34 { fill: #56481C; }
+]]>
 </style>
 <g id="left-side">
     <path id="XMLID_418_" class="st0" d="M165.5,362.6c-0.4-1.6-1.4-3.1-2.7-4.1c-0.1-0.8-0.8-1.6-1.9-1.3c-0.1,0-0.2,0.1-0.3,0.1
