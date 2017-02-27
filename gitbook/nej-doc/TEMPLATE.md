@@ -476,7 +476,7 @@ ${(lastQuarter.calcRevenue() - fixedCosts) / 10000}
 语法：
 
 ```html
-${% expr %}
+
 ```
 
 范例：
