@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  <meta name="viewport" content="initial-scale=1.0,user-scalable=no,maximum-scale=1,width=device-width"/>
+  <meta name="format-detection" content="telephone=no"/>
+  <title>测试tween.js</title>
+  <style>
+    .ball { width: 20px; height: 20px; background: #f33; /* box-shadow: 0 0 30px #f60;*/
+      border-radius: 50%; position: absolute; top: 0; left: 0;
+      transform: translate3d(0, 0, 0) }
+    .ani {
+      /*transition: all 5s linear 2s;*/
+    }
+  </style>
+</head>
+<body>
+</body>
+<script src="./js/jquery.min.js"></script>
+<script src="./js/requestAnimationFrame.js"></script>
+<script src="./js/tool.js"></script>
+<script src="./js/tween.js"></script>
+<script>
+  (function (window) {
+    var $ = function (sel) {
+      return document.querySelector(sel);
+    }, $$ = function (sel) {
+      return document.querySelectorAll(sel);
+    };
+
+    var str = '', number = 2000;
+
+    for (var i = 0; i < number; i++) {
+      str += '<div class="ball ani" style="top:' + (i * 20) + 'px"></div>'
+    }
+    str += '<p id="warn-fps"></p>';
+    $("body").innerHTML = str;
+
+
+    var balls = $$(".ball"),
+      fps = $("#warn-fps"),
+      fpsNumber = 60,
+      tmp = {};
+
+    var ani = function (c) {
+      //x坐标
+      var x = Math.tween("linear", ["Linear"], {
+        begin: 100, //px
+        end: 1000, //px
+        current: c, //帧
+        during: 7, //秒
+        delay: 2 //秒
+      }), ball, dis;
+      for (var i = 0, l = balls.length; i < l; i++) {
+        ball = balls[i];
+        tmp['x' + i] = tmp['x' + i] || 0;
+        dis = (x - tmp['x' + i]);
+        if (dis >= 1 || dis < -1) {
+          ball.style.left = ~~x + "px";
+          tmp['x' + i] = x;
+        }
+      }
+    };
+
+    //帧率
+    var c = 0, tmpC = 0;
+    setInterval(function () {
+      fpsNumber = c - tmpC;
+      fps.innerText = fpsNumber + "FPS";
+      tmpC = c;
+    }, 1000);
+
+    //循环
+    var raf = function () {
+      c++;
+      ani(c);
+      requestAnimationFrame(function () {
+        raf();
+      });
+    };
+    raf();
+
+    //css3动画
+    var trans = function (){
+      setTimeout(function () {
+        var l, ball;
+        for (i = 0, l = balls.length; i < l; i++) {
+          ball = balls[i];
+          ball.style.left = 1000 + "px";
+        }
+      }, 1000);
+    };
+//    trans();
+
+  })(window);
+</script>

@@ -1,0 +1,94 @@
+/*整体样式*/
+.m-card-eye {
+    position: relative;
+    perspective: 900px;
+    perspective-origin: center center;
+    transform: scale(.5);
+    transform-origin: top center;
+}
+.m-card-stage {
+    position: relative;
+    width: 545px;
+    height: 755px;
+    transform-style: preserve-3d;
+    margin: 10px;
+    padding: 0;
+}
+.m-card-stage .card {
+    transform-style: preserve-3d;
+    transform-origin: center center;
+    position: absolute;
+    top: 0;
+    left: 0;
+    transition: all .5s ease-in-out;
+    width: 175px;
+    height: 245px;
+    transform: translateZ(0);
+}
+.m-card-stage .card-front, .m-card-stage .card-back {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 175px;
+    height: 245px;
+    backface-visibility: hidden;
+    transform-style: preserve-3d;
+    transform: translateZ(0);
+}
+.m-card-stage .card-front {
+}
+.m-card-stage .card-back {
+    background: url(../images/cards/card-back.jpg) 0 0 no-repeat;
+    transform: rotateY(180deg);
+}
+.m-card-stage .card.center-back {
+    transform: translate3d(175px, 245px, 0) rotateY(180deg);
+}
+/*具体每张牌样式*/
+
+/*
+每张牌的状态:
+在原位，反面朝上，.stay-back
+在原位，正面朝上，.stay-front
+在中间，反面朝上，.center-back
+*/
+
+.m-card-stage .m-card-0 .card-front { background: url(../images/cards/card-1.jpg) 0 0 no-repeat; }
+.m-card-stage .m-card-0 .card-back { }
+.m-card-stage .m-card-0.stay-back { transform: translate3d(0, 0, 0) rotateY(180deg); }
+.m-card-stage .m-card-0.stay-front { transform: translate3d(0, 0, 0) rotateY(0deg); }
+
+.m-card-stage .m-card-1 .card-front { background: url(../images/cards/card-2.jpg) 0 0 no-repeat; }
+.m-card-stage .m-card-1 .card-back { }
+.m-card-stage .m-card-1.stay-back { transform: translate3d(175px, 0, 0) rotateY(180deg); }
+.m-card-stage .m-card-1.stay-front { transform: translate3d(175px, 0, 0) rotateY(0deg); }
+
+.m-card-stage .m-card-2 .card-front { background: url(../images/cards/card-3.jpg) 0 0 no-repeat; }
+.m-card-stage .m-card-2 .card-back { }
+.m-card-stage .m-card-2.stay-back { transform: translate3d(350px, 0, 0) rotateY(180deg); }
+.m-card-stage .m-card-2.stay-front { transform: translate3d(350px, 0, 0) rotateY(0deg); }
+
+.m-card-stage .m-card-3 .card-front { background: url(../images/cards/card-4.jpg) 0 0 no-repeat; }
+.m-card-stage .m-card-3 .card-back { }
+.m-card-stage .m-card-3.stay-back { transform: translate3d(350px, 245px, 0) rotateY(180deg); }
+.m-card-stage .m-card-3.stay-front { transform: translate3d(350px, 245px, 0) rotateY(0deg); }
+
+.m-card-stage .m-card-4 .card-front { background: url(../images/cards/card-j.jpg) 0 0 no-repeat; }
+.m-card-stage .m-card-4 .card-back { }
+.m-card-stage .m-card-4.stay-back { transform: translate3d(350px, 490px, 0) rotateY(180deg); }
+.m-card-stage .m-card-4.stay-front { transform: translate3d(350px, 490px, 0) rotateY(0deg); }
+
+.m-card-stage .m-card-5 .card-front { background: url(../images/cards/card-q.jpg) 0 0 no-repeat; }
+.m-card-stage .m-card-5 .card-back { }
+.m-card-stage .m-card-5.stay-back { transform: translate3d(175px, 490px, 0) rotateY(180deg); }
+.m-card-stage .m-card-5.stay-front { transform: translate3d(175px, 490px, 0) rotateY(0deg); }
+
+.m-card-stage .m-card-6 .card-front { background: url(../images/cards/card-k.jpg) 0 0 no-repeat; }
+.m-card-stage .m-card-6 .card-back { }
+.m-card-stage .m-card-6.stay-back { transform: translate3d(0, 490px, 0) rotateY(180deg); }
+.m-card-stage .m-card-6.stay-front { transform: translate3d(0, 490px, 0) rotateY(0deg); }
+
+.m-card-stage .m-card-7 .card-front { background: url(../images/cards/card-w.jpg) 0 0 no-repeat; }
+.m-card-stage .m-card-7 .card-back { }
+.m-card-stage .m-card-7.stay-back { transform: translate3d(0, 245px, 0) rotateY(180deg); }
+.m-card-stage .m-card-7.stay-front { transform: translate3d(0, 245px, 0) rotateY(0deg); }
