@@ -482,7 +482,6 @@ ${(lastQuarter.calcRevenue() - fixedCosts) / 10000}
 范例：
 
 ```html
-${% emitLink("Solution and Products", {color: "red", blink: false}) %}
 ```
 
 ### 语句
