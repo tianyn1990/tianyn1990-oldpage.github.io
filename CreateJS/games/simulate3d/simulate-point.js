@@ -1,8 +1,8 @@
 /*
- 
+
 参考：
  关于 3d 投影到 2d 平面（2d 模拟 3d）
- 1、摄像机、投影、3D旋转、缩放：http://www.cnblogs.com/iamzhanglei/archive/2011/09/23/2185627.html 
+ 1、摄像机、投影、3D旋转、缩放：http://www.cnblogs.com/iamzhanglei/archive/2011/09/23/2185627.html
  2、事情没有那么难—JX官网首页3D粒子效果：http://www.cnblogs.com/hongru/archive/2012/03/28/2420415.html、http://www.cnblogs.com/axes/p/3500655.html
  3、另外，上面两个文章中的三维图形变换，可以使用「三维矩阵变换」来完成，公式：http://blog.sina.com.cn/s/blog_620bf89501011fl8.html
 
@@ -346,7 +346,7 @@ function explosionUpdate(delta, timeScale, currentFrame) {
 function rebuildUpdate(delta, timeScale, currentFrame) {
   var totalFrame = ~~(2000 / TICK_ITV_TIME),
     remain = currentFrame - totalFrame;
-  if (remain > 0 && remain < 10) { // 预留 10 帧，用来避免对齐问题 
+  if (remain > 0 && remain < 10) { // 预留 10 帧，用来避免对齐问题
     currentFrame = totalFrame;
   } else if (remain >= 10) {
     showTutorial();
