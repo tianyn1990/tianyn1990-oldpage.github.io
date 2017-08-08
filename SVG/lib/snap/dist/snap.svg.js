@@ -106,6 +106,7 @@
                     queue[listeners[i].zIndex] = listeners[i];
                 }
             }
+            
             indexed.sort(numsort); //从小到大排序
             while (indexed[z] < 0) {
                 l = queue[indexed[z++]];
