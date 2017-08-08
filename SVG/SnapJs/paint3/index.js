@@ -192,11 +192,8 @@ FreeDraw.load('../images/xmark.svg', null, function (f) {
     var svg = FreeDraw.createSVG({w: 190, h: 205}, '#svgwrap'),
         g = f.select('g'),
         ps = f.selectAll('path') || [];
-    if (!g) {
-        throw '<g> is not find';
-    }
-    if (!ps.length) {
-        throw '<path> is not find';
+    if (!g || !ps.length) {
+        throw '<g> or <path> is not found';
     }
     svg.append(g);
 

@@ -77,18 +77,23 @@
 
      = (object) array of returned values from the listeners. Array has two methods `.firstDefined()` and `.lastDefined()` to get first or last not `undefined` value.
     \*/
+        /*
+        触发事件 
+         */
         eve = function (name, scope) {
             name = String(name);
-            var e = events,
-                oldstop = stop,
+            var e = events, // {n:{}}
+                oldstop = stop, //全局block
                 args = Array.prototype.slice.call(arguments, 2),
-                listeners = eve.listeners(name),
+                listeners = eve.listeners(name), //获取所有匹配name的函数f，f.zIndex：触发的先后顺序
                 z = 0,
                 f = false,
                 l,
-                indexed = [],
-                queue = {},
-                out = [],
+
+                indexed = [], //所有listener的zIndex属性集合，indexed.length <= listeners.length
+                queue = {}, //{-1:[f1,f2,f3],-2:[]}，zIndex<0 的zIndex的集合
+
+                out = [], //返回值，out.firstDefined out.lastDefined
                 ce = current_event,
                 errors = [];
             out.firstDefined = firstDefined;
@@ -101,7 +106,7 @@
                     queue[listeners[i].zIndex] = listeners[i];
                 }
             }
-            indexed.sort(numsort);
+            indexed.sort(numsort); //从小到大排序
             while (indexed[z] < 0) {
                 l = queue[indexed[z++]];
                 out.push(l.apply(scope, args));
@@ -141,7 +146,7 @@
             return out;
         };
         // Undocumented. Debug only.
-        eve._events = events;
+        eve._events = events; //{n: {}}
     /*\
      * eve.listeners
      [ method ]
